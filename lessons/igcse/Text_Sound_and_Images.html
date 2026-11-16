@@ -1,186 +1,1164 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IGCSE Computer Science | 1.2 Text, Sound and Images</title>
+<title>IGCSE Computer Science | Text, Numbers and Symbols</title>
+
 <style>
-:root{--navy:#071b3b;--blue:#102f61;--cyan:#16e0bd;--ink:#eaf2ff;--muted:#a9bdd9;--panel:#10294e;--line:#29476e}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#07152d;color:var(--ink);font:16px/1.65 system-ui,-apple-system,Segoe UI,sans-serif}
-header{min-height:260px;padding:52px max(6vw,24px);background:radial-gradient(circle at 85% 20%,#14517b 0,transparent 32%),linear-gradient(120deg,#071b3b,#12376b);border-bottom:2px solid var(--cyan)}
-.kicker{color:var(--cyan);font-weight:800;letter-spacing:.14em;text-transform:uppercase;font-size:.8rem}
-h1{font-size:clamp(2.2rem,5vw,4rem);line-height:1.08;margin:.4rem 0}header p{max-width:760px;color:#c4d5ec}
-.toolbar{position:sticky;top:0;z-index:10;background:#081a34ed;backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:10px max(4vw,16px);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-button,.nav a{border:1px solid #3c5c82;background:#10294e;color:var(--ink);padding:9px 13px;border-radius:9px;cursor:pointer;text-decoration:none;font-weight:650}
-button:hover,.nav a:hover{border-color:var(--cyan);color:var(--cyan)}button.primary{background:var(--cyan);color:#05223a;border-color:var(--cyan)}
-.progress{height:4px;background:#1a3558}.progress span{display:block;height:100%;width:0;background:var(--cyan);transition:width .2s}
-main{max-width:1050px;margin:28px auto;padding:0 20px 70px}.nav{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 28px}
-section{background:linear-gradient(145deg,#10294e,#0b2040);border:1px solid var(--line);border-radius:18px;padding:clamp(20px,4vw,34px);margin:22px 0;scroll-margin-top:90px}
-h2{font-size:1.7rem;margin:0 0 12px;color:#fff}h3{color:var(--cyan);margin:20px 0 8px}
-.lead{font-size:1.1rem;color:#d5e4f7}.muted{color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
-.tile{background:#0a1e3b;border:1px solid var(--line);border-radius:13px;padding:16px}.tile strong{color:var(--cyan)}
-.callout{border-left:4px solid var(--cyan);background:#0a1e3b;padding:13px 16px;border-radius:8px;margin:15px 0}
-code,.binary{font-family:ui-monospace,monospace;background:#06162c;padding:3px 7px;border-radius:6px;color:#80f7dc}
-table{border-collapse:collapse;width:100%;margin:14px 0}td,th{border:1px solid var(--line);padding:10px;text-align:left}th{background:#17365f;color:var(--cyan)}
-label{display:block;margin:10px 0 5px;color:#c6d8ed}input,select{width:100%;padding:10px;border-radius:8px;border:1px solid #456184;background:#071a34;color:white}
-.result{font-weight:700;color:var(--cyan);margin-top:10px;min-height:28px}.quiz-q{padding:14px;border:1px solid var(--line);border-radius:12px;margin:12px 0;background:#0a1e3b}.quiz-q label{display:flex;gap:9px;align-items:flex-start}.quiz-q input{width:auto;margin-top:6px}
-footer{text-align:center;color:var(--muted);padding:28px;border-top:1px solid var(--line)}
-@media print{body{background:white;color:#111}.toolbar,.nav,button{display:none!important}section{break-inside:avoid;background:white;color:#111;border:1px solid #aaa}h2,h3,.lead,.muted{color:#111}header{background:white;color:#111;border-bottom:1px solid #aaa}header p{color:#333}}
+:root {
+  --bg: #071a35;
+  --panel: #102e57;
+  --panel2: #173d70;
+  --accent: #00e5b0;
+  --blue: #78baff;
+  --white: #f4f8ff;
+  --muted: #b7c9df;
+  --danger: #ff7777;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--white);
+  font-family: Arial, sans-serif;
+}
+header {
+  height: 62px;
+  padding: 0 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #0b2548;
+  border-bottom: 1px solid #234a78;
+}
+.brand {
+  color: var(--accent);
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.header-actions { display:flex; gap:8px; }
+button {
+  border: 1px solid #47719c;
+  background: #173d70;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 14px;
+}
+button:hover { background: #24548b; }
+button.primary {
+  background: var(--accent);
+  color: #06243a;
+  border-color: var(--accent);
+  font-weight: bold;
+}
+button:disabled { opacity:.35; cursor:not-allowed; }
+main {
+  min-height: calc(100vh - 120px);
+  padding: 32px 5% 100px;
+}
+.slide {
+  display: none;
+  max-width: 1100px;
+  margin: auto;
+  animation: appear .3s ease;
+}
+.slide.active { display:block; }
+@keyframes appear {
+  from {opacity:0; transform:translateY(8px);}
+  to {opacity:1; transform:translateY(0);}
+}
+.eyebrow {
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 13px;
+  font-weight: bold;
+}
+h1 { font-size: clamp(34px,5vw,58px); margin:15px 0; }
+h2 { font-size: clamp(27px,4vw,40px); margin:12px 0 24px; }
+h3 { color: var(--accent); margin-top:0; }
+p, li { font-size:18px; line-height:1.65; color:var(--muted); }
+ul { padding-left:24px; }
+.hero {
+  min-height:65vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  text-align:center;
+  background:linear-gradient(135deg,#102f5b,#071a35);
+  border:1px solid #28517e;
+  border-radius:18px;
+  padding:40px;
+}
+.hero h1 { color:var(--accent); }
+.hero .subtitle { font-size:25px; color:white; }
+.tag {
+  display:inline-block;
+  padding:7px 13px;
+  border:1px solid var(--accent);
+  border-radius:20px;
+  color:var(--accent);
+  margin:5px;
+  font-size:13px;
+}
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:16px;
+  margin:22px 0;
+}
+.card {
+  background:var(--panel);
+  border:1px solid #28517e;
+  border-radius:12px;
+  padding:22px;
+}
+.card p { font-size:16px; }
+.big {
+  font-size:clamp(25px,4vw,42px);
+  color:var(--accent);
+  font-weight:bold;
+}
+.example {
+  background:#071f3d;
+  border-left:4px solid var(--accent);
+  padding:18px;
+  border-radius:8px;
+  margin:20px 0;
+}
+.code {
+  font-family:monospace;
+  font-size:22px;
+  color:var(--accent);
+  letter-spacing:2px;
+  overflow-wrap:anywhere;
+}
+table {
+  border-collapse:collapse;
+  width:100%;
+  margin:18px 0;
+  background:#0b2548;
+}
+th,td {
+  border:1px solid #31577e;
+  padding:12px;
+  text-align:center;
+  font-size:16px;
+}
+th { background:#173d70; color:var(--accent); }
+input, select, textarea {
+  background:#071f3d;
+  color:white;
+  border:1px solid #47719c;
+  border-radius:7px;
+  padding:12px;
+  font-size:16px;
+  max-width:100%;
+}
+input:focus,select:focus { outline:2px solid var(--accent); }
+.tool {
+  background:#0b2548;
+  border:1px solid #31577e;
+  border-radius:12px;
+  padding:22px;
+  margin:20px 0;
+}
+.result {
+  color:var(--accent);
+  font-weight:bold;
+  font-size:20px;
+  margin-top:14px;
+  overflow-wrap:anywhere;
+}
+.small { font-size:14px; color:var(--muted); }
+.wave {
+  width:100%;
+  height:170px;
+  background:#071f3d;
+  border-radius:10px;
+  margin:18px 0;
+}
+.pixel-grid {
+  display:grid;
+  grid-template-columns:repeat(8,1fr);
+  width:min(320px,100%);
+  aspect-ratio:1;
+  gap:3px;
+  margin:18px auto;
+}
+.pixel {
+  background:#fff;
+  border-radius:2px;
+}
+.pixel.dark { background:#071a35; }
+.pixel.green { background:var(--accent); }
+.option {
+  display:block;
+  width:100%;
+  text-align:left;
+  margin:9px 0;
+  padding:14px;
+  background:#102e57;
+  border:1px solid #31577e;
+  border-radius:8px;
+}
+.option.correct { border-color:#00e5b0; background:#104b49; }
+.option.wrong { border-color:#ff7777; background:#512c3a; }
+.feedback { margin-top:12px; font-weight:bold; }
+.navigation {
+  position:fixed;
+  bottom:25px;
+  left:0;
+  right:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:12px;
+  z-index:10;
+}
+.counter {
+  background:#102e57;
+  padding:10px 16px;
+  border-radius:8px;
+  color:white;
+  min-width:90px;
+  text-align:center;
+}
+.progress-wrap {
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  height:7px;
+  background:#18385c;
+  z-index:20;
+}
+.progress {
+  height:100%;
+  width:0;
+  background:var(--accent);
+  transition:width .25s;
+}
+.note { color:#9db6d2; font-size:14px; }
+@media(max-width:600px) {
+  header { padding:0 10px; }
+  .brand { font-size:12px; }
+  header button { padding:8px; font-size:12px; }
+  main { padding:22px 16px 110px; }
+  p,li { font-size:16px; }
+  th,td { padding:7px; font-size:13px; }
+}
+@media print {
+  header,.navigation,.progress-wrap { display:none!important; }
+  body { background:white; color:#111; }
+  main { padding:0; }
+  .slide {
+    display:block!important;
+    page-break-after:always;
+    color:#111;
+    max-width:100%;
+  }
+  .card,.tool,.example { background:#f2f5f8; color:#111; }
+  p,li { color:#222; }
+  .code,.big,h3 { color:#087d65; }
+}
 </style>
 </head>
+
 <body>
+
 <header>
- <div class="kicker">IGCSE Computer Science · Data Representation</div>
- <h1>1.2 Text, Sound<br>&amp; Images</h1>
- <p>Explore how computers represent text, sound and images using binary data. Learn the key terms, compare quality and file size, and test your understanding with interactive activities.</p>
-</header>
-<div class="progress"><span id="progress"></span></div>
-<div class="toolbar">
- <button onclick="scrollTo({top:0,behavior:'smooth'})">↑ Top</button>
- <button onclick="document.documentElement.requestFullscreen?.()">⛶ Full screen</button>
- <button onclick="window.print()">Print / Save PDF</button>
- <span class="muted" id="sectionCount">Lesson 1 of 6</span>
-</div>
-<main>
- <nav class="nav">
-  <a href="#overview">Overview</a><a href="#text">Text</a><a href="#sound">Sound</a><a href="#images">Images</a><a href="#practice">Practice</a><a href="#quiz">Quiz</a>
- </nav>
- <section id="overview">
-  <div class="kicker">Lesson objectives</div><h2>How is information represented?</h2>
-  <p class="lead">Computers cannot store letters, pictures or sounds directly in the way humans understand them. They convert this information into binary data so it can be processed and stored.</p>
-  <div class="grid">
-   <div class="tile"><strong>Text</strong><p>Characters are assigned numeric codes using character encoding systems such as ASCII and Unicode.</p></div>
-   <div class="tile"><strong>Sound</strong><p>Analogue sound is sampled at regular intervals. Each sample is stored as a binary value.</p></div>
-   <div class="tile"><strong>Images</strong><p>Bitmap images are represented by pixels, with binary values describing their colours.</p></div>
+  <div class="brand">IGCSE COMPUTER SCIENCE</div>
+  <div class="header-actions">
+    <button onclick="goHome()">⌂ Home</button>
+    <button onclick="toggleFullscreen()">⛶ Fullscreen</button>
   </div>
-  <div class="callout"><b>By the end of this lesson you should be able to:</b> explain ASCII and Unicode; describe sampling, sample rate and sample resolution; compare bitmap and vector images; explain pixels, colour depth and image resolution.</div>
- </section>
- <section id="text">
-  <div class="kicker">Part 1</div><h2>Text representation</h2>
-  <p>Each character (letter, number or symbol) is represented by a numeric code. The computer stores that code in binary.</p>
-  <h3>ASCII</h3>
-  <ul><li>ASCII means <b>American Standard Code for Information Interchange</b>.</li><li>Standard ASCII uses <b>7 bits</b>, giving 128 possible codes (0–127 denary).</li><li>It represents common English letters, digits and keyboard symbols.</li><li>Extended ASCII uses 8-bit codes (0–255), adding another 128 code values.</li></ul>
-  <div class="callout">Example: uppercase <b>A</b> has decimal code 65 and 8-bit binary representation <code>01000001</code>.</div>
-  <h3>ASCII examples from the presentation</h3>
-  <p>The presentation shows these character codes. Standard ASCII uses 7-bit binary values; the table below pads them to 8 bits for classroom practice.</p>
-  <table><tr><th>Character</th><th>Denary</th><th>7-bit binary</th><th>Hex</th></tr>
-  <tr><td>N</td><td>78</td><td>1001110</td><td>4E</td></tr>
-  <tr><td>O</td><td>79</td><td>1001111</td><td>4F</td></tr>
-  <tr><td>P</td><td>80</td><td>1010000</td><td>50</td></tr>
-  <tr><td>Q</td><td>81</td><td>1010001</td><td>51</td></tr>
-  <tr><td>R</td><td>82</td><td>1010010</td><td>52</td></tr></table>
-  <h3>Uppercase and lowercase letters</h3>
-  <p>The presentation compares the binary codes for <b>a</b> and <b>A</b>, and for <b>y</b> and <b>Y</b>. In these examples, the sixth bit changes between the lowercase and uppercase versions.</p>
-  <table><tr><th>Character</th><th>7-bit binary</th><th>Hex</th></tr>
-  <tr><td>a</td><td>1100001</td><td>61</td></tr><tr><td>A</td><td>1000001</td><td>41</td></tr>
-  <tr><td>y</td><td>1111001</td><td>79</td></tr><tr><td>Y</td><td>1011001</td><td>59</td></tr></table>
-  <h3>ASCII encoder</h3>
-  <p>Type a character to see its ASCII decimal and 8-bit binary value (standard printable ASCII only).</p>
-  <div class="grid"><div><label for="charInput">Character</label><input id="charInput" maxlength="1" value="A"></div><div><label>Decimal value</label><div class="result" id="decimalOut">65</div></div><div><label>8-bit binary</label><div class="result" id="binaryOut">01000001</div></div></div>
-  <h3>Unicode</h3>
-  <p>ASCII cannot represent characters from every writing system. Unicode was developed to provide a universal character set that can represent characters from languages around the world, including symbols and emoji.</p>
-  <ul><li>The first 128 characters overlap with standard ASCII.</li><li>Unicode supports several thousand characters, including characters from many languages and writing systems.</li><li>The Unicode Consortium was set up in 1991.</li></ul>
-  <h3>Five goals of Unicode in the presentation</h3>
-  <ol><li>Create a universal standard covering all languages and writing systems.</li><li>Produce a more efficient coding system than ASCII.</li><li>Use uniform encoding, with characters encoded using 16-bit or 32-bit codes.</li><li>Make encoding unambiguous: each 16-bit or 32-bit value represents the same character.</li><li>Reserve part of the code for private use so users can assign codes to their own characters and symbols.</li></ol>
-  <table><tr><th>ASCII</th><th>Unicode</th></tr><tr><td>Limited character set, originally designed mainly for English.</td><td>Supports characters from many languages and writing systems.</td></tr><tr><td>Standard ASCII uses 7 bits.</td><td>Uses encoding forms such as UTF-8, UTF-16 and UTF-32.</td></tr></table>
-  <h3>Partner activity: Create your own secret code</h3>
-  <p>Follow the activity from the presentation:</p>
-  <ol><li>Work with a partner. Each student creates a secret word containing four letters.</li><li>Use the ASCII table to convert each letter into its 8-bit binary representation.</li><li>Write the binary code clearly and exchange it with your partner.</li><li>Decode your partner’s message by converting each binary value back into a character.</li><li>Check whether you decoded the correct secret word.</li></ol>
-  <div class="callout"><b>Challenge:</b> The first pair to correctly decode each other’s secret words wins!</div>
-  <h3>Try the secret-code encoder</h3>
-  <label for="secretWord">Enter a four-letter word (A–Z)</label><input id="secretWord" maxlength="4" value="CODE">
-  <button class="primary" onclick="encodeSecret()">Convert to binary</button>
-  <div class="result" id="secretBinary"></div>
- </section>
- <section id="sound">
-  <div class="kicker">Part 2</div><h2>Sound representation</h2>
-  <p>Sound in the real world is <b>analogue</b>: it consists of continuous waves that vary over time. A computer processes digital data, so analogue sound must be converted into binary.</p>
-  <h3>How sampling works</h3>
-  <ol><li>A microphone detects sound vibrations and converts them into an electrical signal.</li><li>An analogue-to-digital converter (ADC) takes measurements of the wave at regular time intervals.</li><li>Each measurement is converted into a binary value called a sample.</li><li>The samples are stored and can later be converted back into a signal for playback.</li></ol>
-  <div class="callout"><b>Sampling</b> is taking measurements of an analogue sound wave at regular time intervals. More frequent samples can represent changes in the wave more accurately.</div>
-  <h3>Sample rate</h3>
-  <p>The sample rate is the number of samples taken per second. It is measured in hertz (Hz). <b>1 Hz = 1 sample per second.</b> A higher sample rate generally captures more detail but increases file size.</p>
-  <h3>Sample resolution (bit depth)</h3>
-  <p>Sample resolution is the number of bits used to store each sample. More bits allow more possible amplitude values, giving a more accurate representation of the sound wave.</p>
-  <div class="grid"><div class="tile"><strong>Higher sample rate</strong><p>More samples each second; can represent changes over time more closely; larger file size.</p></div><div class="tile"><strong>Higher sample resolution</strong><p>More possible values for each sample; greater amplitude detail; larger file size.</p></div></div>
-  <h3>CD audio example</h3>
-  <p>The lesson presentation gives CD audio as <b>16-bit sample resolution</b> and a <b>44.1 kHz sample rate</b> (44,100 samples per second).</p>
-  <table><tr><th>Benefits of higher resolution / rate</th><th>Drawbacks</th></tr><tr><td>Greater dynamic range and more accurate sound</td><td>Larger file size</td></tr><tr><td>Better sound quality and less distortion</td><td>Longer to transmit or download</td></tr><tr><td>More detailed recording</td><td>Requires more processing power</td></tr></table>
-  <h3>Sampling rate explorer</h3>
-  <p>Change the sample rate to see how many samples are recorded during a 2-second clip.</p>
-  <label for="rate">Sample rate</label><select id="rate"><option value="8000">8,000 Hz</option><option value="22050">22,050 Hz</option><option value="44100" selected>44,100 Hz</option><option value="48000">48,000 Hz</option></select>
-  <div class="result" id="samplesOut">88,200 samples in 2 seconds</div>
-  <p class="muted">A higher sample rate means more samples are stored for the same duration. Actual audio file size also depends on sample resolution, number of channels and duration.</p>
- </section>
- <section id="images">
-  <div class="kicker">Part 3</div><h2>Image representation</h2>
-  <h3>Bitmap (raster) images</h3>
-  <p>A bitmap image is made up of tiny squares called <b>pixels</b> (picture elements). Pixels form a two-dimensional grid, and each pixel is represented using binary data that identifies its colour.</p>
-  <h3>Vector images</h3>
-  <p>Vector images are made from mathematical descriptions of shapes, lines and curves rather than a grid of pixels. They can usually be enlarged without becoming pixelated.</p>
-  <table><tr><th>Bitmap image</th><th>Vector image</th></tr><tr><td>Made from pixels.</td><td>Made from mathematical shapes, lines and curves.</td></tr><tr><td>Can become pixelated when enlarged.</td><td>Can be resized without losing sharpness.</td></tr><tr><td>Suitable for photographs.</td><td>Suitable for logos, icons and diagrams.</td></tr></table>
-  <h3>Colour depth</h3>
-  <p>Colour depth is the number of bits used to represent the colour of each pixel. The number of possible colours is calculated using:</p>
-  <div class="callout"><strong>Number of possible colours = 2<sup>colour depth</sup></strong></div>
-  <table><tr><th>Colour depth</th><th>Possible colours</th></tr><tr><td>1 bit</td><td>2 colours (2¹)</td></tr><tr><td>2 bits</td><td>4 colours (2²)</td></tr><tr><td>3 bits</td><td>8 colours (2³)</td></tr><tr><td>8 bits</td><td>256 colours (2⁸)</td></tr><tr><td>24 bits</td><td>16,777,216 colours (2²⁴)</td></tr></table>
-  <h3>Colour depth calculator</h3>
-  <label for="depth">Bits per pixel</label><input id="depth" type="number" min="1" max="32" value="8">
-  <div class="result" id="coloursOut">256 possible colours</div>
-  <h3>Image resolution</h3>
-  <p>Image resolution is the number of pixels that make up an image. For example, an image with a resolution of 4096 × 3072 contains 12,582,912 pixels.</p>
-  <p>Higher resolution means more pixels and usually more detail. Lower resolution images contain fewer pixels and may look fuzzy or pixelated when enlarged.</p>
-  <h3>Image size estimator</h3>
-  <p>For an uncompressed bitmap, a simplified estimate is:</p>
-  <div class="callout"><b>File size in bits = width × height × colour depth</b></div>
-  <div class="grid"><div><label for="width">Width (pixels)</label><input id="width" type="number" min="1" value="800"></div><div><label for="height">Height (pixels)</label><input id="height" type="number" min="1" value="600"></div><div><label for="imgDepth">Colour depth (bits)</label><input id="imgDepth" type="number" min="1" value="24"></div></div>
-  <div class="result" id="imageSizeOut">11,520,000 bits · 1.44 MB (decimal)</div>
-  <p class="muted">This is a simplified uncompressed estimate. Real file sizes can differ because of headers, metadata, file formats and compression.</p>
- </section>
- <section id="practice">
-  <div class="kicker">Quick practice</div><h2>Check your understanding</h2>
-  <div class="quiz-q"><b>1. A sound file is recorded at 48,000 Hz. What does this mean?</b><label><input type="radio" name="p1" value="a"> 48,000 bits are used for each sample</label><label><input type="radio" name="p1" value="b"> 48,000 samples are taken every second</label><label><input type="radio" name="p1" value="c"> The sound lasts 48,000 seconds</label></div>
-  <div class="quiz-q"><b>2. How many colours can be represented by 3 bits per pixel?</b><label><input type="radio" name="p2" value="a"> 3</label><label><input type="radio" name="p2" value="b"> 6</label><label><input type="radio" name="p2" value="c"> 8</label></div>
-  <div class="quiz-q"><b>3. Which image type is made from mathematical shapes and curves?</b><label><input type="radio" name="p3" value="a"> Bitmap</label><label><input type="radio" name="p3" value="b"> Vector</label><label><input type="radio" name="p3" value="c"> Pixel map only</label></div>
-  <button class="primary" onclick="checkPractice()">Check answers</button><div class="result" id="practiceResult"></div>
- </section>
- <section id="quiz">
-  <div class="kicker">Final knowledge check</div><h2>Lesson quiz</h2>
-  <p>Answer all questions, then submit to see your score and explanations.</p>
-  <div id="quizArea"></div>
-  <button class="primary" onclick="gradeQuiz()">Submit quiz</button>
-  <button onclick="resetQuiz()">Try again</button>
-  <div class="result" id="quizResult"></div>
- </section>
+</header>
+
+<main>
+
+<!-- SLIDE 1 -->
+<section class="slide active">
+  <div class="hero">
+    <div class="eyebrow">Data Representation</div>
+    <h1>TEXT, NUMBERS<br>AND SYMBOLS</h1>
+    <p class="subtitle">How computers represent information</p>
+    <div>
+      <span class="tag">ASCII</span>
+      <span class="tag">Unicode</span>
+      <span class="tag">Sound</span>
+      <span class="tag">Images</span>
+    </div>
+    <p class="small">IGCSE Computer Science</p>
+  </div>
+</section>
+
+<!-- SLIDE 2 -->
+<section class="slide">
+  <div class="eyebrow">01 | Learning Objectives</div>
+  <h2>What will we learn?</h2>
+  <div class="grid">
+    <div class="card"><h3>Text</h3><p>Explain ASCII, Extended ASCII and Unicode character encoding.</p></div>
+    <div class="card"><h3>Sound</h3><p>Explain how sound is converted into digital data through sampling.</p></div>
+    <div class="card"><h3>Sampling</h3><p>Understand sample rate, sample resolution, accuracy and file size.</p></div>
+    <div class="card"><h3>Images</h3><p>Explain how images are represented using pixels and binary data.</p></div>
+  </div>
+</section>
+
+<!-- SLIDE 3 -->
+<section class="slide">
+  <div class="eyebrow">02 | Introduction</div>
+  <h2>Can computers store these directly?</h2>
+  <div class="grid">
+    <div class="card"><div class="big">A</div><h3>Text</h3><p>Letters, numbers and symbols.</p></div>
+    <div class="card"><div class="big">♫</div><h3>Sound</h3><p>Music, speech and sound effects.</p></div>
+    <div class="card"><div class="big">▦</div><h3>Images</h3><p>Photographs, drawings and graphics.</p></div>
+  </div>
+  <div class="example">
+    <h3>Important concept</h3>
+    <p>A computer cannot store letters, pictures or sounds directly in the way humans understand them. It must convert them into binary data.</p>
+    <p class="big">Everything becomes 0s and 1s.</p>
+  </div>
+</section>
+
+<!-- SLIDE 4 -->
+<section class="slide">
+  <div class="eyebrow">02 | Introduction</div>
+  <h2>How is information represented?</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Text</h3>
+      <p>Converted into binary using character encoding such as ASCII or Unicode.</p>
+      <div class="code">A = 01000001</div>
+    </div>
+    <div class="card">
+      <h3>Images</h3>
+      <p>Converted into binary by storing pixels and their colour values.</p>
+      <div class="code">Pixel → Binary</div>
+    </div>
+    <div class="card">
+      <h3>Sound</h3>
+      <p>Converted into binary by sampling sound waves and storing numerical values.</p>
+      <div class="code">Sound → Samples</div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 5 -->
+<section class="slide">
+  <div class="eyebrow">03 | Character Encoding</div>
+  <h2>What is ASCII?</h2>
+  <p>ASCII stands for <b>American Standard Code for Information Interchange</b>.</p>
+  <div class="card">
+    <div class="big">7-bit character set</div>
+    <p>ASCII was set up in 1963 for use in communication systems and computer systems.</p>
+    <p>It assigns a numerical value to letters, numbers and symbols so computers can represent text.</p>
+    <div class="example">
+      <p>Standard ASCII uses 7 bits.</p>
+      <p class="code">0 to 127 (denary)</p>
+      <p class="code">00 to 7F (hexadecimal)</p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 6 -->
+<section class="slide">
+  <div class="eyebrow">03 | Character Encoding</div>
+  <h2>ASCII examples</h2>
+  <p>Each character has a corresponding denary value and binary representation.</p>
+  <table>
+    <tr><th>Character</th><th>Denary</th><th>8-bit Binary</th></tr>
+    <tr><td>A</td><td>65</td><td>01000001</td></tr>
+    <tr><td>B</td><td>66</td><td>01000010</td></tr>
+    <tr><td>C</td><td>67</td><td>01000011</td></tr>
+    <tr><td>D</td><td>68</td><td>01000100</td></tr>
+    <tr><td>E</td><td>69</td><td>01000101</td></tr>
+    <tr><td>N</td><td>78</td><td>01001110</td></tr>
+    <tr><td>O</td><td>79</td><td>01001111</td></tr>
+  </table>
+  <p class="note">The lesson uses 8-bit binary examples to display ASCII character values.</p>
+</section>
+
+<!-- SLIDE 7 -->
+<section class="slide">
+  <div class="eyebrow">03 | Interactive Tool</div>
+  <h2>ASCII converter</h2>
+  <p>Enter a character to see its ASCII denary and 8-bit binary values.</p>
+  <div class="tool">
+    <label>Enter one character:</label><br><br>
+    <input id="asciiInput" maxlength="1" value="A">
+    <button class="primary" onclick="convertASCII()">Convert</button>
+    <div id="asciiResult" class="result">A = 65 = 01000001</div>
+  </div>
+  <div class="example">
+    <h3>Try these characters</h3>
+    <p>A = 65 | B = 66 | C = 67</p>
+    <p>a = 97 | b = 98 | c = 99</p>
+  </div>
+</section>
+
+<!-- SLIDE 8 -->
+<section class="slide">
+  <div class="eyebrow">03 | Character Encoding</div>
+  <h2>Uppercase and lowercase</h2>
+  <p>ASCII assigns different codes to uppercase and lowercase letters.</p>
+  <table>
+    <tr><th>Character</th><th>Hexadecimal</th><th>Binary</th></tr>
+    <tr><td>a</td><td>61</td><td>01100001</td></tr>
+    <tr><td>A</td><td>41</td><td>01000001</td></tr>
+    <tr><td>y</td><td>79</td><td>01111001</td></tr>
+    <tr><td>Y</td><td>59</td><td>01011001</td></tr>
+  </table>
+  <div class="example">
+    <h3>Observation</h3>
+    <p>Compare the binary values of uppercase and lowercase characters. In these examples, the sixth bit from the left changes.</p>
+  </div>
+</section>
+
+<!-- SLIDE 9 -->
+<section class="slide">
+  <div class="eyebrow">03 | Character Encoding</div>
+  <h2>Extended ASCII</h2>
+  <div class="card">
+    <div class="big">8-bit codes</div>
+    <p>Extended ASCII uses 8-bit codes.</p>
+    <p>This provides 256 possible code values, from 0 to 255 in denary, or 00 to FF in hexadecimal.</p>
+    <div class="example">
+      <h3>Why was it introduced?</h3>
+      <p>It provides another 128 code values to allow additional characters, including characters used in some non-English alphabets and graphical characters.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 10 -->
+<section class="slide">
+  <div class="eyebrow">03 | Character Encoding</div>
+  <h2>Disadvantage of ASCII</h2>
+  <div class="card">
+    <div class="big">Limited character support</div>
+    <p>The main disadvantage of ASCII is that it does not represent characters in many non-Western languages, for example Chinese characters.</p>
+    <p>Different methods of coding were developed to address this limitation.</p>
+    <div class="example">
+      <h3>Solution: Unicode</h3>
+      <p>Unicode provides a common character encoding standard that supports characters from languages and writing systems around the world.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 11 -->
+<section class="slide">
+  <div class="eyebrow">03 | Character Encoding</div>
+  <h2>What is Unicode?</h2>
+  <div class="card">
+    <div class="big">Universal character set</div>
+    <p>Unicode can represent characters from languages and writing systems around the world.</p>
+    <ul>
+      <li>Supports many operating systems, search engines and internet browsers.</li>
+      <li>The first 128 characters overlap with standard ASCII.</li>
+      <li>Can support a very large range of characters and symbols.</li>
+      <li>The Unicode Consortium was set up in 1991.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- SLIDE 12 -->
+<section class="slide">
+  <div class="eyebrow">03 | Character Encoding</div>
+  <h2>Unicode encoding</h2>
+  <p>Unicode was designed to create a universal and consistent standard for written characters.</p>
+  <div class="grid">
+    <div class="card"><h3>Universal</h3><p>Support languages and writing systems around the world.</p></div>
+    <div class="card"><h3>Consistent</h3><p>Use a common standard for representing characters.</p></div>
+    <div class="card"><h3>Unambiguous</h3><p>Character code values identify the same characters consistently.</p></div>
+    <div class="card"><h3>Flexible</h3><p>Supports a wide range of characters and symbols.</p></div>
+  </div>
+  <div class="example">
+    <p>Unicode can use encoding formats such as UTF-8, UTF-16 and UTF-32. The number of bytes used depends on the encoding format and character.</p>
+  </div>
+</section>
+
+<!-- SLIDE 13 -->
+<section class="slide">
+  <div class="eyebrow">03 | Character Encoding</div>
+  <h2>ASCII vs Extended ASCII vs Unicode</h2>
+  <table>
+    <tr><th>Feature</th><th>ASCII</th><th>Extended ASCII</th><th>Unicode</th></tr>
+    <tr><td>Code size</td><td>7 bits</td><td>8 bits</td><td>Variable, depending on encoding</td></tr>
+    <tr><td>Number of values</td><td>128</td><td>256</td><td>Very large character set</td></tr>
+    <tr><td>Purpose</td><td>Basic characters</td><td>Additional characters</td><td>Worldwide characters</td></tr>
+  </table>
+  <p class="note">Remember: Unicode is a character standard. UTF-8, UTF-16 and UTF-32 are encoding formats.</p>
+</section>
+
+<!-- SLIDE 14 -->
+<section class="slide">
+  <div class="eyebrow">04 | Practical Activity</div>
+  <h2>Create your own secret code</h2>
+  <div class="card">
+    <h3>Instructions</h3>
+    <ol>
+      <li>Work with a partner.</li>
+      <li>Create a secret word containing four letters.</li>
+      <li>Use the ASCII table to convert each letter into 8-bit binary.</li>
+      <li>Write down the binary code.</li>
+      <li>Exchange your binary message with your partner.</li>
+      <li>Decode your partner's message using the ASCII table.</li>
+    </ol>
+    <div class="example">
+      <h3>Challenge</h3>
+      <p>The first pair to correctly decode each other's secret words wins!</p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 15 -->
+<section class="slide">
+  <div class="eyebrow">04 | Interactive Activity</div>
+  <h2>Encode and decode a message</h2>
+  <div class="tool">
+    <h3>Text to binary</h3>
+    <input id="secretText" value="CODE" maxlength="20">
+    <button class="primary" onclick="encodeText()">Encode</button>
+    <div id="encodedResult" class="result"></div>
+  </div>
+  <div class="tool">
+    <h3>Binary to text</h3>
+    <p class="small">Enter 8-bit binary groups separated by spaces.</p>
+    <input id="binaryText" style="width:100%" value="01000011 01001111 01000100 01000101">
+    <button class="primary" onclick="decodeText()">Decode</button>
+    <div id="decodedResult" class="result"></div>
+  </div>
+</section>
+
+<!-- SLIDE 16 -->
+<section class="slide">
+  <div class="eyebrow">05 | Sound Representation</div>
+  <h2>What is sound?</h2>
+  <div class="card">
+    <p>Sound waves are vibrations in the air. The human ear senses these vibrations and interprets them as sound.</p>
+    <p>Each sound wave has:</p>
+    <div class="grid">
+      <div class="card"><h3>Frequency</h3><p>Number of wave cycles per second. Measured in hertz (Hz).</p></div>
+      <div class="card"><h3>Wavelength</h3><p>Distance between corresponding points on consecutive waves.</p></div>
+      <div class="card"><h3>Amplitude</h3><p>Specifies the loudness of the sound.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 17 -->
+<section class="slide">
+  <div class="eyebrow">05 | Sound Representation</div>
+  <h2>High and low frequency</h2>
+  <div class="card">
+    <h3>High frequency</h3>
+    <svg class="wave" viewBox="0 0 700 170">
+      <line x1="20" y1="85" x2="680" y2="85" stroke="#9bb6d3"/>
+      <path d="M20 85 Q45 5 70 85 T120 85 T170 85 T220 85 T270 85 T320 85 T370 85 T420 85 T470 85 T520 85 T570 85 T620 85 T670 85" fill="none" stroke="#00e5b0" stroke-width="3"/>
+    </svg>
+    <h3>Low frequency</h3>
+    <svg class="wave" viewBox="0 0 700 170">
+      <line x1="20" y1="85" x2="680" y2="85" stroke="#9bb6d3"/>
+      <path d="M20 85 Q75 5 130 85 T240 85 T350 85 T460 85 T570 85 T680 85" fill="none" stroke="#78baff" stroke-width="3"/>
+    </svg>
+    <p>High frequency waves have more cycles in the same time period than low frequency waves.</p>
+  </div>
+</section>
+
+<!-- SLIDE 18 -->
+<section class="slide">
+  <div class="eyebrow">05 | Sound Representation</div>
+  <h2>Analogue and digital sound</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Analogue sound</h3>
+      <p>Sound in the real world is analogue. It is represented by continuous waves that vary over time.</p>
+      <div class="big">Continuous</div>
+    </div>
+    <div class="card">
+      <h3>Digital sound</h3>
+      <p>Computers work digitally and can only process binary data.</p>
+      <div class="big">0 and 1</div>
+    </div>
+  </div>
+  <div class="example">
+    <h3>How is sound converted?</h3>
+    <p>A microphone detects sound vibrations and converts them into an electrical signal. An analogue-to-digital converter (ADC) converts the signal into digital values.</p>
+  </div>
+</section>
+
+<!-- SLIDE 19 -->
+<section class="slide">
+  <div class="eyebrow">05 | Sound Representation</div>
+  <h2>What is sampling?</h2>
+  <div class="card">
+    <div class="big">Sampling</div>
+    <p>Sound is recorded at set time intervals. This process is known as sampling.</p>
+    <ul>
+      <li>The computer takes measurements of the sound wave at regular time intervals.</li>
+      <li>Each measurement is converted into a binary value.</li>
+      <li>The computer stores these values to edit and play back the sound digitally.</li>
+    </ul>
+    <div class="example">
+      <h3>Analogue-to-digital converter (ADC)</h3>
+      <p>The ADC converts the analogue signal into digital data.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 20 -->
+<section class="slide">
+  <div class="eyebrow">05 | Sound Representation</div>
+  <h2>Sampling process</h2>
+  <div class="grid">
+    <div class="card"><div class="big">01</div><h3>Sound wave</h3><p>A continuous analogue signal is produced.</p></div>
+    <div class="card"><div class="big">02</div><h3>Measure</h3><p>The amplitude is measured at regular intervals.</p></div>
+    <div class="card"><div class="big">03</div><h3>Convert</h3><p>Each measurement is converted into a binary value.</p></div>
+    <div class="card"><div class="big">04</div><h3>Store</h3><p>The digital values are stored by the computer.</p></div>
+  </div>
+</section>
+
+<!-- SLIDE 21 -->
+<section class="slide">
+  <div class="eyebrow">05 | Sound Representation</div>
+  <h2>Sample rate</h2>
+  <div class="card">
+    <div class="big">Samples per second</div>
+    <p>Sample rate is the number of sound samples taken every second.</p>
+    <p>Sample rate is measured in hertz (Hz).</p>
+    <div class="example">
+      <h3>Remember</h3>
+      <p>1 hertz = 1 sample per second.</p>
+      <p>44.1 kHz = 44,100 samples per second.</p>
+    </div>
+    <p>If the intervals between samples are closer together, more samples are taken and the sound can be represented more accurately.</p>
+  </div>
+</section>
+
+<!-- SLIDE 22 -->
+<section class="slide">
+  <div class="eyebrow">05 | Interactive Tool</div>
+  <h2>Explore sample rate</h2>
+  <div class="tool">
+    <label>Choose a sample rate:</label><br><br>
+    <select id="sampleRate" onchange="showSampling()">
+      <option value="8000">8,000 Hz</option>
+      <option value="22050">22,050 Hz</option>
+      <option value="44100" selected>44,100 Hz</option>
+      <option value="48000">48,000 Hz</option>
+    </select>
+    <div id="samplingResult" class="result">44,100 samples every second.</div>
+    <p class="small">A higher sample rate takes more measurements each second.</p>
+  </div>
+</section>
+
+<!-- SLIDE 23 -->
+<section class="slide">
+  <div class="eyebrow">05 | Sound Representation</div>
+  <h2>Sample resolution</h2>
+  <div class="card">
+    <div class="big">Bits per sample</div>
+    <p>Sample resolution is the number of bits used to store each sound sample.</p>
+    <p>A higher sample resolution allows more possible amplitude values to be represented.</p>
+    <div class="example">
+      <h3>Example: 16-bit resolution</h3>
+      <p>Each sample is stored using 16 bits.</p>
+      <p>This allows a large range of sound amplitudes to be represented, creating more accurate and detailed sound recordings.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 24 -->
+<section class="slide">
+  <div class="eyebrow">05 | Sound Representation</div>
+  <h2>Sample rate and resolution</h2>
+  <table>
+    <tr><th>Term</th><th>Meaning</th><th>Effect of increasing</th></tr>
+    <tr><td>Sample rate</td><td>Samples taken per second</td><td>More measurements per second</td></tr>
+    <tr><td>Sample resolution</td><td>Bits used per sample</td><td>More possible amplitude values</td></tr>
+  </table>
+  <div class="example">
+    <h3>CD sound quality</h3>
+    <p>CDs have a 16-bit sampling resolution and a 44.1 kHz sample rate.</p>
+    <p>That means 44,100 samples are taken every second, with each sample stored using 16 bits.</p>
+  </div>
+</section>
+
+<!-- SLIDE 25 -->
+<section class="slide">
+  <div class="eyebrow">05 | Sound Representation</div>
+  <h2>Benefits and drawbacks</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Higher sampling rate</h3>
+      <p>More samples are taken each second.</p>
+      <p>Can capture changes in the sound wave more accurately.</p>
+      <p>Increases the amount of data stored.</p>
+    </div>
+    <div class="card">
+      <h3>Higher sample resolution</h3>
+      <p>More bits are used for each sample.</p>
+      <p>Allows more possible amplitude values.</p>
+      <p>Increases the amount of data stored.</p>
+    </div>
+  </div>
+  <div class="example">
+    <h3>Key point</h3>
+    <p>Higher sample rate and resolution generally produce a more accurate digital recording, but increase file size.</p>
+  </div>
+</section>
+
+<!-- SLIDE 26 -->
+<section class="slide">
+  <div class="eyebrow">06 | Image Representation</div>
+  <h2>How are images represented?</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Bitmap images</h3>
+      <p>Made up of tiny dots called pixels.</p>
+      <div class="big">Pixels</div>
+    </div>
+    <div class="card">
+      <h3>Vector images</h3>
+      <p>Made up of mathematical shapes, lines and curves rather than pixels.</p>
+      <div class="big">Shapes</div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 27 -->
+<section class="slide">
+  <div class="eyebrow">06 | Image Representation</div>
+  <h2>Bitmap images and pixels</h2>
+  <div class="card">
+    <p>A bitmap image is made up of many small squares called pixels (picture elements).</p>
+    <p>An image is stored as a two-dimensional matrix of pixels.</p>
+    <p>Each pixel is stored as a binary number, allowing the computer to represent and process the image.</p>
+    <div class="pixel-grid">
+      <div class="pixel"></div><div class="pixel"></div><div class="pixel dark"></div><div class="pixel dark"></div><div class="pixel dark"></div><div class="pixel dark"></div><div class="pixel"></div><div class="pixel"></div>
+      <div class="pixel"></div><div class="pixel dark"></div><div class="pixel"></div><div class="pixel"></div><div class="pixel"></div><div class="pixel"></div><div class="pixel dark"></div><div class="pixel"></div>
+      <div class="pixel dark"></div><div class="pixel"></div><div class="pixel dark"></div><div class="pixel"></div><div class="pixel"></div><div class="pixel dark"></div><div class="pixel"></div><div class="pixel dark"></div>
+      <div class="pixel dark"></div><div class="pixel"></div><div class="pixel"></div><div class="pixel"></div><div class="pixel"></div><div class="pixel"></div><div class="pixel"></div><div class="pixel dark"></div>
+      <div class="pixel dark"></div><div class="pixel"></div><div class="pixel dark"></div><div class="pixel"></div><div class="pixel"></div><div class="pixel dark"></div><div class="pixel"></div><div class="pixel dark"></div>
+      <div class="pixel dark"></div><div class="pixel"></div><div class="pixel"></div><div class="pixel dark"></div><div class="pixel dark"></div><div class="pixel"></div><div class="pixel"></div><div class="pixel dark"></div>
+      <div class="pixel"></div><div class="pixel dark"></div><div class="pixel"></div><div class="pixel"></div><div class="pixel"></div><div class="pixel"></div><div class="pixel dark"></div><div class="pixel"></div>
+      <div class="pixel"></div><div class="pixel"></div><div class="pixel dark"></div><div class="pixel dark"></div><div class="pixel dark"></div><div class="pixel dark"></div><div class="pixel"></div><div class="pixel"></div>
+    </div>
+    <p class="small" style="text-align:center">Example of a simple pixel grid.</p>
+  </div>
+</section>
+
+<!-- SLIDE 28 -->
+<section class="slide">
+  <div class="eyebrow">06 | Image Representation</div>
+  <h2>Colour depth</h2>
+  <p>Colour depth is the number of bits used to represent the colour of each pixel.</p>
+  <div class="grid">
+    <div class="card">
+      <h3>1 bit per pixel</h3>
+      <div class="big">2 colours</div>
+      <p>0 = black</p><p>1 = white</p>
+    </div>
+    <div class="card">
+      <h3>2 bits per pixel</h3>
+      <div class="big">4 colours</div>
+      <p>00, 01, 10, 11</p>
+      <p>2² = 4 possible values.</p>
+    </div>
+    <div class="card">
+      <h3>3 bits per pixel</h3>
+      <div class="big">8 colours</div>
+      <p>000 to 111</p>
+      <p>2³ = 8 possible values.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 29 -->
+<section class="slide">
+  <div class="eyebrow">06 | Interactive Tool</div>
+  <h2>Explore colour depth</h2>
+  <div class="tool">
+    <label>Choose bits per pixel:</label><br><br>
+    <select id="depth" onchange="showDepth()">
+      <option value="1">1 bit</option>
+      <option value="2" selected>2 bits</option>
+      <option value="3">3 bits</option>
+      <option value="4">4 bits</option>
+      <option value="8">8 bits</option>
+      <option value="24">24 bits</option>
+    </select>
+    <div id="depthResult" class="result">2 bits = 4 possible colours.</div>
+  </div>
+  <div class="example">
+    <h3>Formula</h3>
+    <p class="code">Number of colours = 2ⁿ</p>
+    <p>Where n is the number of bits per pixel.</p>
+  </div>
+</section>
+
+<!-- SLIDE 30 -->
+<section class="slide">
+  <div class="eyebrow">06 | Image Representation</div>
+  <h2>Image resolution</h2>
+  <div class="card">
+    <div class="big">Number of pixels</div>
+    <p>Image resolution refers to the number of pixels that make up an image.</p>
+    <div class="example">
+      <h3>Example</h3>
+      <p>4096 × 3072 pixels</p>
+      <p class="big">12,582,912 pixels</p>
+      <p>4096 multiplied by 3072 gives 12,582,912 pixels.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 31 -->
+<section class="slide">
+  <div class="eyebrow">06 | Image Representation</div>
+  <h2>Why is image resolution important?</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Higher resolution</h3>
+      <p>More pixels</p>
+      <p>More detail</p>
+      <p>Better image quality</p>
+      <p>Can be enlarged without losing as much detail.</p>
+    </div>
+    <div class="card">
+      <h3>Lower resolution</h3>
+      <p>Fewer pixels</p>
+      <p>Less detail</p>
+      <p>Can appear blurry or pixelated when enlarged.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 32 -->
+<section class="slide">
+  <div class="eyebrow">06 | Image Representation</div>
+  <h2>Resolution comparison</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>High resolution</h3>
+      <div style="display:grid;grid-template-columns:repeat(8,1fr);gap:2px">
+        <script>
+          for(let i=0;i<64;i++) document.write('<div style="aspect-ratio:1;background:'+(i%3===0?'#00e5b0':'#78baff')+'"></div>');
+        </script>
+      </div>
+      <p>More pixels represent the image in greater detail.</p>
+    </div>
+    <div class="card">
+      <h3>Low resolution</h3>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px">
+        <script>
+          for(let i=0;i<9;i++) document.write('<div style="aspect-ratio:1;background:'+(i%3===0?'#00e5b0':'#78baff')+'"></div>');
+        </script>
+      </div>
+      <p>Fewer pixels represent the image, so details are reduced.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 33 -->
+<section class="slide">
+  <div class="eyebrow">06 | Image Representation</div>
+  <h2>What affects image file size?</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Image resolution</h3>
+      <p>More pixels require more data to store.</p>
+    </div>
+    <div class="card">
+      <h3>Colour depth</h3>
+      <p>More bits per pixel require more data to store each pixel.</p>
+    </div>
+  </div>
+  <div class="example">
+    <h3>Remember</h3>
+    <p>Increasing colour depth also increases the size of the file when storing an image.</p>
+    <p>Higher resolution also means more pixels need to be stored.</p>
+  </div>
+</section>
+
+<!-- SLIDE 34 -->
+<section class="slide">
+  <div class="eyebrow">07 | Knowledge Check</div>
+  <h2>Check your understanding</h2>
+  <div id="quiz">
+    <div id="question" class="card"></div>
+    <div id="answers"></div>
+    <div id="quizFeedback" class="feedback"></div>
+    <button id="nextQuestion" class="primary" onclick="nextQuestion()" disabled>Next question →</button>
+    <div id="quizScore" class="result"></div>
+  </div>
+</section>
+
+<!-- SLIDE 35 -->
+<section class="slide">
+  <div class="eyebrow">08 | Lesson Summary</div>
+  <h2>What have we learned?</h2>
+  <div class="grid">
+    <div class="card"><h3>Text</h3><p>ASCII, Extended ASCII and Unicode represent characters using binary codes.</p></div>
+    <div class="card"><h3>Sound</h3><p>Sampling converts analogue sound into digital data.</p></div>
+    <div class="card"><h3>Sample rate</h3><p>Number of samples taken per second.</p></div>
+    <div class="card"><h3>Sample resolution</h3><p>Number of bits used to store each sample.</p></div>
+    <div class="card"><h3>Images</h3><p>Bitmap images are made up of pixels.</p></div>
+    <div class="card"><h3>Colour depth</h3><p>Number of bits used to represent each pixel's colour.</p></div>
+  </div>
+</section>
+
+<!-- SLIDE 36 -->
+<section class="slide">
+  <div class="hero">
+    <div class="eyebrow">End of Lesson</div>
+    <h1>REFLECTION</h1>
+    <h2>How do text, sound and images work together to communicate information in multimedia?</h2>
+    <div class="example">
+      <p>Text provides information, sound adds audio explanations or emotions, and images help users understand ideas visually, making multimedia content clearer and more interesting.</p>
+    </div>
+    <p class="big">Thank you!</p>
+  </div>
+</section>
+
 </main>
-<footer>IGCSE Computer Science · Data Representation · 1.2 Text, Sound and Images</footer>
+
+<div class="navigation">
+  <button id="previous" onclick="changeSlide(-1)">← Previous</button>
+  <div class="counter"><span id="current">1</span> / <span id="total">36</span></div>
+  <button id="next" class="primary" onclick="changeSlide(1)">Next →</button>
+</div>
+<div class="progress-wrap"><div class="progress" id="progress"></div></div>
+
 <script>
-const $=id=>document.getElementById(id);
-function encodeSecret(){const word=$('secretWord').value.toUpperCase();if(!/^[A-Z]{4}$/.test(word)){$('secretBinary').textContent='Please enter exactly four letters (A–Z).';return}$('secretBinary').textContent=Array.from(word).map(c=>c+' = '+c.charCodeAt(0).toString(2).padStart(8,'0')).join('   |   ')}
-function updateASCII(){const c=$('charInput').value; if(!c){$('decimalOut').textContent='—';$('binaryOut').textContent='—';return}const n=c.charCodeAt(0);$('decimalOut').textContent=n>=0&&n<=127?n+' (ASCII only)':'Not standard ASCII';$('binaryOut').textContent=n<=127?n.toString(2).padStart(8,'0'):'—'}
-$('charInput').addEventListener('input',updateASCII);updateASCII();
-function updateSamples(){$('samplesOut').textContent=(Number($('rate').value)*2).toLocaleString()+' samples in 2 seconds'}
-$('rate').addEventListener('change',updateSamples);updateSamples();
-function updateColours(){let d=Math.max(1,Math.min(32,Number($('depth').value)||1));$('coloursOut').textContent=(2**d).toLocaleString()+' possible colours'}
-$('depth').addEventListener('input',updateColours);updateColours();
-function updateImageSize(){let w=Math.max(1,Number($('width').value)||1),h=Math.max(1,Number($('height').value)||1),d=Math.max(1,Number($('imgDepth').value)||1);let bits=w*h*d,bytes=bits/8;$('imageSizeOut').textContent=bits.toLocaleString()+' bits · '+(bytes/1e6).toFixed(3)+' MB (decimal)'}
-['width','height','imgDepth'].forEach(id=>$(id).addEventListener('input',updateImageSize));updateImageSize();
-function checkPractice(){let answers={p1:'b',p2:'c',p3:'b'},score=0;Object.entries(answers).forEach(([q,a])=>{if(document.querySelector('input[name="'+q+'"]:checked')?.value===a)score++});$('practiceResult').textContent='You scored '+score+'/3.'+(score===3?' Excellent!':' Review the explanations in the lesson and try again.')}
-const questions=[
-{q:'Which statement describes standard ASCII?',o:['It uses 7 bits and represents 128 codes.','It uses 16 bits for every character.','It represents every language character.'],a:0,e:'Standard ASCII uses 7 bits, giving 128 code values.'},
-{q:'Why was Unicode developed?',o:['To make sound files smaller','To represent characters from many languages and writing systems','To increase image resolution'],a:1,e:'Unicode provides a universal character set for many languages and scripts.'},
-{q:'What device detects sound vibrations during recording?',o:['A monitor','A microphone','A printer'],a:1,e:'A microphone detects sound vibrations and converts them into an electrical signal.'},
-{q:'What does a higher sample resolution allow?',o:['More possible amplitude values per sample','Fewer samples each second','Fewer possible colours in an image'],a:0,e:'More bits per sample allow more possible amplitude values and greater detail.'},
-{q:'A bitmap image is made up of…',o:['Mathematical curves only','Pixels arranged in a grid','Audio samples'],a:1,e:'A bitmap image consists of pixels arranged in a two-dimensional grid.'},
-{q:'How many colours can 4 bits per pixel represent?',o:['4','8','16'],a:2,e:'2⁴ = 16 possible colours.'},
-{q:'What happens when a low-resolution bitmap is enlarged?',o:['It may become pixelated','It automatically becomes a vector','Its colour depth increases'],a:0,e:'There are fewer pixels to represent the enlarged image, so it can look fuzzy or pixelated.'},
-{q:'Which formula estimates an uncompressed bitmap image size in bits?',o:['Width + height + colour depth','Width × height × colour depth','Width × sample rate'],a:1,e:'Multiply the number of pixels by the number of bits used for each pixel.'}
+let slides = document.querySelectorAll('.slide');
+let currentSlide = 0;
+
+document.getElementById('total').textContent = slides.length;
+
+function showSlide(index) {
+  if(index < 0 || index >= slides.length) return;
+  slides.forEach((slide,i) => slide.classList.toggle('active',i===index));
+  currentSlide = index;
+  document.getElementById('current').textContent = index+1;
+  document.getElementById('previous').disabled = index===0;
+  document.getElementById('next').disabled = index===slides.length-1;
+  document.getElementById('progress').style.width =
+    ((index+1)/slides.length*100)+'%';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function changeSlide(amount) {
+  showSlide(currentSlide+amount);
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight') changeSlide(1);
+  if(e.key==='ArrowLeft') changeSlide(-1);
+});
+function goHome() {
+  window.location.href = "../../index.html";
+}
+function toggleFullscreen() {
+  if(!document.fullscreenElement) {
+    document.documentElement.requestFullscreen?.();
+  } else {
+    document.exitFullscreen?.();
+  }
+}
+
+/* ASCII CONVERTER */
+function convertASCII() {
+  const value = document.getElementById('asciiInput').value;
+  const result = document.getElementById('asciiResult');
+  if(!value) {
+    result.textContent = 'Please enter a character.';
+    return;
+  }
+  const code = value.charCodeAt(0);
+  if(code > 127) {
+    result.textContent = 'Please enter a standard ASCII character.';
+    return;
+  }
+  result.textContent = `${value} = ${code} = ${code.toString(2).padStart(8,'0')}`;
+}
+convertASCII();
+
+/* TEXT ENCODING AND DECODING */
+function encodeText() {
+  const value = document.getElementById('secretText').value;
+  const output = document.getElementById('encodedResult');
+  if(!value) {
+    output.textContent = 'Enter a message first.';
+    return;
+  }
+  const codes = [...value].map(char=>{
+    const code = char.charCodeAt(0);
+    return code <= 127 ? code.toString(2).padStart(8,'0') : 'Not ASCII';
+  });
+  output.textContent = codes.join(' ');
+}
+function decodeText() {
+  const value = document.getElementById('binaryText').value.trim();
+  const output = document.getElementById('decodedResult');
+  const groups = value.split(/\s+/);
+  if(!value || groups.some(x=>!/^[01]{8}$/.test(x))) {
+    output.textContent = 'Enter valid 8-bit binary groups separated by spaces.';
+    return;
+  }
+  const decoded = groups.map(x=>String.fromCharCode(parseInt(x,2))).join('');
+  output.textContent = decoded;
+}
+
+/* SAMPLE RATE */
+function showSampling() {
+  const rate = Number(document.getElementById('sampleRate').value);
+  document.getElementById('samplingResult').textContent =
+    rate.toLocaleString()+' samples every second.';
+}
+showSampling();
+
+/* COLOUR DEPTH */
+function showDepth() {
+  const bits = Number(document.getElementById('depth').value);
+  const colours = Math.pow(2,bits);
+  document.getElementById('depthResult').textContent =
+    `${bits} bits = ${colours.toLocaleString()} possible colours.`;
+}
+showDepth();
+
+/* KNOWLEDGE CHECK */
+const questions = [
+  {
+    q:'1. How many bits are used in standard ASCII?',
+    a:['6 bits','7 bits','8 bits','16 bits'],
+    correct:1,
+    explanation:'Standard ASCII uses 7 bits and represents 128 possible values.'
+  },
+  {
+    q:'2. What is the main advantage of Unicode?',
+    a:['It only supports English','It makes sound louder','It supports characters from many languages','It reduces every file size'],
+    correct:2,
+    explanation:'Unicode supports characters from languages and writing systems around the world.'
+  },
+  {
+    q:'3. What is sampling?',
+    a:['Taking measurements of a sound wave at regular intervals','Changing an image into pixels','Increasing the volume','Compressing a file'],
+    correct:0,
+    explanation:'Sampling measures a sound wave at regular time intervals.'
+  },
+  {
+    q:'4. What does sample rate measure?',
+    a:['Bits per pixel','Samples per second','Pixels per image','Bytes per character'],
+    correct:1,
+    explanation:'Sample rate is the number of samples taken each second, measured in hertz.'
+  },
+  {
+    q:'5. What does sample resolution describe?',
+    a:['The number of samples per second','The number of pixels','The bits used to store each sound sample','The length of a sound file'],
+    correct:2,
+    explanation:'Sample resolution is the number of bits used to represent each sample.'
+  },
+  {
+    q:'6. What is a pixel?',
+    a:['A sound wave','A small picture element','A character code','A sampling interval'],
+    correct:1,
+    explanation:'A pixel is a small picture element that makes up a bitmap image.'
+  },
+  {
+    q:'7. How many colours can be represented using 3 bits per pixel?',
+    a:['3','6','8','16'],
+    correct:2,
+    explanation:'2³ = 8 possible values, so 8 colours can be represented.'
+  },
+  {
+    q:'8. What happens when colour depth increases?',
+    a:['The image uses fewer bits','The file size generally increases','The resolution decreases','The image becomes sound'],
+    correct:1,
+    explanation:'More bits are needed to store the colour of each pixel.'
+  },
+  {
+    q:'9. What is image resolution?',
+    a:['The number of pixels in an image','The number of sound samples','The number of characters','The number of colours only'],
+    correct:0,
+    explanation:'Image resolution refers to the number of pixels that make up an image.'
+  },
+  {
+    q:'10. Which statement about high sample rate is correct?',
+    a:['Fewer samples are taken','More samples are taken per second','It reduces sample resolution','It converts sound into an image'],
+    correct:1,
+    explanation:'A higher sample rate means more measurements are taken each second.'
+  }
 ];
-function renderQuiz(){$('quizArea').innerHTML=questions.map((q,i)=>'<div class="quiz-q"><b>'+(i+1)+'. '+q.q+'</b>'+q.o.map((o,j)=>'<label><input type="radio" name="q'+i+'" value="'+j+'"> '+o+'</label>').join('')+'</div>').join('')}
-function gradeQuiz(){let score=0,details=[];questions.forEach((q,i)=>{let v=document.querySelector('input[name="q'+i+'"]:checked')?.value;if(Number(v)===q.a)score++;details.push((i+1)+'. '+(Number(v)===q.a?'Correct. ':'Review: ')+q.e)});$('quizResult').innerHTML='Score: '+score+'/'+questions.length+'<br><br>'+details.join('<br>')}
-function resetQuiz(){renderQuiz();$('quizResult').textContent=''}
-renderQuiz();
-function onScroll(){let max=document.documentElement.scrollHeight-innerHeight;$('progress').style.width=(max>0?scrollY/max*100:0)+'%';let ids=['overview','text','sound','images','practice','quiz'];let idx=ids.filter(id=>$(id).getBoundingClientRect().top<innerHeight*.45).length;$('sectionCount').textContent='Lesson '+Math.max(1,idx)+' of 6'}
-addEventListener('scroll',onScroll);onScroll();
-document.addEventListener('keydown',e=>{if(e.target.matches('input,textarea,select'))return;if(e.key==='Home')scrollTo({top:0,behavior:'smooth'});});
+
+let questionIndex = 0;
+let score = 0;
+let answered = false;
+
+function loadQuestion() {
+  answered = false;
+  const q = questions[questionIndex];
+  document.getElementById('question').innerHTML =
+    `<h3>Question ${questionIndex+1} of ${questions.length}</h3><p>${q.q}</p>`;
+  document.getElementById('answers').innerHTML = '';
+  document.getElementById('quizFeedback').textContent = '';
+  document.getElementById('nextQuestion').disabled = true;
+  document.getElementById('nextQuestion').textContent =
+    questionIndex===questions.length-1 ? 'View results' : 'Next question →';
+
+  q.a.forEach((answer,index)=>{
+    const button = document.createElement('button');
+    button.className = 'option';
+    button.textContent = answer;
+    button.onclick = ()=>selectAnswer(index,button);
+    document.getElementById('answers').appendChild(button);
+  });
+}
+function selectAnswer(index,button) {
+  if(answered) return;
+  answered = true;
+  const q = questions[questionIndex];
+  const buttons = document.querySelectorAll('.option');
+  buttons.forEach((b,i)=>{
+    b.disabled = true;
+    if(i===q.correct) b.classList.add('correct');
+  });
+  if(index===q.correct) {
+    score++;
+    document.getElementById('quizFeedback').textContent =
+      'Correct! '+q.explanation;
+  } else {
+    button.classList.add('wrong');
+    document.getElementById('quizFeedback').textContent =
+      'Not quite. '+q.explanation;
+  }
+  document.getElementById('nextQuestion').disabled = false;
+}
+function nextQuestion() {
+  if(!answered) return;
+  if(questionIndex < questions.length-1) {
+    questionIndex++;
+    loadQuestion();
+  } else {
+    document.getElementById('question').innerHTML =
+      '<h3>Knowledge Check Complete!</h3>';
+    document.getElementById('answers').innerHTML = '';
+    document.getElementById('quizFeedback').textContent =
+      `You scored ${score} out of ${questions.length}.`;
+    document.getElementById('nextQuestion').textContent = 'Try again';
+    document.getElementById('nextQuestion').disabled = false;
+    document.getElementById('nextQuestion').onclick = resetQuiz;
+  }
+}
+function resetQuiz() {
+  questionIndex=0;
+  score=0;
+  document.getElementById('nextQuestion').onclick=nextQuestion;
+  loadQuestion();
+}
+loadQuestion();
 </script>
-</body></html>
+
+</body>
+</html>
