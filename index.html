@@ -1,0 +1,153 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Computer Science Hub</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #243247;
+    }
+
+    header {
+      background: #142d4e;
+      color: white;
+      padding: 45px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 34px;
+      margin-bottom: 10px;
+    }
+
+    nav {
+      background: #203e63;
+      padding: 15px;
+      text-align: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 12px;
+    }
+
+    main {
+      max-width: 1050px;
+      margin: 35px auto;
+      padding: 0 20px;
+    }
+
+    .classes {
+      display: grid;
+      grid-template-columns:
+        repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 3px 12px #00000010;
+    }
+
+    .card h2 {
+      color: #174575;
+    }
+
+    .card a {
+      display: inline-block;
+      background: #174575;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 6px;
+      text-decoration: none;
+    }
+
+    footer {
+      background: #142d4e;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>Computer Science Hub</h1>
+    <p>Explore. Learn. Practise. Create.</p>
+    <p>Your Computer Science Learning Portal</p>
+  </header>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="#classes">Classes</a>
+    <a href="#resources">Resources</a>
+  </nav>
+
+  <main>
+    <h2>Welcome to Computer Science!</h2>
+    <p>
+      Access your lessons, revision materials,
+      programming activities and quizzes here.
+    </p>
+
+    <h2 id="classes">Choose Your Class</h2>
+
+    <div class="classes">
+
+      <div class="card">
+        <h2>Grade 7</h2>
+        <p>Lower Secondary Computer Science</p>
+        <a href="grade7.html">Explore Lessons</a>
+      </div>
+
+      <div class="card">
+        <h2>Grade 8</h2>
+        <p>Lower Secondary Computer Science</p>
+        <a href="grade8.html">Explore Lessons</a>
+      </div>
+
+      <div class="card">
+        <h2>IGCSE Grade 9</h2>
+        <p>Cambridge Computer Science 0478</p>
+        <a href="igcse.html">Explore Lessons</a>
+      </div>
+
+      <div class="card">
+        <h2>IBDP Grade 11</h2>
+        <p>Computer Science HL & SL</p>
+        <a href="ibdp.html">Explore Lessons</a>
+      </div>
+
+    </div>
+
+    <h2 id="resources">Learning Resources</h2>
+    <div class="card">
+      <p>Access revision materials, practice quizzes
+      and programming activities.</p>
+      <a href="resources.html">View Resources</a>
+    </div>
+
+  </main>
+
+  <footer>
+    <p>Computer Science Hub</p>
+    <p>Learning through Technology and Innovation</p>
+  </footer>
+
+</body>
+</html>
