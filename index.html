@@ -2,152 +2,800 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Computer Science Hub</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f7fb;
-      color: #243247;
-    }
+<title>CS Learning Hub | Computer Science</title>
 
-    header {
-      background: #142d4e;
-      color: white;
-      padding: 45px 20px;
-      text-align: center;
-    }
+<style>
+:root {
+  --navy: #14243a;
+  --blue: #2875c7;
+  --green: #16866c;
+  --bg: #f3f6fa;
+  --card: #ffffff;
+  --text: #253447;
+  --muted: #718096;
+  --border: #e0e6ee;
+  --soft: #edf3fa;
+}
 
-    header h1 {
-      font-size: 34px;
-      margin-bottom: 10px;
-    }
+body.dark {
+  --bg: #101927;
+  --card: #1c2a3c;
+  --text: #edf3fa;
+  --muted: #a6b5c8;
+  --border: #35465a;
+  --soft: #26384d;
+}
 
-    nav {
-      background: #203e63;
-      padding: 15px;
-      text-align: center;
-    }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin: 0 12px;
-    }
+html {
+  scroll-behavior: smooth;
+}
 
-    main {
-      max-width: 1050px;
-      margin: 35px auto;
-      padding: 0 20px;
-    }
+body {
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  transition: background .25s, color .25s;
+  line-height: 1.6;
+}
 
-    .classes {
-      display: grid;
-      grid-template-columns:
-        repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-    }
+/* NAVIGATION */
 
-    .card {
-      background: white;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 3px 12px #00000010;
-    }
+.navbar {
+  background: var(--navy);
+  color: white;
+  padding: 15px 6%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
 
-    .card h2 {
-      color: #174575;
-    }
+.brand {
+  font-size: 21px;
+  font-weight: bold;
+}
 
-    .card a {
-      display: inline-block;
-      background: #174575;
-      color: white;
-      padding: 10px 16px;
-      border-radius: 6px;
-      text-decoration: none;
-    }
+.brand span {
+  color: #65a9f2;
+}
 
-    footer {
-      background: #142d4e;
-      color: white;
-      text-align: center;
-      padding: 20px;
-      margin-top: 50px;
-    }
-  </style>
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 23px;
+}
+
+.nav-links a {
+  color: #dce7f3;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.nav-links a:hover {
+  color: #60a5fa;
+}
+
+.nav-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.icon-btn {
+  border: 1px solid #60748c;
+  background: transparent;
+  color: white;
+  border-radius: 8px;
+  padding: 8px 11px;
+  cursor: pointer;
+}
+
+.menu-btn {
+  display: none;
+}
+
+/* HERO */
+
+.hero {
+  background:
+    radial-gradient(circle at 85% 25%, #377bb355, transparent 30%),
+    linear-gradient(120deg, #12243b, #1d4974);
+  color: white;
+  padding: 75px 7% 65px;
+}
+
+.hero-content {
+  max-width: 1100px;
+  margin: auto;
+}
+
+.hero-label {
+  display: inline-block;
+  background: #ffffff1c;
+  border: 1px solid #ffffff35;
+  border-radius: 30px;
+  padding: 7px 14px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+}
+
+.hero h1 {
+  font-size: clamp(34px, 5vw, 55px);
+  line-height: 1.15;
+  margin-bottom: 18px;
+}
+
+.hero h1 span {
+  color: #69b2ff;
+}
+
+.hero p {
+  max-width: 630px;
+  color: #d3e1ef;
+  font-size: 17px;
+  margin-bottom: 28px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-block;
+  text-decoration: none;
+  padding: 13px 22px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-primary {
+  background: #3686d6;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #2269b3;
+}
+
+.btn-outline {
+  border: 1px solid #a6c5e4;
+  color: white;
+  background: transparent;
+}
+
+/* SEARCH */
+
+.search-section {
+  max-width: 1100px;
+  margin: -28px auto 0;
+  padding: 0 22px;
+  position: relative;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  border-radius: 12px;
+  box-shadow: 0 7px 25px #00000012;
+}
+
+.search-box input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  padding: 12px;
+  background: transparent;
+  color: var(--text);
+  font-size: 15px;
+}
+
+.search-box button {
+  border: none;
+  background: var(--blue);
+  color: white;
+  padding: 10px 17px;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+/* MAIN CONTAINER */
+
+.container {
+  max-width: 1100px;
+  margin: 45px auto;
+  padding: 0 22px;
+}
+
+.section-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 23px;
+}
+
+.section-header h2 {
+  font-size: 25px;
+}
+
+.section-header p {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.view-link {
+  color: var(--blue);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+/* CLASS CARDS */
+
+.class-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.class-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 22px;
+  transition: .2s;
+  display: flex;
+  flex-direction: column;
+  min-height: 225px;
+}
+
+.class-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 9px 24px #00000012;
+}
+
+.class-icon {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: var(--soft);
+  font-size: 24px;
+  margin-bottom: 17px;
+}
+
+.class-card h3 {
+  font-size: 19px;
+  margin-bottom: 5px;
+}
+
+.class-card p {
+  color: var(--muted);
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+.class-card a {
+  color: var(--blue);
+  font-weight: bold;
+  font-size: 14px;
+  text-decoration: none;
+  margin-top: auto;
+}
+
+/* QUICK ACCESS */
+
+.quick-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+}
+
+.quick-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 22px;
+  text-decoration: none;
+  color: var(--text);
+  transition: .2s;
+}
+
+.quick-card:hover {
+  border-color: var(--blue);
+  transform: translateY(-3px);
+}
+
+.quick-card .emoji {
+  font-size: 26px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.quick-card strong {
+  display: block;
+  font-size: 15px;
+}
+
+.quick-card small {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* ANNOUNCEMENTS */
+
+.announcement {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 5px solid #e3a23d;
+  padding: 22px;
+  border-radius: 9px;
+}
+
+.announcement h3 {
+  margin-bottom: 8px;
+  font-size: 17px;
+}
+
+.announcement p {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.announcement a {
+  display: inline-block;
+  margin-top: 10px;
+  color: var(--blue);
+  font-size: 14px;
+  text-decoration: none;
+}
+
+/* RECENT RESOURCES */
+
+.resource-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.resource {
+  background: var(--card);
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.resource small {
+  color: var(--green);
+  font-weight: bold;
+  font-size: 11px;
+}
+
+.resource h3 {
+  margin: 9px 0;
+  font-size: 16px;
+}
+
+.resource p {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* NO RESULTS */
+
+.no-results {
+  display: none;
+  padding: 25px;
+  text-align: center;
+  color: var(--muted);
+  background: var(--card);
+  border-radius: 10px;
+}
+
+/* FOOTER */
+
+footer {
+  background: #111f33;
+  color: white;
+  text-align: center;
+  padding: 35px 20px;
+  margin-top: 65px;
+}
+
+footer p {
+  color: #b8c9dc;
+  font-size: 13px;
+  margin-top: 7px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px) {
+  .class-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .quick-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .resource-list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media(max-width:650px) {
+  .navbar {
+    flex-wrap: wrap;
+  }
+
+  .menu-btn {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 15px 0;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .hero {
+    padding: 55px 25px;
+  }
+
+  .hero p {
+    font-size: 15px;
+  }
+
+  .class-grid,
+  .quick-grid,
+  .resource-list {
+    grid-template-columns: 1fr;
+  }
+
+  .section-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <header>
-    <h1>Computer Science Hub</h1>
-    <p>Explore. Learn. Practise. Create.</p>
-    <p>Your Computer Science Learning Portal</p>
-  </header>
+<!-- NAVIGATION -->
 
-  <nav>
+<nav class="navbar">
+
+  <div class="brand">
+    CS Learning <span>Hub</span>
+  </div>
+
+  <div class="nav-links" id="navLinks">
     <a href="index.html">Home</a>
     <a href="#classes">Classes</a>
+    <a href="#learning">Learning Centre</a>
+    <a href="#announcements">Announcements</a>
     <a href="#resources">Resources</a>
-  </nav>
+  </div>
 
-  <main>
-    <h2>Welcome to Computer Science!</h2>
+  <div class="nav-actions">
+    <button class="icon-btn" onclick="toggleTheme()"
+      title="Change theme" id="themeButton">🌙</button>
+
+    <button class="icon-btn menu-btn"
+      onclick="toggleMenu()">☰</button>
+  </div>
+
+</nav>
+
+<!-- HERO -->
+
+<header class="hero">
+  <div class="hero-content">
+
+    <div class="hero-label">
+      COMPUTER SCIENCE EDUCATION
+    </div>
+
+    <h1>
+      Explore. Learn.<br>
+      <span>Create.</span>
+    </h1>
+
     <p>
-      Access your lessons, revision materials,
-      programming activities and quizzes here.
+      Welcome to your Computer Science Learning Hub.
+      Discover lessons, practise programming, review
+      important concepts and prepare for your examinations.
     </p>
 
-    <h2 id="classes">Choose Your Class</h2>
+    <div class="hero-buttons">
+      <a href="#classes" class="btn btn-primary">
+        Explore Classes →
+      </a>
 
-    <div class="classes">
-
-      <div class="card">
-        <h2>Grade 7</h2>
-        <p>Lower Secondary Computer Science</p>
-        <a href="grade7.html">Explore Lessons</a>
-      </div>
-
-      <div class="card">
-        <h2>Grade 8</h2>
-        <p>Lower Secondary Computer Science</p>
-        <a href="grade8.html">Explore Lessons</a>
-      </div>
-
-      <div class="card">
-        <h2>IGCSE Grade 9</h2>
-        <p>Cambridge Computer Science 0478</p>
-        <a href="igcse.html">Explore Lessons</a>
-      </div>
-
-      <div class="card">
-        <h2>IBDP Grade 11</h2>
-        <p>Computer Science HL & SL</p>
-        <a href="ibdp.html">Explore Lessons</a>
-      </div>
-
+      <a href="#learning" class="btn btn-outline">
+        Learning Centre
+      </a>
     </div>
 
-    <h2 id="resources">Learning Resources</h2>
-    <div class="card">
-      <p>Access revision materials, practice quizzes
-      and programming activities.</p>
-      <a href="resources.html">View Resources</a>
+  </div>
+</header>
+
+<!-- SEARCH -->
+
+<div class="search-section">
+
+  <div class="search-box">
+    <span>🔍</span>
+
+    <input
+      type="search"
+      id="searchInput"
+      placeholder="Search classes, lessons and resources..."
+      oninput="searchWebsite()"
+    >
+
+    <button onclick="searchWebsite()">Search</button>
+  </div>
+
+</div>
+
+<!-- CLASSES -->
+
+<main class="container" id="classes">
+
+  <div class="section-header">
+    <div>
+      <h2>Choose Your Class</h2>
+      <p>Access your learning materials by grade level.</p>
     </div>
+  </div>
 
-  </main>
+  <div class="class-grid searchable">
 
-  <footer>
-    <p>Computer Science Hub</p>
-    <p>Learning through Technology and Innovation</p>
-  </footer>
+    <article class="class-card">
+      <div class="class-icon">💻</div>
+      <h3>Grade 7</h3>
+      <p>Cambridge Lower Secondary Computer Science</p>
+      <a href="grade7.html">Explore Lessons →</a>
+    </article>
+
+    <article class="class-card">
+      <div class="class-icon">🖥️</div>
+      <h3>Grade 8</h3>
+      <p>Cambridge Lower Secondary Computer Science</p>
+      <a href="grade8.html">Explore Lessons →</a>
+    </article>
+
+    <article class="class-card">
+      <div class="class-icon">⚙️</div>
+      <h3>IGCSE Grade 9</h3>
+      <p>Cambridge IGCSE Computer Science 0478</p>
+      <a href="igcse.html">Explore Lessons →</a>
+    </article>
+
+    <article class="class-card">
+      <div class="class-icon">🎓</div>
+      <h3>IBDP Grade 11</h3>
+      <p>IB Diploma Computer Science HL & SL</p>
+      <a href="ibdp.html">Explore Lessons →</a>
+    </article>
+
+  </div>
+
+</main>
+
+<!-- LEARNING CENTRE -->
+
+<section class="container" id="learning">
+
+  <div class="section-header">
+    <div>
+      <h2>Learning Centre</h2>
+      <p>Quick access to your Computer Science activities.</p>
+    </div>
+  </div>
+
+  <div class="quick-grid">
+
+    <a href="resources.html" class="quick-card searchable">
+      <span class="emoji">📚</span>
+      <strong>Lessons</strong>
+      <small>Explore lesson materials</small>
+    </a>
+
+    <a href="resources.html" class="quick-card searchable">
+      <span class="emoji">📝</span>
+      <strong>Quizzes</strong>
+      <small>Test your knowledge</small>
+    </a>
+
+    <a href="resources.html" class="quick-card searchable">
+      <span class="emoji">💻</span>
+      <strong>Programming</strong>
+      <small>Practise coding skills</small>
+    </a>
+
+    <a href="resources.html" class="quick-card searchable">
+      <span class="emoji">📖</span>
+      <strong>Revision</strong>
+      <small>Review important topics</small>
+    </a>
+
+  </div>
+
+</section>
+
+<!-- ANNOUNCEMENTS -->
+
+<section class="container" id="announcements">
+
+  <div class="section-header">
+    <div>
+      <h2>Announcements</h2>
+      <p>Important learning updates and reminders.</p>
+    </div>
+  </div>
+
+  <div class="announcement">
+    <h3>📢 Welcome to the Computer Science Hub!</h3>
+
+    <p>
+      Students can access their Computer Science lessons,
+      revision materials and learning resources through
+      this website. Select your class to get started.
+    </p>
+
+    <a href="#classes">Explore your class →</a>
+  </div>
+
+</section>
+
+<!-- RECENT RESOURCES -->
+
+<section class="container" id="resources">
+
+  <div class="section-header">
+    <div>
+      <h2>Learning Resources</h2>
+      <p>Explore additional Computer Science materials.</p>
+    </div>
+  </div>
+
+  <div class="resource-list">
+
+    <article class="resource searchable">
+      <small>LEARNING MATERIALS</small>
+      <h3>Lesson Presentations</h3>
+      <p>Access classroom presentations and explanations.</p>
+    </article>
+
+    <article class="resource searchable">
+      <small>PRACTICE</small>
+      <h3>Worksheets and Activities</h3>
+      <p>Apply your knowledge through practical exercises.</p>
+    </article>
+
+    <article class="resource searchable">
+      <small>EXAM PREPARATION</small>
+      <h3>Revision Materials</h3>
+      <p>Prepare for your quizzes and examinations.</p>
+    </article>
+
+  </div>
+
+  <div class="no-results" id="noResults">
+    No matching results found. Try another search.
+  </div>
+
+</section>
+
+<!-- FOOTER -->
+
+<footer>
+  <h3>CS Learning Hub</h3>
+  <p>Computer Science | Learn. Practise. Create.</p>
+  <p>Explore technology and develop your skills.</p>
+</footer>
+
+<!-- JAVASCRIPT -->
+
+<script>
+
+// MOBILE MENU
+
+function toggleMenu() {
+  document.getElementById("navLinks")
+    .classList.toggle("active");
+}
+
+// DARK / LIGHT MODE
+
+function toggleTheme() {
+  document.body.classList.toggle("dark");
+
+  const dark = document.body.classList.contains("dark");
+
+  localStorage.setItem("cs-theme", dark ? "dark" : "light");
+
+  document.getElementById("themeButton").textContent =
+    dark ? "☀️" : "🌙";
+}
+
+// RESTORE SAVED THEME
+
+if (localStorage.getItem("cs-theme") === "dark") {
+  document.body.classList.add("dark");
+  document.getElementById("themeButton").textContent = "☀️";
+}
+
+// SEARCH
+
+function searchWebsite() {
+
+  const query = document.getElementById("searchInput")
+    .value.toLowerCase().trim();
+
+  const items = document.querySelectorAll(".searchable");
+
+  let matches = 0;
+
+  items.forEach(item => {
+
+    const found = item.innerText.toLowerCase()
+      .includes(query);
+
+    item.style.display = found ? "" : "none";
+
+    if (found) matches++;
+
+  });
+
+  document.getElementById("noResults").style.display =
+    matches === 0 ? "block" : "none";
+}
+
+// ENTER KEY SEARCH
+
+document.getElementById("searchInput")
+  .addEventListener("keydown", function(event) {
+
+    if (event.key === "Enter") {
+      searchWebsite();
+    }
+
+  });
+
+</script>
 
 </body>
 </html>
