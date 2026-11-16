@@ -1,0 +1,756 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IGCSE Computer Science | Data Transmission</title>
+<style>
+:root{--bg:#071a35;--panel:#102e57;--a:#00e5b0;--muted:#b7c9df}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:#f4f8ff;font-family:Arial,sans-serif}
+header{height:62px;background:#0b2548;padding:0 20px;display:flex;align-items:center;justify-content:space-between}
+.brand{color:var(--a);font-weight:bold;letter-spacing:1px}
+button{background:#173d70;color:white;border:1px solid #47719c;border-radius:7px;padding:10px 14px;cursor:pointer;margin:3px}
+button.primary{background:var(--a);color:#06243a;font-weight:bold}
+button:disabled{opacity:.4}
+main{padding:30px 5% 105px}
+.slide{display:none;max-width:1100px;margin:auto}
+.slide.active{display:block}
+.eyebrow{color:var(--a);font-size:13px;letter-spacing:2px;font-weight:bold}
+h1{font-size:clamp(35px,5vw,58px);color:var(--a)}
+h2{font-size:clamp(27px,4vw,40px)}
+h3{color:var(--a)}
+p,li{font-size:18px;line-height:1.6;color:var(--muted)}
+.hero,.vault{min-height:60vh;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:35px;border:1px solid #28517e;border-radius:16px;background:linear-gradient(135deg,#102f5b,#071a35)}
+.subtitle{font-size:24px;color:white}
+.tag,.packet{display:inline-block;border:1px solid var(--a);border-radius:20px;padding:8px 13px;color:var(--a);margin:5px}
+.packet{border-radius:7px;background:#173d70;color:white}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:15px;margin:20px 0}
+.card,.tool{background:var(--panel);border:1px solid #28517e;border-radius:12px;padding:20px}
+.card p,.tool p{font-size:16px}
+.big{font-size:clamp(25px,4vw,40px);color:var(--a);font-weight:bold;overflow-wrap:anywhere}
+.example{background:#071f3d;border-left:4px solid var(--a);padding:17px;margin:18px 0;border-radius:7px}
+table{width:100%;border-collapse:collapse;margin:18px 0;background:#0b2548}
+td,th{border:1px solid #31577e;padding:11px;text-align:left}
+th{color:var(--a);background:#173d70}
+input,select,textarea{background:#071f3d;color:white;border:1px solid #47719c;border-radius:7px;padding:11px;font-size:16px;max-width:100%}
+.result{color:var(--a);font-size:19px;font-weight:bold;margin-top:13px}
+.option{display:block;width:100%;text-align:left;margin:8px 0;padding:13px;background:#102e57;border:1px solid #31577e;border-radius:8px}
+.correct{border-color:var(--a)!important;background:#104b49!important}
+.wrong{border-color:#ff7777!important;background:#512c3a!important}
+.feedback{color:var(--muted);margin-top:12px}
+.network{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;margin:22px 0}
+.node{background:#173d70;border:2px solid #78baff;border-radius:10px;padding:15px;text-align:center;min-width:95px;font-weight:bold}
+.arrow{font-size:27px;color:var(--a)}
+.level{background:#0b2548;border:1px solid #31577e;border-radius:8px;padding:14px;margin:10px 0;text-align:left}
+.navigation{position:fixed;bottom:24px;left:0;right:0;display:flex;justify-content:center;align-items:center;gap:10px}
+.counter{background:#102e57;padding:10px 15px;border-radius:7px}
+.progress-wrap{position:fixed;bottom:0;left:0;right:0;height:7px;background:#18385c}
+.progress{height:100%;width:0;background:var(--a)}
+.small{font-size:14px;color:#9db6d2}
+@media(max-width:600px){
+ header{padding:0 8px}.brand{font-size:11px}
+ header button{padding:7px;font-size:11px}
+ main{padding:20px 14px 100px}
+ p,li{font-size:16px}
+}
+@media print{
+ header,.navigation,.progress-wrap{display:none!important}
+ body{background:white;color:#111}
+ .slide{display:block!important;page-break-after:always}
+ .card,.tool,.example,.vault{background:#f2f5f8}
+ p,li{color:#222}
+}
+
+/* Packet journey simulation */
+.sim-stage{background:#071f3d;border:1px solid #31577e;border-radius:12px;padding:18px;margin:16px 0}
+.sim-track{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;align-items:center;margin:18px 0}
+.sim-stop{background:#173d70;border:2px solid #47719c;border-radius:10px;padding:14px 8px;text-align:center;min-height:82px;display:flex;flex-direction:column;justify-content:center;gap:6px}
+.sim-stop.active{border-color:var(--a);box-shadow:0 0 0 2px #00e5b033}
+.sim-stop small{color:var(--muted)}
+.sim-packets{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;min-height:54px;margin:12px 0}
+.sim-packet{background:#173d70;border:1px solid var(--a);border-radius:8px;padding:10px 13px;color:white;font-weight:bold}
+.sim-packet.arrived{background:#104b49}
+.sim-packet.waiting{opacity:.35}
+.sim-message{background:#102e57;border:1px solid #31577e;border-radius:8px;padding:14px;margin-top:12px;color:var(--muted);min-height:54px}
+.sim-controls{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:14px}
+@media(max-width:650px){.sim-track{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+.sim-selects{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;align-items:end;justify-content:stretch}
+.sim-selects label{color:var(--a);font-size:14px;line-height:2}
+.sim-selects select{width:100%;min-width:0}
+.sim-topology{display:grid;grid-template-columns:1fr 180px 1fr;gap:12px;align-items:center;margin:20px 0}
+.sim-lan{background:#0b2548;border:2px dashed #47719c;border-radius:12px;padding:14px;text-align:center;min-width:0}
+.sim-lan h3{margin:2px 0 4px}
+.sim-lan>small,.sim-device small{display:block;color:var(--muted);font-size:12px}
+.sim-device{display:flex;flex-direction:column;align-items:center;gap:4px;background:#173d70;border:1px solid #47719c;border-radius:9px;padding:10px;margin:10px auto;max-width:160px}
+.sim-device:first-letter{font-size:24px}
+.sim-switch{background:#104b49;border-color:#00a98a}
+.sim-router{background:#57451c;border:2px solid #e5b94d;transition:.2s}
+.sim-router.highlight{box-shadow:0 0 0 5px #e5b94d55;transform:scale(1.05)}
+.sim-wire{color:var(--a);font-size:20px;line-height:10px}
+.sim-middle{text-align:center}
+.sim-route{padding:10px;color:var(--a);font-size:13px}
+.sim-cloud{background:#25265a;border:1px solid #7775d6;border-radius:24px;padding:12px}
+.sim-route-map{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.sim-route-map div{background:#0b2548;border:1px solid #31577e;border-radius:8px;padding:10px}
+.sim-route-map b,.sim-route-map span{display:block}
+.sim-route-map b{color:var(--a);margin-bottom:5px}
+.sim-route-map span{font-size:13px;color:var(--muted)}
+.sim-flow{background:#071a35;border:1px solid #31577e;border-radius:10px;padding:12px}
+.sim-flow-label{color:var(--a);font-weight:bold;font-size:13px}
+.sim-steps{grid-template-columns:repeat(5,minmax(0,1fr))}
+.sim-steps .step{background:#0b2548;border-color:#31577e;color:var(--muted)}
+.sim-steps .step.current{background:#174a65;border-color:var(--a);color:white}
+.sim-steps .step.done{background:#104b49;border-color:#00a98a}
+@media(max-width:700px){
+ .sim-topology{grid-template-columns:1fr}
+ .sim-middle{padding:5px}
+ .sim-route-map{grid-template-columns:1fr}
+ .sim-steps{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<header>
+<div class="brand">IGCSE COMPUTER SCIENCE</div>
+<div>
+<button onclick="goHome()">⌂ Home</button>
+<button onclick="full()">⛶ Fullscreen</button>
+<button onclick="print()">Print / PDF</button>
+</div>
+</header>
+<main>
+
+<section class="slide active">
+<div class="hero">
+<div class="eyebrow">DATA TRANSMISSION</div>
+<h1>PACKET SWITCHING</h1>
+<p class="subtitle">How data travels across networks</p>
+<div>
+<span class="tag">Packets</span>
+<span class="tag">Header • Payload • Trailer</span>
+<span class="tag">Routers</span>
+<span class="tag">Packet Switching</span>
+</div>
+<p>IGCSE Computer Science</p>
+</div>
+</section>
+
+<section class="slide">
+<div class="eyebrow">01 | NETWORK EMERGENCY</div>
+<h2>Can you deliver the message?</h2>
+<div class="vault">
+<div class="big" style="color:#ff7777">🚨 NETWORK EMERGENCY</div>
+<h3>Your mission</h3>
+<p>Send “HELLO FROM COMPUTER SCIENCE” from Computer A to Computer B. The network has multiple possible routes. Can you deliver the message?</p>
+<div class="big" style="color:#ffc94a">35 MINUTES</div>
+<p>Work as a network engineering team to solve the challenge.</p>
+</div>
+</section>
+
+<section class="slide">
+<div class="eyebrow">01 | LESSON OBJECTIVES</div>
+<h2>What will we learn?</h2>
+<div class="grid">
+<div class="card"><h3>What is a packet?</h3><p>Explain what a packet is and why data is divided into packets.</p></div>
+<div class="card"><h3>Packet structure</h3><p>Identify header, payload and trailer.</p></div>
+<div class="card"><h3>Routers</h3><p>Explain how a router forwards packets towards their destination.</p></div>
+<div class="card"><h3>Packet switching</h3><p>Explain how packets can travel through different routes to reach the same destination.</p></div>
+</div>
+</section>
+
+<section class="slide">
+<div class="eyebrow">02 | SCENARIO</div>
+<h2>Sending a file</h2>
+<div class="card">
+<p>Imagine you want to send a file to your friend over the Internet.</p>
+<div class="network">
+<div class="node">💻<br>Computer A</div><div class="arrow">➜</div>
+<div class="node">🌐<br>Internet</div><div class="arrow">➜</div>
+<div class="node">💻<br>Computer B</div>
+</div>
+<p>What happens to the file as it travels? Does the entire file travel as one big piece?</p>
+<button class="primary" onclick="reveal('s1')">Reveal explanation</button>
+<div id="s1" class="example" hidden>The file is divided into smaller pieces of data before being sent. These pieces are called packets.</div>
+</div>
+</section>
+
+<section class="slide">
+<div class="eyebrow">02 | DIVIDING DATA</div>
+<h2>From one large file to smaller pieces</h2>
+<div class="grid">
+<div class="card"><h3>1. Large file</h3><div class="big">VIDEO.MP4</div><p>The original file.</p></div>
+<div class="card"><h3>2. Splitting</h3><div class="big">✂️</div><p>The file is divided into smaller pieces.</p></div>
+<div class="card"><h3>3. Packets</h3><span class="packet">Piece 1</span><span class="packet">Piece 2</span><span class="packet">Piece 3</span><span class="packet">Piece 4</span></div>
+<div class="card"><h3>4. Reassembly</h3><div class="big">💻 ✓</div><p>The packets reach the destination and the original file is reassembled.</p></div>
+</div>
+</section>
+
+<section class="slide">
+<div class="eyebrow">03 | INTERACTIVE NETWORK SIMULATION</div>
+<h2>Follow the journey of the packets</h2>
+<p>Choose the source and destination, then watch how a message is divided into packets, forwarded by routers and reassembled.</p>
+
+<div class="sim-stage">
+<h3>1. Configure the transmission</h3>
+<div class="sim-selects">
+<div>
+<label for="simSource">Source device</label>
+<select id="simSource">
+<option value="A">Computer A — 192.168.1.10</option>
+</select>
+</div>
+<div>
+<label for="simDestination">Destination device</label>
+<select id="simDestination">
+<option value="B">Computer B — 192.168.2.20</option>
+</select>
+</div>
+<div>
+<label for="simMessage">Message to send</label>
+<select id="simMessage">
+<option value="hello">HELLO FROM COMPUTER SCIENCE</option>
+<option value="network">LEARNING ABOUT NETWORKS</option>
+</select>
+</div>
+</div>
+</div>
+
+<div class="sim-stage">
+<h3>2. Network topology</h3>
+<div class="sim-topology">
+<div class="sim-lan">
+<h3>LAN A</h3>
+<small>192.168.1.0/24</small>
+<div class="sim-device">💻 <b>Computer A</b><small>192.168.1.10</small></div>
+<div class="sim-wire">↕</div>
+<div class="sim-device sim-switch">🔀 <b>Switch A</b><small>Local network</small></div>
+</div>
+
+<div class="sim-middle">
+<div class="sim-device sim-router" id="simRouter">📡 <b>Router</b><small>Forwards packets</small></div>
+<div class="sim-route">↙ &nbsp; ↘</div>
+<div class="sim-cloud">🌐<br><b>Network paths</b><small>Different possible routes</small></div>
+</div>
+
+<div class="sim-lan">
+<h3>LAN B</h3>
+<small>192.168.2.0/24</small>
+<div class="sim-device">💻 <b>Computer B</b><small>192.168.2.20</small></div>
+<div class="sim-wire">↕</div>
+<div class="sim-device sim-switch">🔀 <b>Switch B</b><small>Local network</small></div>
+</div>
+</div>
+
+<div class="sim-route-map">
+<div><b>Route 1</b><span>Computer A → Router → Path A → Destination</span></div>
+<div><b>Route 2</b><span>Computer A → Router → Path B → Destination</span></div>
+</div>
+<p class="small">Simplified teaching model: the routes represent possible paths through a network. Real Internet routing involves many routers.</p>
+</div>
+
+<div class="sim-stage">
+<h3>3. Packet transmission</h3>
+<div class="sim-flow">
+<div class="sim-flow-label">ORIGINAL MESSAGE</div>
+<div class="big" id="simOriginal">HELLO FROM COMPUTER SCIENCE</div>
+<div class="sim-message" id="simExplanation">Click Start Simulation to divide the message into packets.</div>
+</div>
+
+<h3>Packets created</h3>
+<div class="sim-packets" id="simCreated">
+<span class="small">Packets will appear here.</span>
+</div>
+
+<h3>Packets travelling through the network</h3>
+<div class="sim-track">
+<div class="sim-stop" id="simSourceNode">💻<b>Source</b><small>Computer A</small></div>
+<div class="sim-stop" id="simRouterNode">📡<b>Router</b><small>Routing decision</small></div>
+<div class="sim-stop" id="simNetworkNode">🌐<b>Network</b><small>Different paths</small></div>
+<div class="sim-stop" id="simDestNode">💻<b>Destination</b><small>Computer B</small></div>
+</div>
+
+<div class="sim-flow-label">PACKETS RECEIVED</div>
+<div class="sim-packets" id="simReceived">
+<span class="small">Waiting for packets...</span>
+</div>
+
+<div class="sim-flow">
+<div class="sim-flow-label">REASSEMBLED MESSAGE</div>
+<div class="big" id="simReassembled">?</div>
+<div class="sim-message" id="simFinal">The destination will reassemble the packets in the correct sequence.</div>
+</div>
+
+<div class="sim-controls">
+<button class="primary" id="simStart" onclick="startPacketSimulation()">▶ Start Simulation</button>
+<button id="simNext" onclick="nextPacketStep()" disabled>Next Step →</button>
+<button onclick="resetPacketSimulation()">↻ Reset</button>
+</div>
+</div>
+<div class="example">
+<b>Remember:</b> Packets may take different routes and arrive at different times. Sequence information helps the destination put the data back in the correct order.
+</div>
+</section>
+
+<section class="slide">
+<div class="eyebrow">04 | UNDERSTANDING PACKETS</div>
+<h2>What is a packet?</h2>
+<div class="card">
+<p>A packet is a small unit of data transmitted across a network.</p>
+<p>When a large message or file is sent, it is divided into smaller units called packets.</p>
+<div class="network">
+<div class="node">📄<br>Original data</div>
+<div class="arrow">➜</div>
+<div class="node">📦<br>Packet 1</div>
+<div class="node">📦<br>Packet 2</div>
+<div class="node">📦<br>Packet 3</div>
+</div>
+</div>
+<div class="grid">
+<div class="card"><h3>Smaller units</h3><p>Data is divided into manageable pieces.</p></div>
+<div class="card"><h3>Independent journey</h3><p>Packets can be transmitted separately.</p></div>
+<div class="card"><h3>Reassembly</h3><p>The destination uses sequence information to reconstruct the original data.</p></div>
+</div>
+</section>
+
+<section class="slide">
+<div class="eyebrow">04 | WHY SPLIT DATA?</div>
+<h2>Why is data divided into packets?</h2>
+<div class="grid">
+<div class="card"><h3>Efficient transmission</h3><p>Small packets can share network links with packets from other users.</p></div>
+<div class="card"><h3>Alternative routes</h3><p>Packets can travel through different available routes.</p></div>
+<div class="card"><h3>Error handling</h3><p>If a packet is lost or corrupted, it may be retransmitted without sending the entire file again.</p></div>
+<div class="card"><h3>Network sharing</h3><p>Multiple devices can use the network at the same time.</p></div>
+</div>
+</section>
+
+<section class="slide">
+<div class="eyebrow">05 | PACKET STRUCTURE</div>
+<h2>What is inside a packet?</h2>
+<p>A simplified packet contains three main parts.</p>
+<div class="grid">
+<div class="card">
+<h3>HEADER</h3>
+<div class="big">📋</div>
+<p>Contains control information, such as addressing and sequencing information.</p>
+</div>
+<div class="card">
+<h3>PAYLOAD</h3>
+<div class="big">📦</div>
+<p>Contains the actual data being transmitted.</p>
+</div>
+<div class="card">
+<h3>TRAILER</h3>
+<div class="big">🔍</div>
+<p>May contain error-checking information to help detect transmission errors.</p>
+</div>
+</div>
+<div class="example">
+HEADER &nbsp; | &nbsp; PAYLOAD &nbsp; | &nbsp; TRAILER
+</div>
+</section>
+
+<section class="slide">
+<div class="eyebrow">05 | HEADER INFORMATION</div>
+<h2>What information is in the header?</h2>
+<table>
+<tr><th>Information</th><th>Purpose</th></tr>
+<tr><td>Source address</td><td>Identifies where the packet originated.</td></tr>
+<tr><td>Destination address</td><td>Identifies where the packet should be delivered.</td></tr>
+<tr><td>Sequence number</td><td>Helps the destination arrange packets in the correct order.</td></tr>
+<tr><td>Packet information</td><td>May identify the packet's size or other transmission details.</td></tr>
+</table>
+<div class="example">
+<b>Example:</b> If Packet 3 arrives before Packet 1, the sequence number helps the destination identify its correct position.
+</div>
+</section>
+
+<section class="slide">
+<div class="eyebrow">06 | ROUTERS</div>
+<h2>What does a router do?</h2>
+<div class="network">
+<div class="node">💻<br>Computer A</div>
+<div class="arrow">➜</div>
+<div class="node">📡<br>Router</div>
+<div class="arrow">➜</div>
+<div class="node">💻<br>Computer B</div>
+</div>
+<p>A router examines the destination IP address in a packet and uses its routing table to decide where to forward the packet next.</p>
+<div class="grid">
+<div class="card"><h3>Receives</h3><p>Receives a packet from a connected network.</p></div>
+<div class="card"><h3>Examines</h3><p>Checks the destination IP address.</p></div>
+<div class="card"><h3>Forwards</h3><p>Chooses an appropriate next hop.</p></div>
+</div>
+</section>
+
+<section class="slide">
+<div class="eyebrow">06 | ROUTING TABLE</div>
+<h2>How does a router choose a route?</h2>
+<table>
+<tr><th>Destination network</th><th>Interface</th><th>Purpose</th></tr>
+<tr><td>192.168.1.0/24</td><td>G0/0</td><td>LAN A</td></tr>
+<tr><td>192.168.2.0/24</td><td>G0/1</td><td>LAN B</td></tr>
+<tr><td>Other networks</td><td>WAN</td><td>Other destinations</td></tr>
+</table>
+<p>The router uses the destination address to look for the best matching route in its routing table.</p>
+<div class="example">A router does not need to know the entire journey of every packet. It makes a forwarding decision for the next step.</div>
+</section>
+
+<section class="slide">
+<div class="eyebrow">07 | PACKET SWITCHING</div>
+<h2>What is packet switching?</h2>
+<p>Packet switching is a method of transmitting data in which a message is divided into packets. These packets may travel independently through the network and are reassembled at the destination.</p>
+<div class="network">
+<div class="node">💻<br>Sender</div><div class="arrow">➜</div>
+<div class="node">📦<br>Packets</div><div class="arrow">➜</div>
+<div class="node">🌐<br>Network</div><div class="arrow">➜</div>
+<div class="node">💻<br>Receiver</div>
+</div>
+</section>
+
+<section class="slide">
+<div class="eyebrow">07 | ADVANTAGES</div>
+<h2>Advantages of packet switching</h2>
+<div class="grid">
+<div class="card"><h3>Efficient use of network</h3><p>Network links can be shared by packets from many users.</p></div>
+<div class="card"><h3>Flexible routing</h3><p>Packets can be forwarded using alternative routes when a route is unavailable.</p></div>
+<div class="card"><h3>Reliable recovery</h3><p>Lost or corrupted packets can be retransmitted where the protocol supports it.</p></div>
+<div class="card"><h3>No dedicated connection</h3><p>Network capacity is not reserved for one communication for the entire transmission.</p></div>
+</div>
+</section>
+
+<section class="slide">
+<div class="eyebrow">07 | DISADVANTAGES</div>
+<h2>Disadvantages of packet switching</h2>
+<div class="grid">
+<div class="card"><h3>Packets may be delayed</h3><p>Packets can experience different delays during transmission.</p></div>
+<div class="card"><h3>Packets may arrive out of order</h3><p>The destination needs to arrange them correctly.</p></div>
+<div class="card"><h3>Packets may be lost</h3><p>Some packets may need to be retransmitted.</p></div>
+<div class="card"><h3>Network congestion</h3><p>Heavy traffic can cause delays and packet loss.</p></div>
+</div>
+</section>
+
+<section class="slide">
+<div class="eyebrow">08 | REAL-LIFE SCENARIO</div>
+<h2>Video conferencing</h2>
+<div class="card">
+<p>You are attending an online lesson. Your teacher's video and audio are transmitted over the Internet.</p>
+<div class="network">
+<div class="node">🎥<br>Teacher</div><div class="arrow">➜</div>
+<div class="node">📦<br>Packets</div><div class="arrow">➜</div>
+<div class="node">🌐<br>Internet</div><div class="arrow">➜</div>
+<div class="node">💻<br>Student</div>
+</div>
+<p>Some packets may be delayed or lost, causing the video to freeze or the audio to break up.</p>
+</div>
+</section>
+
+<section class="slide">
+<div class="eyebrow">08 | THINK ABOUT IT</div>
+<h2>What might cause the problem?</h2>
+<div class="tool">
+<p><b>Scenario:</b> You are watching a live online lesson. The teacher's voice is clear, but the video freezes for a few seconds.</p>
+<select id="causeSelect">
+<option value="">Choose an explanation</option>
+<option value="a">Network congestion or packet delay</option>
+<option value="b">The monitor is too large</option>
+<option value="c">The keyboard is disconnected</option>
+</select>
+<button class="primary" onclick="checkCause()">Check answer</button>
+<div id="causeFeedback" class="feedback"></div>
+</div>
+</section>
+
+<section class="slide">
+<div class="eyebrow">09 | KNOWLEDGE CHECK</div>
+<h2>Test your understanding</h2>
+<div id="quizArea"></div>
+<button class="primary" onclick="gradeQuiz()">Submit answers</button>
+<div class="result" id="quizResult"></div>
+</section>
+
+<section class="slide">
+<div class="eyebrow">10 | EXIT TICKET</div>
+<h2>Explain the journey of a packet</h2>
+<div class="tool">
+<p>In your own words, explain how data is transmitted using packet switching.</p>
+<textarea id="exitAnswer" rows="5" style="width:100%" placeholder="Write your explanation here..."></textarea>
+<p class="small">Remember to mention splitting, routing, sequence numbers and reassembly.</p>
+</div>
+</section>
+
+<section class="slide">
+<div class="hero">
+<div class="eyebrow">LESSON COMPLETE</div>
+<h1>MISSION ACCOMPLISHED!</h1>
+<p class="subtitle">You have explored how packet switching works.</p>
+<div class="big">📦 ➜ 🌐 ➜ 💻</div>
+<p>Data is divided into packets, forwarded through networks and reassembled at the destination.</p>
+</div>
+</section>
+</main>
+
+<div class="navigation">
+<button id="prev" onclick="move(-1)">← Previous</button>
+<span class="counter" id="counter">1 / 1</span>
+<button class="primary" id="next" onclick="move(1)">Next →</button>
+</div>
+<div class="progress-wrap"><div class="progress" id="progress"></div></div>
+
+<script>
+function goHome(){location.href="../../index.html"}
+function full(){
+ if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();
+ else document.exitFullscreen?.();
+}
+function reveal(id){const e=document.getElementById(id);e.hidden=!e.hidden}
+
+const slides=[...document.querySelectorAll(".slide")];
+let current=0;
+
+function showSlide(){
+ slides.forEach((s,i)=>s.classList.toggle("active",i===current));
+ document.getElementById("counter").textContent=(current+1)+" / "+slides.length;
+ document.getElementById("progress").style.width=((current+1)/slides.length*100)+"%";
+ document.getElementById("prev").disabled=current===0;
+ document.getElementById("next").disabled=current===slides.length-1;
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+function move(n){
+ current=Math.max(0,Math.min(slides.length-1,current+n));
+ showSlide();
+}
+document.addEventListener("keydown",e=>{
+ if(e.key==="ArrowRight")move(1);
+ if(e.key==="ArrowLeft")move(-1);
+});
+showSlide();
+
+function checkCause(){
+ const answer=document.getElementById("causeSelect").value;
+ const feedback=document.getElementById("causeFeedback");
+ if(answer==="a"){
+  feedback.textContent="Correct! Network congestion or packet delay can affect the smooth delivery of video and audio.";
+  feedback.style.color="#00e5b0";
+ }else{
+  feedback.textContent="Not quite. Think about what happens when packets are delayed during transmission.";
+  feedback.style.color="#ff9999";
+ }
+}
+
+/* PACKET SWITCHING SIMULATION */
+const simulation={
+ packets:[],
+ step:0,
+ running:false,
+ message:"",
+ paths:["Route A","Route B","Route A","Route B"]
+};
+
+const sim=$=>document.getElementById($);
+
+function makePackets(){
+ const message=sim("simMessage").value==="hello"
+ ?"HELLO FROM COMPUTER SCIENCE"
+ :"LEARNING ABOUT NETWORKS";
+ simulation.message=message;
+ const words=message.split(" ");
+ simulation.packets=words.map((word,i)=>({
+  id:i+1,
+  data:word,
+  path:simulation.paths[i%4],
+  arrived:false
+ }));
+ sim("simOriginal").textContent=message;
+ sim("simCreated").innerHTML=simulation.packets.map(p=>
+  `<span class="sim-packet">P${p.id}: ${p.data}</span>`
+ ).join("");
+ sim("simReceived").innerHTML='<span class="small">Waiting for packets...</span>';
+ sim("simReassembled").textContent="?";
+ sim("simFinal").textContent="The destination will reassemble the packets in the correct sequence.";
+}
+
+function startPacketSimulation(){
+ if(simulation.running)return;
+ simulation.running=true;
+ simulation.step=0;
+ makePackets();
+ sim("simStart").disabled=true;
+ sim("simNext").disabled=false;
+ sim("simExplanation").textContent="Step 1: The original message is divided into smaller packets. Each packet has a sequence number.";
+ highlightSimulation(0);
+}
+
+function highlightSimulation(n){
+ ["simSourceNode","simRouterNode","simNetworkNode","simDestNode"].forEach((id,i)=>{
+  sim(id).classList.toggle("active",i===n);
+ });
+ sim("simRouter").classList.toggle("highlight",n===1);
+}
+
+function nextPacketStep(){
+ if(!simulation.running)return;
+ simulation.step++;
+ const step=simulation.step;
+
+ if(step===1){
+  highlightSimulation(1);
+  sim("simExplanation").textContent="Step 2: The packets reach the router. The router examines the destination address and chooses where to forward them.";
+ }
+ else if(step===2){
+  highlightSimulation(2);
+  sim("simExplanation").textContent="Step 3: The router forwards packets. In this teaching model, packets use different routes and may arrive in a different order.";
+ }
+ else if(step===3){
+  highlightSimulation(3);
+  const order=[2,0,3,1];
+  order.forEach((index,i)=>{
+   const p=simulation.packets[index];
+   if(p)p.arrived=true;
+  });
+  sim("simReceived").innerHTML=order.map(index=>{
+   const p=simulation.packets[index];
+   return p?`<span class="sim-packet arrived">P${p.id}: ${p.data}</span>`:"";
+  }).join("");
+  sim("simExplanation").textContent="Step 4: The packets have arrived at the destination, but not in their original order. Sequence numbers identify their correct positions.";
+ }
+ else if(step===4){
+  highlightSimulation(3);
+  const ordered=[...simulation.packets].sort((a,b)=>a.id-b.id);
+  const final=ordered.map(p=>p.data).join(" ");
+  sim("simReassembled").textContent=final;
+  sim("simFinal").textContent="Success! The destination has arranged the packets by sequence number and reconstructed the original message.";
+  sim("simExplanation").textContent="Step 5: The destination reassembles the packets to recreate the original message.";
+  simulation.running=false;
+  sim("simNext").disabled=true;
+  sim("simStart").disabled=false;
+  return;
+ }
+}
+
+function resetPacketSimulation(){
+ simulation.running=false;
+ simulation.step=0;
+ simulation.packets=[];
+ sim("simStart").disabled=false;
+ sim("simNext").disabled=true;
+ makePackets();
+ highlightSimulation(-1);
+ sim("simExplanation").textContent="Click Start Simulation to divide the message into packets.";
+ sim("simRouter").classList.remove("highlight");
+}
+
+/* KNOWLEDGE CHECK */
+const questions=[
+ {
+  q:"1. What is a packet?",
+  options:["A complete computer","A small unit of data transmitted over a network","A type of monitor"],
+  answer:1,
+  explain:"A packet is a smaller unit of data transmitted across a network."
+ },
+ {
+  q:"2. Which part of a packet contains the actual data?",
+  options:["Header","Payload","Trailer"],
+  answer:1,
+  explain:"The payload contains the actual data being transmitted."
+ },
+ {
+  q:"3. What is the purpose of the header?",
+  options:["To contain addressing and control information","To display images","To increase screen brightness"],
+  answer:0,
+  explain:"The header contains information used to help deliver and identify the packet."
+ },
+ {
+  q:"4. What does a router examine when forwarding a packet?",
+  options:["Destination IP address","File colour","Monitor size"],
+  answer:0,
+  explain:"The router uses the destination IP address and its routing table to make a forwarding decision."
+ },
+ {
+  q:"5. Why are sequence numbers useful?",
+  options:["They make packets larger","They help arrange packets in the correct order","They encrypt every packet"],
+  answer:1,
+  explain:"Sequence numbers help the destination reassemble packets in the correct order."
+ },
+ {
+  q:"6. What may happen to packets during transmission?",
+  options:["They must all use the same route","They may arrive at different times","They automatically disappear"],
+  answer:1,
+  explain:"Packets may travel through different routes and experience different delays."
+ },
+ {
+  q:"7. What happens if a packet is lost?",
+  options:["It may need to be retransmitted","The whole Internet stops","The destination changes"],
+  answer:0,
+  explain:"Where the protocol supports it, a missing packet can be retransmitted."
+ },
+ {
+  q:"8. What is packet switching?",
+  options:["Sending a whole file as one piece","Dividing data into packets that are transmitted and reassembled","Connecting a keyboard to a computer"],
+  answer:1,
+  explain:"Packet switching divides data into packets, which are transmitted through a network and reassembled at the destination."
+ },
+ {
+  q:"9. What can cause video conferencing problems?",
+  options:["Network congestion and packet delay","A larger keyboard","A different wallpaper"],
+  answer:0,
+  explain:"Congestion and delay can affect the timely delivery of audio and video packets."
+ },
+ {
+  q:"10. What is the purpose of a trailer in a simplified packet structure?",
+  options:["To provide error-checking information","To identify the user's monitor","To store the operating system"],
+  answer:0,
+  explain:"A trailer may contain error-checking information."
+ },
+ {
+  q:"11. Which device forwards packets between different IP networks?",
+  options:["Keyboard","Router","Monitor"],
+  answer:1,
+  explain:"A router forwards packets between networks using IP addressing and routing information."
+ },
+ {
+  q:"12. What happens at the destination?",
+  options:["Packets are reassembled into the original data","Packets are converted into monitors","The router deletes the message"],
+  answer:0,
+  explain:"The destination uses sequence information to put packets back into the correct order."
+ }
+];
+
+function buildQuiz(){
+ sim("quizArea").innerHTML=questions.map((q,i)=>`
+ <div class="tool" style="margin:12px 0">
+ <b>${q.q}</b>
+ ${q.options.map((o,j)=>`
+ <label class="option">
+ <input type="radio" name="quiz${i}" value="${j}">
+ ${o}
+ </label>`).join("")}
+ <div class="feedback" id="explain${i}"></div>
+ </div>`).join("");
+}
+
+function gradeQuiz(){
+ let score=0;
+ questions.forEach((q,i)=>{
+  const selected=document.querySelector(`input[name="quiz${i}"]:checked`);
+  const explanation=sim("explain"+i);
+  const options=document.querySelectorAll(`input[name="quiz${i}"]`);
+  options.forEach((input,j)=>{
+   input.parentElement.classList.remove("correct","wrong");
+   if(j===q.answer)input.parentElement.classList.add("correct");
+   if(input.checked&&j!==q.answer)input.parentElement.classList.add("wrong");
+  });
+  if(selected&&Number(selected.value)===q.answer)score++;
+  explanation.textContent=q.explain;
+ });
+ sim("quizResult").textContent="Your score: "+score+"/"+questions.length;
+}
+
+buildQuiz();
+resetPacketSimulation();
+</script>
+</body>
+</html>
+
