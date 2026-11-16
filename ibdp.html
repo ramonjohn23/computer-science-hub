@@ -3,445 +3,903 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>IBDP Computer Science | CS Hub</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>IBDP Computer Science | CS Learning Hub</title>
 
 <style>
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --navy: #192b45;
+  --blue: #3478bb;
+  --purple: #7456bd;
+  --green: #16866c;
+  --bg: #f3f6fa;
+  --card: #ffffff;
+  --text: #253447;
+  --muted: #718096;
+  --border: #dfe6ee;
+  --soft: #edf3fa;
+}
+
+body.dark {
+  --bg: #101927;
+  --card: #1c2a3c;
+  --text: #edf3fa;
+  --muted: #a6b5c8;
+  --border: #35465a;
+  --soft: #26384d;
+}
 
 body {
-  margin: 0;
   font-family: Arial, sans-serif;
-  color: #252b32;
-  background: #f5f7fa;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  transition: background .25s, color .25s;
 }
 
-/* TOP NAVIGATION */
-.topbar {
-  height: 62px;
-  background: #202529;
+a {
+  text-decoration: none;
+}
+
+/* NAVIGATION */
+
+.navbar {
+  background: #14202d;
   color: white;
+  padding: 16px 6%;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 0 22px;
+  align-items: center;
+  gap: 15px;
 }
 
-.logo {
-  font-size: 21px;
+.brand {
+  font-size: 20px;
   font-weight: bold;
 }
 
-.logo span { color: #60a5fa; }
+.brand span {
+  color: #70aef0;
+}
+
+.nav-links {
+  display: flex;
+  gap: 22px;
+  align-items: center;
+}
 
 .nav-links a {
-  color: #ddd;
-  text-decoration: none;
-  margin-left: 20px;
+  color: #dce7f3;
+  font-size: 14px;
 }
 
-/* PAGE LAYOUT */
-.layout {
+.nav-links a:hover {
+  color: #70aef0;
+}
+
+.nav-actions {
   display: flex;
-  min-height: calc(100vh - 62px);
+  gap: 8px;
 }
 
-/* SIDEBAR */
-.sidebar {
-  width: 410px;
-  flex-shrink: 0;
-  background: #f8f9fb;
-  border-right: 1px solid #dce1e7;
-  padding: 22px 18px;
-}
-
-.sidebar-heading {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-
-.sidebar h3 {
-  font-size: 19px;
-  margin: 22px 0 16px;
-}
-
-.topic {
-  background: white;
-  border: 1px solid #d9dee5;
-  margin-bottom: -1px;
-}
-
-.topic summary {
-  padding: 12px;
+.icon-btn {
+  background: transparent;
+  border: 1px solid #61738a;
+  color: white;
+  padding: 8px 11px;
+  border-radius: 7px;
   cursor: pointer;
-  list-style: none;
-  display: flex;
-  justify-content: space-between;
 }
 
-.topic summary::-webkit-details-marker {
+.menu-btn {
   display: none;
 }
 
-.topic summary::after {
-  content: "⌄";
-  font-size: 20px;
+/* HERO */
+
+.hero {
+  background:
+    radial-gradient(circle at 85% 20%, #8066c455, transparent 30%),
+    linear-gradient(120deg, #192b45, #334c76);
+  color: white;
+  padding: 55px 7%;
 }
 
-.topic[open] summary::after {
-  content: "⌃";
+.hero-content {
+  max-width: 1150px;
+  margin: auto;
+}
+
+.tag {
+  display: inline-block;
+  background: #ffffff20;
+  border: 1px solid #ffffff50;
+  border-radius: 5px;
+  padding: 7px 12px;
+  font-size: 12px;
+  margin-bottom: 16px;
+}
+
+.hero h1 {
+  font-size: clamp(30px, 5vw, 44px);
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+
+.hero p {
+  color: #dbe6f4;
+  margin-bottom: 8px;
+}
+
+.hero-info {
+  margin-top: 23px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.hero-info span {
+  background: #ffffff18;
+  border: 1px solid #ffffff35;
+  padding: 8px 13px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+/* MAIN */
+
+.container {
+  max-width: 1200px;
+  margin: 35px auto;
+  padding: 0 25px;
+}
+
+.intro {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.intro h2 {
+  font-size: 23px;
+}
+
+.intro p {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.search {
+  width: 100%;
+  padding: 15px 20px;
+  margin: 25px 0;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--card);
+  color: var(--text);
+  font-size: 15px;
+  outline: none;
+}
+
+.search:focus {
+  border-color: var(--blue);
+}
+
+/* SECTION HEADINGS */
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin: 38px 0 20px;
+}
+
+.section-number {
+  background: #dceaff;
+  color: #245c98;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.section-number.green {
+  background: #d9f3e9;
+  color: #16866c;
+}
+
+.section-heading h2 {
+  font-size: 21px;
+}
+
+.section-heading p {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* TOPIC CARDS */
+
+.topic-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.topic-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-top: 4px solid var(--blue);
+  border-radius: 10px;
+  padding: 22px;
+  transition: .2s;
+}
+
+.topic-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 7px 18px #00000012;
+}
+
+.topic-card.green {
+  border-top-color: var(--green);
+}
+
+.topic-card.purple {
+  border-top-color: var(--purple);
+}
+
+.topic-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.topic-id {
+  font-size: 12px;
+  font-weight: bold;
+  color: var(--blue);
+}
+
+.green .topic-id {
+  color: var(--green);
+}
+
+.purple .topic-id {
+  color: var(--purple);
+}
+
+.level {
+  font-size: 11px;
+  padding: 4px 8px;
+  background: var(--soft);
+  border-radius: 5px;
+  color: var(--muted);
+}
+
+.topic-card h3 {
+  font-size: 17px;
+  margin: 17px 0 12px;
+  min-height: 48px;
+}
+
+.topic-card details {
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+}
+
+.topic-card summary {
+  color: var(--blue);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.topic-card.green summary {
+  color: var(--green);
+}
+
+.topic-card.purple summary {
+  color: var(--purple);
 }
 
 .topic-content {
-  padding: 10px 15px;
-  background: #f1f5f9;
+  padding-top: 12px;
+  font-size: 13px;
+  color: var(--muted);
 }
 
 .topic-content a {
   display: block;
-  padding: 7px 5px;
-  color: #1769b0;
-  text-decoration: none;
+  padding: 5px 0;
+  color: var(--blue);
 }
 
 .topic-content a:hover {
   text-decoration: underline;
 }
 
-/* MAIN CONTENT */
-.main {
-  flex: 1;
-  min-width: 0;
-  padding: 36px;
-}
-
-.banner {
-  background: linear-gradient(110deg,#1d4269,#2868aa);
-  color: white;
-  padding: 32px;
-  border-radius: 9px;
-  margin-bottom: 28px;
-}
-
-.banner h1 {
-  margin: 0 0 10px;
-  font-size: 30px;
-}
-
-.banner p {
-  margin: 0;
-  color: #e0eafa;
-}
-
-.breadcrumb {
-  padding: 14px 20px;
-  background: #eef3ff;
-  border: 1px solid #cad8ff;
-  border-radius: 7px;
-  margin-bottom: 28px;
-  font-size: 14px;
-}
-
-.search {
-  width: 100%;
-  padding: 17px 23px;
-  border: 1px solid #d9dee5;
-  border-radius: 35px;
-  font-size: 17px;
-  margin-bottom: 28px;
-}
-
 /* RESOURCE CARDS */
-.cards {
+
+.resource-grid {
   display: grid;
-  grid-template-columns: repeat(2,minmax(0,1fr));
-  gap: 25px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
 }
 
-.card {
-  background: white;
-  border: 1px solid #dce1e7;
+.resource-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 24px;
+  border-radius: 10px;
+}
+
+.resource-card .emoji {
+  font-size: 28px;
+}
+
+.resource-card h3 {
+  font-size: 17px;
+  margin: 10px 0;
+}
+
+.resource-card p {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* EMPTY SEARCH */
+
+.empty {
+  display: none;
+  background: var(--card);
+  padding: 30px;
+  text-align: center;
   border-radius: 9px;
-  padding: 27px;
-  min-height: 250px;
-  box-shadow: 0 2px 5px #0000000d;
+  color: var(--muted);
 }
 
-.card h2 {
-  font-size: 19px;
-  color: #1745ad;
-  margin-top: 0;
-}
-
-.card p {
-  color: #5b626a;
-}
-
-.card a {
-  display: block;
-  color: #0875ef;
-  margin: 9px 0;
-  line-height: 1.4;
-}
+/* FOOTER */
 
 footer {
-  padding: 25px;
-  text-align: center;
-  background: #202529;
+  background: #14202d;
   color: white;
-  margin-top: 40px;
+  text-align: center;
+  padding: 30px 15px;
+  margin-top: 60px;
 }
 
-/* RESPONSIVE DESIGN */
+footer p {
+  color: #bdcbd9;
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+/* RESPONSIVE */
+
 @media(max-width:900px) {
-  .layout { display: block; }
-  .sidebar {
-    width: 100%;
-    border-right: none;
+  .topic-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  .main { padding: 22px; }
 }
 
-@media(max-width:600px) {
-  .cards { grid-template-columns: 1fr; }
-  .nav-links a { margin-left: 8px; font-size: 13px; }
-  .banner h1 { font-size: 23px; }
-  .main { padding: 15px; }
+@media(max-width:650px) {
+  .navbar {
+    flex-wrap: wrap;
+  }
+
+  .menu-btn {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px 0;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .hero {
+    padding: 40px 23px;
+  }
+
+  .topic-grid,
+  .resource-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .container {
+    padding: 0 15px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<header class="topbar">
-  <div class="logo">
-    ComputerScience <span>KB</span>
+<!-- NAVIGATION -->
+
+<nav class="navbar">
+
+  <div class="brand">
+    CS Learning <span>Hub</span>
   </div>
 
-  <nav class="nav-links">
+  <div class="nav-links" id="navLinks">
     <a href="index.html">Home</a>
-    <a href="#about">About</a>
-    <a href="#contact">Contact</a>
-  </nav>
+    <a href="#syllabus">Syllabus</a>
+    <a href="#case-study">Case Study</a>
+    <a href="#ia">Internal Assessment</a>
+    <a href="#resources">Resources</a>
+  </div>
+
+  <div class="nav-actions">
+    <button class="icon-btn" onclick="toggleTheme()"
+      id="themeButton">🌙</button>
+
+    <button class="icon-btn menu-btn"
+      onclick="toggleMenu()">☰</button>
+  </div>
+
+</nav>
+
+<!-- HERO -->
+
+<header class="hero">
+
+  <div class="hero-content">
+
+    <span class="tag">
+      INTERNATIONAL BACCALAUREATE · DIPLOMA PROGRAMME
+    </span>
+
+    <h1>IB Diploma Computer Science</h1>
+
+    <p>
+      Explore computational thinking, understand computer
+      systems and develop effective programming solutions.
+    </p>
+
+    <p>Welcome to your IB Computer Science learning space.</p>
+
+    <div class="hero-info">
+      <span>HL & SL</span>
+      <span>Grade 11</span>
+      <span>2027 First Assessment</span>
+    </div>
+
+  </div>
+
 </header>
 
-<div class="layout">
-
-<!-- LEFT SIDEBAR -->
-<aside class="sidebar">
-
-  <div class="sidebar-heading">
-    <strong>Explore Topics</strong>
-    <small>
-      <a href="#" onclick="toggleTopics(true);return false">Show All</a>
-      |
-      <a href="#" onclick="toggleTopics(false);return false">Close All</a>
-    </small>
-  </div>
-
-  <h3>Theme A: Concepts of computer science</h3>
-
-  <details class="topic">
-    <summary>A1: Computer Fundamentals</summary>
-    <div class="topic-content">
-      <a href="#">Computer Systems</a>
-      <a href="#">Hardware</a>
-      <a href="#">Software</a>
-      <a href="#">Operating Systems</a>
-      <a href="#">Memory and Storage</a>
-    </div>
-  </details>
-
-  <details class="topic">
-    <summary>A2: Networking</summary>
-    <div class="topic-content">
-      <a href="#">Network Fundamentals</a>
-      <a href="#">Network Protocols</a>
-      <a href="#">Data Transmission</a>
-      <a href="#">Network Security</a>
-    </div>
-  </details>
-
-  <details class="topic">
-    <summary>A3: Databases</summary>
-    <div class="topic-content">
-      <a href="#">Database Concepts</a>
-      <a href="#">Relational Databases</a>
-      <a href="#">SQL</a>
-    </div>
-  </details>
-
-  <details class="topic">
-    <summary>A4: Machine Learning</summary>
-    <div class="topic-content">
-      <a href="#">Machine Learning Concepts</a>
-      <a href="#">Training Data</a>
-      <a href="#">Neural Networks</a>
-    </div>
-  </details>
-
-  <h3>Theme B: Computational thinking and problem solving</h3>
-
-  <details class="topic">
-    <summary>B1: Computational Thinking</summary>
-    <div class="topic-content">
-      <a href="#">Decomposition</a>
-      <a href="#">Abstraction</a>
-      <a href="#">Algorithms</a>
-    </div>
-  </details>
-
-  <details class="topic">
-    <summary>B2: Programming</summary>
-    <div class="topic-content">
-      <a href="#">Programming Fundamentals</a>
-      <a href="#">Selection</a>
-      <a href="#">Iteration</a>
-      <a href="#">Recursion</a>
-    </div>
-  </details>
-
-  <details class="topic">
-    <summary>B3: Object-Oriented Programming</summary>
-    <div class="topic-content">
-      <a href="#">Classes and Objects</a>
-      <a href="#">Inheritance</a>
-      <a href="#">Polymorphism</a>
-    </div>
-  </details>
-
-  <details class="topic">
-    <summary>B4: Abstract Data Types</summary>
-    <div class="topic-content">
-      <a href="#">Stacks</a>
-      <a href="#">Queues</a>
-      <a href="#">Linked Lists</a>
-    </div>
-  </details>
-
-  <h3>Case Study, IA and Resources</h3>
-
-  <details class="topic">
-    <summary>Case Study</summary>
-    <div class="topic-content">
-      <a href="#">Case Study Materials</a>
-      <a href="#">Practice Questions</a>
-    </div>
-  </details>
-
-  <details class="topic">
-    <summary>Internal Assessment (IA)</summary>
-    <div class="topic-content">
-      <a href="#">IA Requirements</a>
-      <a href="#">IA Criteria</a>
-      <a href="#">Project Guidance</a>
-    </div>
-  </details>
-
-  <details class="topic">
-    <summary>Other Resources</summary>
-    <div class="topic-content">
-      <a href="#">Revision Materials</a>
-      <a href="#">Past Paper Practice</a>
-    </div>
-  </details>
-
-</aside>
-
 <!-- MAIN CONTENT -->
-<main class="main">
 
-  <section class="banner">
-    <h1>IB DP Computer Science</h1>
-    <p>SL & HL | 2027 First Examination</p>
-    <p>Lessons, examination preparation and IA support</p>
-  </section>
+<main class="container" id="syllabus">
 
-  <div class="breadcrumb">
-    🏠 Home &nbsp; | &nbsp; IB Diploma Computer Science
+  <div class="intro">
+    <div>
+      <h2>Explore the Curriculum</h2>
+      <p>Select a topic to access lessons and learning materials.</p>
+    </div>
+
+    <strong>IBDP Computer Science</strong>
   </div>
+
+  <!-- SEARCH -->
 
   <input
-    type="search"
     class="search"
-    id="search"
-    placeholder="Search DP lessons, topics or resources..."
-    oninput="searchCards()"
+    type="search"
+    id="searchInput"
+    placeholder="Search curriculum topics, lessons and resources..."
+    oninput="searchTopics()"
   >
 
-  <section class="cards" id="cards">
+  <!-- THEME A -->
 
-    <div class="card">
-      <h2>IB Core Curriculum</h2>
-      <p>Lessons and resources for IB Computer Science.</p>
-      <a href="#">Theme A: Concepts of Computer Science</a>
-      <a href="#">Computer Fundamentals</a>
-      <a href="#">Networking</a>
-      <a href="#">Databases</a>
-      <a href="#">Machine Learning</a>
-      <br>
-      <a href="#">Theme B: Computational Thinking</a>
-      <a href="#">Programming</a>
-      <a href="#">Object-Oriented Programming</a>
-      <a href="#">Abstract Data Types</a>
+  <section>
+
+    <div class="section-heading">
+      <span class="section-number">A</span>
+      <div>
+        <h2>Concepts of Computer Science</h2>
+        <p>Theme A · Computer systems and related concepts</p>
+      </div>
     </div>
 
-    <div class="card">
-      <h2>Internal Assessment</h2>
-      <p>Support for your IB Computer Science IA project.</p>
-      <a href="#">IA Requirements</a>
-      <a href="#">Assessment Criteria</a>
-      <a href="#">Project Development</a>
-      <a href="#">Common IA Mistakes</a>
-    </div>
+    <div class="topic-grid">
 
-    <div class="card">
-      <h2>Examination Preparation</h2>
-      <p>Prepare for your IB Computer Science examinations.</p>
-      <a href="#">Paper 1 Practice</a>
-      <a href="#">Paper 2 Practice</a>
-      <a href="#">Higher Level Extension</a>
-      <a href="#">Revision Questions</a>
-    </div>
+      <article class="topic-card">
+        <div class="topic-top">
+          <span class="topic-id">A1</span>
+          <span class="level">CORE</span>
+        </div>
 
-    <div class="card">
-      <h2>Learning Resources</h2>
-      <p>Additional materials to support your learning.</p>
-      <a href="#">Lesson Presentations</a>
-      <a href="#">Video Lessons</a>
-      <a href="#">Worksheets</a>
-      <a href="#">Programming Activities</a>
+        <h3>Computer Fundamentals</h3>
+
+        <details>
+          <summary>Explore learning materials</summary>
+          <div class="topic-content">
+            <a href="#">Computer Systems</a>
+            <a href="#">Hardware and Software</a>
+            <a href="#">Operating Systems</a>
+            <a href="#">Memory and Storage</a>
+            <a href="#">Lesson Presentations</a>
+            <a href="#">Practice Questions</a>
+          </div>
+        </details>
+      </article>
+
+      <article class="topic-card">
+        <div class="topic-top">
+          <span class="topic-id">A2</span>
+          <span class="level">CORE</span>
+        </div>
+
+        <h3>Networking</h3>
+
+        <details>
+          <summary>Explore learning materials</summary>
+          <div class="topic-content">
+            <a href="#">Network Fundamentals</a>
+            <a href="#">Network Devices</a>
+            <a href="#">Protocols</a>
+            <a href="#">Data Transmission</a>
+            <a href="#">Network Security</a>
+            <a href="#">Practice Questions</a>
+          </div>
+        </details>
+      </article>
+
+      <article class="topic-card">
+        <div class="topic-top">
+          <span class="topic-id">A3</span>
+          <span class="level">CORE</span>
+        </div>
+
+        <h3>Databases</h3>
+
+        <details>
+          <summary>Explore learning materials</summary>
+          <div class="topic-content">
+            <a href="#">Database Concepts</a>
+            <a href="#">Relational Databases</a>
+            <a href="#">Database Design</a>
+            <a href="#">SQL</a>
+            <a href="#">Practice Questions</a>
+          </div>
+        </details>
+      </article>
+
+      <article class="topic-card">
+        <div class="topic-top">
+          <span class="topic-id">A4</span>
+          <span class="level">CORE</span>
+        </div>
+
+        <h3>Machine Learning</h3>
+
+        <details>
+          <summary>Explore learning materials</summary>
+          <div class="topic-content">
+            <a href="#">Machine Learning Concepts</a>
+            <a href="#">Training Data</a>
+            <a href="#">Learning Models</a>
+            <a href="#">Applications</a>
+            <a href="#">Practice Questions</a>
+          </div>
+        </details>
+      </article>
+
     </div>
 
   </section>
 
-</main>
-</div>
+  <!-- THEME B -->
 
-<footer id="contact">
-  <p>Computer Science Learning Hub</p>
-  <p>Learn | Practise | Create</p>
+  <section>
+
+    <div class="section-heading">
+      <span class="section-number green">B</span>
+      <div>
+        <h2>Computational Thinking and Problem-Solving</h2>
+        <p>Theme B · Algorithms, programming and problem-solving</p>
+      </div>
+    </div>
+
+    <div class="topic-grid">
+
+      <article class="topic-card green">
+        <div class="topic-top">
+          <span class="topic-id">B1</span>
+          <span class="level">CORE</span>
+        </div>
+
+        <h3>Computational Thinking</h3>
+
+        <details>
+          <summary>Explore learning materials</summary>
+          <div class="topic-content">
+            <a href="#">Decomposition</a>
+            <a href="#">Pattern Recognition</a>
+            <a href="#">Abstraction</a>
+            <a href="#">Algorithmic Thinking</a>
+            <a href="#">Problem-Solving Activities</a>
+          </div>
+        </details>
+      </article>
+
+      <article class="topic-card green">
+        <div class="topic-top">
+          <span class="topic-id">B2</span>
+          <span class="level">CORE</span>
+        </div>
+
+        <h3>Programming</h3>
+
+        <details>
+          <summary>Explore learning materials</summary>
+          <div class="topic-content">
+            <a href="#">Programming Fundamentals</a>
+            <a href="#">Selection and Iteration</a>
+            <a href="#">Arrays and Lists</a>
+            <a href="#">Functions and Procedures</a>
+            <a href="#">Recursion</a>
+            <a href="#">Programming Exercises</a>
+          </div>
+        </details>
+      </article>
+
+      <article class="topic-card green">
+        <div class="topic-top">
+          <span class="topic-id">B3</span>
+          <span class="level">CORE</span>
+        </div>
+
+        <h3>Object-Oriented Programming</h3>
+
+        <details>
+          <summary>Explore learning materials</summary>
+          <div class="topic-content">
+            <a href="#">Classes and Objects</a>
+            <a href="#">Attributes and Methods</a>
+            <a href="#">Inheritance</a>
+            <a href="#">Polymorphism</a>
+            <a href="#">UML Class Diagrams</a>
+          </div>
+        </details>
+      </article>
+
+      <article class="topic-card green">
+        <div class="topic-top">
+          <span class="topic-id">B4</span>
+          <span class="level">CORE</span>
+        </div>
+
+        <h3>Abstract Data Types</h3>
+
+        <details>
+          <summary>Explore learning materials</summary>
+          <div class="topic-content">
+            <a href="#">Stacks</a>
+            <a href="#">Queues</a>
+            <a href="#">Linked Lists</a>
+            <a href="#">Trees</a>
+            <a href="#">Data Structure Exercises</a>
+          </div>
+        </details>
+      </article>
+
+    </div>
+
+  </section>
+
+  <!-- CASE STUDY -->
+
+  <section id="case-study">
+
+    <div class="section-heading">
+      <span class="section-number"
+        style="background:#eee7ff;color:#7456bd">
+        CS
+      </span>
+      <div>
+        <h2>Case Study</h2>
+        <p>Research, preparation and examination practice</p>
+      </div>
+    </div>
+
+    <div class="resource-grid">
+
+      <article class="resource-card">
+        <div class="emoji">📄</div>
+        <h3>Case Study Materials</h3>
+        <p>Access case study documents and supporting resources.</p>
+      </article>
+
+      <article class="resource-card">
+        <div class="emoji">🔍</div>
+        <h3>Research and Analysis</h3>
+        <p>Explore important concepts and real-world applications.</p>
+      </article>
+
+      <article class="resource-card">
+        <div class="emoji">📝</div>
+        <h3>Practice Questions</h3>
+        <p>Develop your examination answering skills.</p>
+      </article>
+
+    </div>
+
+  </section>
+
+  <!-- INTERNAL ASSESSMENT -->
+
+  <section id="ia">
+
+    <div class="section-heading">
+      <span class="section-number"
+        style="background:#e4f3ec;color:#16866c">
+        IA
+      </span>
+      <div>
+        <h2>Internal Assessment</h2>
+        <p>Develop and document your Computer Science solution</p>
+      </div>
+    </div>
+
+    <div class="resource-grid">
+
+      <article class="resource-card">
+        <div class="emoji">📋</div>
+        <h3>IA Requirements</h3>
+        <p>Understand the project requirements and expectations.</p>
+      </article>
+
+      <article class="resource-card">
+        <div class="emoji">📊</div>
+        <h3>Assessment Criteria</h3>
+        <p>Review the assessment criteria and documentation guidance.</p>
+      </article>
+
+      <article class="resource-card">
+        <div class="emoji">💻</div>
+        <h3>Project Development</h3>
+        <p>Plan, develop, test and evaluate your solution.</p>
+      </article>
+
+    </div>
+
+  </section>
+
+  <!-- RESOURCES -->
+
+  <section id="resources">
+
+    <div class="section-heading">
+      <span class="section-number">03</span>
+      <div>
+        <h2>Learning Resources</h2>
+        <p>Additional materials to support your learning</p>
+      </div>
+    </div>
+
+    <div class="resource-grid">
+
+      <article class="resource-card">
+        <div class="emoji">📚</div>
+        <h3>Lesson Presentations</h3>
+        <p>Access classroom presentations and explanations.</p>
+      </article>
+
+      <article class="resource-card">
+        <div class="emoji">🎬</div>
+        <h3>Video Lessons</h3>
+        <p>Watch supporting videos and demonstrations.</p>
+      </article>
+
+      <article class="resource-card">
+        <div class="emoji">📝</div>
+        <h3>Revision and Practice</h3>
+        <p>Review concepts and practise examination questions.</p>
+      </article>
+
+    </div>
+
+  </section>
+
+  <div class="empty" id="noResults">
+    No matching topics found. Try another search.
+  </div>
+
+</main>
+
+<footer>
+  <strong>CS Learning Hub | IB Diploma Computer Science</strong>
+  <p>Think. Design. Develop. Evaluate.</p>
+  <p>Computer Science HL & SL</p>
 </footer>
 
 <script>
-function toggleTopics(open) {
-  document.querySelectorAll('.topic').forEach(topic => {
-    topic.open = open;
-  });
+
+// MOBILE MENU
+
+function toggleMenu() {
+  document.getElementById("navLinks")
+    .classList.toggle("active");
 }
 
-function searchCards() {
-  const query = document.getElementById('search')
-    .value.toLowerCase();
+// DARK MODE
 
-  document.querySelectorAll('.card').forEach(card => {
-    card.style.display =
-      card.innerText.toLowerCase().includes(query)
-        ? ''
-        : 'none';
-  });
+function toggleTheme() {
+  document.body.classList.toggle("dark");
+
+  const dark = document.body.classList.contains("dark");
+
+  localStorage.setItem("ibdp-theme",
+    dark ? "dark" : "light");
+
+  document.getElementById("themeButton").textContent =
+    dark ? "☀️" : "🌙";
 }
+
+// RESTORE THEME
+
+if (localStorage.getItem("ibdp-theme") === "dark") {
+  document.body.classList.add("dark");
+  document.getElementById("themeButton").textContent = "☀️";
+}
+
+// SEARCH TOPICS
+
+function searchTopics() {
+
+  const query = document.getElementById("searchInput")
+    .value.toLowerCase().trim();
+
+  const cards = document.querySelectorAll(
+    ".topic-card, .resource-card"
+  );
+
+  let visible = 0;
+
+  cards.forEach(card => {
+
+    const match = card.innerText.toLowerCase()
+      .includes(query);
+
+    card.style.display = match ? "" : "none";
+
+    if (match) visible++;
+
+  });
+
+  document.getElementById("noResults").style.display =
+    visible === 0 ? "block" : "none";
+}
+
+// ENTER KEY
+
+document.getElementById("searchInput")
+  .addEventListener("keydown", function(event) {
+
+    if (event.key === "Enter") {
+      searchTopics();
+    }
+
+  });
+
 </script>
 
 </body>
