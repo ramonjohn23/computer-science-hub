@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IGCSE Computer Science | Data Representation</title>
+<style>
+:root{--navy:#071b3b;--panel:#102b55;--panel2:#163966;--cyan:#12e6c2;--blue:#7bb8ff;--ink:#eef5ff;--muted:#b7c8df;--gold:#ffd166;--red:#ff7777}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#06152e;color:var(--ink);font-family:Inter,Segoe UI,Arial,sans-serif}
+header{position:sticky;top:0;z-index:5;background:rgba(5,19,42,.95);backdrop-filter:blur(12px);border-bottom:1px solid #24466f;padding:12px 22px;display:flex;align-items:center;gap:16px}
+.brand{font-weight:800;letter-spacing:.08em;color:var(--cyan);font-size:14px}.top-title{font-size:14px;color:var(--muted);margin-left:auto}
+.progress{height:4px;background:#19375d;position:sticky;top:58px;z-index:6}.progress span{display:block;height:100%;width:0;background:var(--cyan);transition:.25s}
+main{max-width:1100px;margin:0 auto;padding:28px 22px 100px}
+.slide{display:none;min-height:calc(100vh - 120px);animation:fade .25s ease}.slide.active{display:block}@keyframes fade{from{opacity:.3;transform:translateY(8px)}to{opacity:1;transform:none}}
+.eyebrow{color:var(--cyan);font-size:12px;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
+h1{font-size:clamp(34px,6vw,64px);line-height:1.04;margin:16px 0}h2{font-size:clamp(27px,4vw,42px);margin:10px 0 20px}h3{margin:0 0 12px;color:var(--cyan)}
+.lead{font-size:clamp(17px,2vw,22px);line-height:1.6;color:#d6e5f8;max-width:850px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:15px;margin:22px 0}
+.card{background:linear-gradient(145deg,var(--panel),#0c2448);border:1px solid #28517d;border-radius:16px;padding:20px;box-shadow:0 10px 28px #0002}
+.card p,.card li{color:#d3e0f2;line-height:1.55}.card ul{padding-left:20px}
+.callout{border-left:4px solid var(--cyan);background:#0d3151;padding:14px 18px;border-radius:8px;margin:18px 0;color:#e5f4ff;line-height:1.55}
+.warn{border-left-color:var(--gold);background:#3a301d}.formula{font-family:ui-monospace,monospace;font-size:clamp(18px,3vw,25px);background:#06152e;border:1px solid #28517d;border-radius:12px;padding:16px;text-align:center;overflow-wrap:anywhere}
+table{border-collapse:collapse;width:100%;margin:14px 0;background:#0a2040;border-radius:10px;overflow:hidden}th,td{padding:11px 13px;border:1px solid #31547b;text-align:center}th{background:#17416d;color:var(--cyan)}td{color:#e7f0fc}
+.steps{counter-reset:step;display:grid;gap:10px}.step{counter-increment:step;background:#0c2548;border:1px solid #294c73;border-radius:12px;padding:14px 16px}.step:before{content:counter(step);display:inline-grid;place-items:center;background:var(--cyan);color:#06213a;width:26px;height:26px;border-radius:50%;font-weight:900;margin-right:10px}
+input,select,button{font:inherit}input[type=text],input[type=number],select{background:#06152e;color:white;border:1px solid #41668e;border-radius:8px;padding:11px;width:100%;min-width:0}
+label{display:block;color:var(--muted);font-size:13px;margin:10px 0 6px}
+button{border:0;border-radius:9px;padding:11px 16px;background:var(--cyan);color:#06213a;font-weight:800;cursor:pointer}button.secondary{background:#24466f;color:#eef5ff;border:1px solid #456b95}button:hover{filter:brightness(1.1)}
+.controls{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}.result{margin-top:12px;padding:13px;background:#071a34;border:1px solid #2c527c;border-radius:10px;min-height:44px;line-height:1.5}
+.bitrow{display:flex;gap:5px;flex-wrap:wrap;margin:12px 0}.bit{width:42px;height:46px;display:grid;place-items:center;background:#0a2040;border:1px solid #42658c;border-radius:8px;font:700 20px ui-monospace,monospace}.bit.on{background:#075e60;border-color:var(--cyan);color:#fff}
+.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(5,19,42,.96);border-top:1px solid #24466f;padding:12px 18px;display:flex;align-items:center;justify-content:center;gap:12px;z-index:10}.nav .count{color:var(--muted);font-size:13px;min-width:82px;text-align:center}.nav button{min-width:90px}.nav .spacer{flex:1}
+.small{font-size:13px;color:var(--muted)}.answer{font-weight:800;color:var(--cyan)}.question{padding:16px 0;border-bottom:1px solid #28496e}.question p{font-weight:700}.options{display:grid;gap:8px}.options label{margin:0;padding:10px 12px;background:#0b2445;border:1px solid #294d75;border-radius:8px;cursor:pointer}.feedback{font-size:14px;margin-top:8px;color:var(--gold)}
+@media(max-width:600px){header{padding:11px 14px}.top-title{display:none}main{padding:22px 14px 100px}.bit{width:34px;height:40px}.nav{gap:7px}.nav button{min-width:70px;padding:10px}}
+@media print{header,.progress,.nav,.controls button{display:none!important}.slide{display:block!important;min-height:0;page-break-after:always;padding:20px}.card{break-inside:avoid}body{background:#fff;color:#111}.card,.callout,.formula{background:#f2f5f8;color:#111}p,li,.lead,.card p,.card li{color:#222}}
+</style>
+</head>
+<body>
+<header><div class="brand">COMPUTER SCIENCE</div><div class="top-title">IGCSE · DATA REPRESENTATION</div></header>
+<div class="progress"><span id="bar"></span></div>
+<main>
+<section class="slide active">
+<div class="eyebrow">IGCSE · Revision lesson</div>
+<h1>DATA<br><span style="color:var(--cyan)">REPRESENTATION</span></h1>
+<p class="lead">Number systems, binary addition, two’s complement, overflow and logical binary shifts.</p>
+<div class="grid">
+<div class="card"><h3>01 · Number Systems</h3><p>Binary, denary and hexadecimal conversions.</p></div>
+<div class="card"><h3>02 · Binary Addition</h3><p>Add 8-bit positive binary integers and track carries.</p></div>
+<div class="card"><h3>03 · Two’s Complement</h3><p>Represent positive and negative integers in 8 bits.</p></div>
+<div class="card"><h3>04 · Overflow & Shifts</h3><p>Understand register limits and logical left/right shifts.</p></div>
+</div>
+<div class="callout">Use the arrow keys or the Previous / Next buttons to move through the lesson. Try the interactive tools and knowledge check as you revise.</div>
+</section>
+
+<section class="slide">
+<div class="eyebrow">01 · Number systems</div><h2>Why do computers use binary?</h2>
+<p class="lead">Information must be converted into binary so that it can be processed by a computer.</p>
+<div class="grid">
+<div class="card"><h3>Electronic switches</h3><p>A computer contains millions of tiny switches that can be turned ON or OFF.</p><div class="formula">ON = 1 &nbsp; | &nbsp; OFF = 0</div></div>
+<div class="card"><h3>Binary</h3><p>Binary is a base 2 number system. It uses only the digits 0 and 1 to represent values.</p></div>
+<div class="card"><h3>Denary</h3><p>Denary is a base 10 number system. It uses the digits 0 to 9.</p></div>
+<div class="card"><h3>Hexadecimal</h3><p>Hexadecimal is a base 16 number system. It uses 0–9 and A–F.</p></div>
+</div>
+<table><tr><th>Number system</th><th>Base</th><th>Digits used</th></tr><tr><td>Binary</td><td>2</td><td>0, 1</td></tr><tr><td>Denary</td><td>10</td><td>0–9</td></tr><tr><td>Hexadecimal</td><td>16</td><td>0–9, A–F</td></tr></table>
+</section>
+
+<section class="slide">
+<div class="eyebrow">01 · Number systems</div><h2>Binary place values</h2>
+<p>Each column represents a power of 2. For an 8-bit binary number, the headings are:</p>
+<div class="formula">128 &nbsp; 64 &nbsp; 32 &nbsp; 16 &nbsp; 8 &nbsp; 4 &nbsp; 2 &nbsp; 1</div>
+<div class="card"><h3>Binary to denary example</h3><div class="formula">11101110</div><p>Add the place values wherever the bit is 1:</p><div class="formula">128 + 64 + 32 + 8 + 4 + 2 = 238</div><p class="answer">11101110₂ = 238₁₀</p></div>
+<div class="card"><h3>Denary to binary example</h3><p>Convert 98 by selecting the place values that add up to 98:</p><div class="formula">64 + 32 + 2 = 98</div><div class="formula">01100010</div></div>
+</section>
+
+<section class="slide">
+<div class="eyebrow">01 · Number systems</div><h2>Try a binary ↔ denary converter</h2>
+<div class="grid">
+<div class="card"><h3>Binary to denary</h3><label for="binInput">Enter up to 16 bits (0 or 1)</label><input id="binInput" type="text" value="11101110" maxlength="16"><div class="controls"><button onclick="binaryToDenary()">Convert</button></div><div class="result" id="binResult">Result will appear here.</div></div>
+<div class="card"><h3>Denary to binary</h3><label for="denInput">Enter a whole number (0–65535)</label><input id="denInput" type="number" min="0" max="65535" value="98"><div class="controls"><button onclick="denaryToBinary()">Convert to 8-bit</button><button class="secondary" onclick="denaryToBinary(16)">Convert to 16-bit</button></div><div class="result" id="denResult">Result will appear here.</div></div>
+</div>
+<div class="callout">For an 8-bit unsigned binary number, the range is 0 to 255.</div>
+</section>
+
+<section class="slide">
+<div class="eyebrow">01 · Number systems</div><h2>Hexadecimal</h2>
+<p class="lead">Hexadecimal is a base 16 number system. Each hexadecimal digit represents four binary bits.</p>
+<table><tr><th>Hex</th><th>Binary</th><th>Denary</th><th>Hex</th><th>Binary</th><th>Denary</th></tr>
+<tr><td>0</td><td>0000</td><td>0</td><td>8</td><td>1000</td><td>8</td></tr><tr><td>1</td><td>0001</td><td>1</td><td>9</td><td>1001</td><td>9</td></tr>
+<tr><td>2</td><td>0010</td><td>2</td><td>A</td><td>1010</td><td>10</td></tr><tr><td>3</td><td>0011</td><td>3</td><td>B</td><td>1011</td><td>11</td></tr>
+<tr><td>4</td><td>0100</td><td>4</td><td>C</td><td>1100</td><td>12</td></tr><tr><td>5</td><td>0101</td><td>5</td><td>D</td><td>1101</td><td>13</td></tr>
+<tr><td>6</td><td>0110</td><td>6</td><td>E</td><td>1110</td><td>14</td></tr><tr><td>7</td><td>0111</td><td>7</td><td>F</td><td>1111</td><td>15</td></tr></table>
+<div class="steps"><div class="step">Split the binary number into groups of four bits, starting from the right.</div><div class="step">If needed, add leading zeros to complete the left group.</div><div class="step">Convert each group into its hexadecimal digit.</div></div>
+<div class="card"><h3>Example</h3><div class="formula">1011 1110 0001</div><p>1011 = B, 1110 = E, 0001 = 1</p><div class="formula answer">BE1</div></div>
+</section>
+
+<section class="slide">
+<div class="eyebrow">01 · Number systems</div><h2>Hexadecimal conversions</h2>
+<div class="grid">
+<div class="card"><h3>Hexadecimal to denary</h3><p>Use the place values 256, 16 and 1 for a three-digit hexadecimal number.</p><div class="formula">4 5 A</div><p>(4 × 256) + (5 × 16) + (10 × 1)</p><div class="formula answer">1024 + 80 + 10 = 1114</div></div>
+<div class="card"><h3>Hexadecimal to binary</h3><p>Convert each hexadecimal digit into its 4-bit binary equivalent.</p><div class="formula">8 2 F</div><div class="formula answer">1000 0010 1111</div></div>
+</div>
+<h3>Uses of hexadecimal</h3><div class="grid"><div class="card">Error codes</div><div class="card">MAC addresses</div><div class="card">IPv6 addresses</div><div class="card">HTML colour codes</div></div>
+<div class="callout">Hexadecimal is shorter and easier for people to remember, copy and work with than long binary values. Computers convert hexadecimal data into binary before processing it.</div>
+</section>
+
+<section class="slide">
+<div class="eyebrow">02 · Binary addition</div><h2>Rules for binary addition</h2>
+<p>Binary addition uses only 0 and 1. When the sum reaches 2, a carry is produced.</p>
+<table><tr><th>Binary addition</th><th>Carry</th><th>Sum</th></tr><tr><td>0 + 0</td><td>0</td><td>0</td></tr><tr><td>0 + 1</td><td>0</td><td>1</td></tr><tr><td>1 + 0</td><td>0</td><td>1</td></tr><tr><td>1 + 1</td><td>1</td><td>0</td></tr></table>
+<h3>When adding three binary digits</h3>
+<table><tr><th>Binary addition</th><th>Carry</th><th>Sum</th></tr><tr><td>0 + 0 + 0</td><td>0</td><td>0</td></tr><tr><td>0 + 1 + 1</td><td>1</td><td>0</td></tr><tr><td>1 + 0 + 1</td><td>1</td><td>0</td></tr><tr><td>1 + 1 + 1</td><td>1</td><td>1</td></tr></table>
+<div class="callout">The same process is followed as denary addition, but binary uses only two digits. Carrying occurs when the sum reaches 2 instead of 10.</div>
+</section>
+
+<section class="slide">
+<div class="eyebrow">02 · Binary addition</div><h2>Worked example</h2>
+<p>Add <strong>00100111 + 01001010</strong>.</p>
+<div class="card"><div class="formula">  00100111<br>+ 01001010<br>──────────<br><span class="answer">  01110001</span></div><p>Carry values are passed to the next column on the left when a column adds to 2 or more.</p><p class="answer">Answer: 01110001</p></div>
+<div class="card"><h3>Check using denary</h3><p>00100111₂ = 39</p><p>01001010₂ = 74</p><div class="formula">39 + 74 = 113</div><p>01110001₂ = 113, so the result is correct.</p></div>
+</section>
+
+<section class="slide">
+<div class="eyebrow">02 · Binary addition</div><h2>Practise binary addition</h2>
+<div class="card"><p>Enter two 8-bit positive binary numbers. The tool will calculate the sum and identify whether a ninth bit is generated.</p>
+<label for="addA">First 8-bit binary number</label><input id="addA" type="text" maxlength="8" value="00100111">
+<label for="addB">Second 8-bit binary number</label><input id="addB" type="text" maxlength="8" value="01001010">
+<div class="controls"><button onclick="addBinary()">Add binary numbers</button></div><div class="result" id="addResult">Your answer will appear here.</div></div>
+</section>
+
+<section class="slide">
+<div class="eyebrow">03 · Two’s complement</div><h2>Representing positive and negative integers</h2>
+<p class="lead">Two’s complement allows a computer to represent both positive and negative integers.</p>
+<div class="card"><h3>8-bit place values</h3><div class="formula">−128 &nbsp; 64 &nbsp; 32 &nbsp; 16 &nbsp; 8 &nbsp; 4 &nbsp; 2 &nbsp; 1</div><p>In two’s complement, the left-most bit has a value of −128. All other place values remain the same.</p></div>
+<div class="grid"><div class="card"><h3>Range</h3><div class="formula">−128 to +127</div><p>Smallest: 10000000 = −128</p><p>Largest: 01111111 = +127</p></div><div class="card"><h3>Sign bit</h3><p>Left-most bit 0: positive or zero.</p><p>Left-most bit 1: negative.</p></div></div>
+<div class="callout">Example: 11001111 represents −49 because −128 + 64 + 8 + 4 + 2 + 1 = −49.</div>
+</section>
+
+<section class="slide">
+<div class="eyebrow">03 · Two’s complement</div><h2>Convert a positive denary number</h2>
+<div class="steps"><div class="step">Because the number is positive, place 0 in the −128 column.</div><div class="step">Select the remaining place values that add up to the denary number.</div><div class="step">Write the eight bits in order.</div></div>
+<div class="card"><h3>Example: +38</h3><p>38 = 32 + 4 + 2</p><div class="formula">0 0 1 0 0 1 1 0</div><p class="answer">+38 = 00100110</p></div>
+<div class="card"><h3>Convert positive binary to denary</h3><p>01101110 has a 0 in the left-most bit. Add the positive place values:</p><div class="formula">64 + 32 + 8 + 4 + 2 = 110</div><p class="answer">01101110 = +110</p></div>
+</section>
+
+<section class="slide">
+<div class="eyebrow">03 · Two’s complement</div><h2>Convert a negative denary number</h2>
+<p>There are two methods shown in the lesson.</p>
+<div class="card"><h3>Method 1 · Use the negative place value</h3><p>For −67, start with −128. The remaining value needed is 61 (32 + 16 + 8 + 4 + 1).</p><div class="formula">−128 + 32 + 16 + 8 + 4 + 1 = −67</div><div class="formula answer">10111101</div></div>
+<div class="card"><h3>Method 2 · Invert and add 1</h3><div class="steps"><div class="step">Write the positive value +67 in 8-bit binary: <strong>01000011</strong>.</div><div class="step">Invert every bit: <strong>10111100</strong>.</div><div class="step">Add 1: <strong>10111101</strong>.</div></div><p class="answer">−67 = 10111101</p></div>
+</section>
+
+<section class="slide">
+<div class="eyebrow">03 · Two’s complement</div><h2>Interactive two’s complement converter</h2>
+<div class="grid">
+<div class="card"><h3>Denary to 8-bit</h3><label for="twosDen">Enter an integer from −128 to +127</label><input id="twosDen" type="number" min="-128" max="127" value="-67"><div class="controls"><button onclick="toTwos()">Convert</button></div><div class="result" id="twosDenResult">Result will appear here.</div></div>
+<div class="card"><h3>8-bit to denary</h3><label for="twosBin">Enter exactly 8 bits</label><input id="twosBin" type="text" maxlength="8" value="10111101"><div class="controls"><button onclick="fromTwos()">Convert</button></div><div class="result" id="twosBinResult">Result will appear here.</div></div>
+</div>
+<div class="callout">Remember: the left-most bit has a place value of −128, not +128.</div>
+</section>
+
+<section class="slide">
+<div class="eyebrow">04 · Overflow</div><h2>Overflow in an 8-bit register</h2>
+<p class="lead">An 8-bit unsigned binary number can store a maximum denary value of 255 (2⁸ − 1).</p>
+<div class="grid"><div class="card"><h3>8-bit register</h3><div class="formula">00000000 to 11111111</div><p>Denary range: 0 to 255.</p></div><div class="card"><h3>Overflow</h3><p>If an addition generates a ninth bit, the result has exceeded the value that can be stored in 8 bits. This is called an overflow error.</p></div></div>
+<div class="card"><h3>Example from the lesson</h3><p>110 + 222 = 332. The 8-bit result shown is 01001100, which represents 76. The ninth bit has been generated and the correct total cannot be represented in 8 bits.</p><div class="formula">110 + 222 = 332 &nbsp; → &nbsp; overflow</div></div>
+<table><tr><th>Register size</th><th>Maximum unsigned denary value</th></tr><tr><td>8-bit</td><td>255</td></tr><tr><td>16-bit</td><td>65,535</td></tr><tr><td>32-bit</td><td>4,294,967,295</td></tr></table>
+</section>
+
+<section class="slide">
+<div class="eyebrow">04 · Logical binary shift</div><h2>Logical left and right shifts</h2>
+<p>A logical shift moves the bits in a binary number to the left or to the right.</p>
+<div class="grid">
+<div class="card"><h3>Left shift</h3><div class="formula">Shift left = × 2</div><p>Each left shift multiplies a positive binary integer by 2.</p></div>
+<div class="card"><h3>Right shift</h3><div class="formula">Shift right = ÷ 2</div><p>Each right shift divides a positive binary integer by 2.</p></div>
+</div>
+<div class="callout">As bits are shifted, empty positions are replaced with 0. Bits that move beyond the register are lost.</div>
+<div class="card"><h3>Example</h3><p>01110000 is 112 in denary. Shifting it five places left in an 8-bit register eventually produces 00000000 because bits are shifted out of the register.</p><div class="formula">01110000 → 00000000</div><p class="small">The fixed 8-bit register cannot retain all the bits after this many shifts.</p></div>
+</section>
+
+<section class="slide">
+<div class="eyebrow">04 · Logical binary shift</div><h2>Try the logical shift simulator</h2>
+<div class="card">
+<label for="shiftInput">Enter an 8-bit binary number</label><input id="shiftInput" type="text" maxlength="8" value="01110000">
+<label for="shiftCount">Number of places to shift</label><select id="shiftCount"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select>
+<div class="controls"><button onclick="shiftBits('left')">Logical left shift</button><button class="secondary" onclick="shiftBits('right')">Logical right shift</button></div>
+<div class="result" id="shiftResult">Choose a direction to see the result.</div>
+</div>
+<div class="callout">Watch for lost bits. A left shift inserts zeros on the right; a right shift inserts zeros on the left.</div>
+</section>
+
+<section class="slide">
+<div class="eyebrow">Knowledge check</div><h2>Test your understanding</h2>
+<p class="lead">Answer the questions, then check your score and read the explanations.</p>
+<div id="quiz"></div>
+<div class="controls"><button onclick="gradeQuiz()">Check my answers</button><button class="secondary" onclick="resetQuiz()">Try again</button></div>
+<div class="result" id="quizResult">Your score will appear here.</div>
+</section>
+
+<section class="slide">
+<div class="eyebrow">Lesson summary</div><h2>What should you remember?</h2>
+<div class="grid">
+<div class="card"><h3>Number systems</h3><p>Binary is base 2, denary is base 10 and hexadecimal is base 16. Each hexadecimal digit represents four binary bits.</p></div>
+<div class="card"><h3>Binary addition</h3><p>1 + 1 gives a sum of 0 and a carry of 1.</p></div>
+<div class="card"><h3>Two’s complement</h3><p>The left-most bit has a value of −128 in an 8-bit representation. The range is −128 to +127.</p></div>
+<div class="card"><h3>Overflow</h3><p>An 8-bit unsigned register cannot store a value greater than 255.</p></div>
+<div class="card"><h3>Logical shifts</h3><p>Left shift multiplies by 2 per place; right shift divides by 2 per place. Empty positions are filled with zeros.</p></div>
+</div>
+<div class="callout"><strong>Revision advice:</strong> Practise each conversion step by step, show your working, and check binary addition using denary where possible.</div>
+</section>
+</main>
+<div class="nav"><button class="secondary" onclick="move(-1)">← Previous</button><span class="count" id="counter">1 / 16</span><button onclick="move(1)">Next →</button><button class="secondary" onclick="toggleFull()">Full screen</button><button class="secondary" onclick="window.print()">Print / PDF</button></div>
+<script>
+const slides=[...document.querySelectorAll('.slide')];let current=0;
+function show(n){current=Math.max(0,Math.min(slides.length-1,n));slides.forEach((s,i)=>s.classList.toggle('active',i===current));document.getElementById('counter').textContent=(current+1)+' / '+slides.length;document.getElementById('bar').style.width=((current+1)/slides.length*100)+'%';window.scrollTo({top:0,behavior:'smooth'});}
+function move(d){show(current+d)}
+document.addEventListener('keydown',e=>{if(['ArrowRight','PageDown'].includes(e.key)){e.preventDefault();move(1)}if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();move(-1)}});
+function toggleFull(){if(!document.fullscreenElement){document.documentElement.requestFullscreen?.()}else{document.exitFullscreen?.()}}
+function binaryToDenary(){let v=document.getElementById('binInput').value.trim();let out=document.getElementById('binResult');if(!/^[01]{1,16}$/.test(v)){out.textContent='Please enter between 1 and 16 binary digits (0 or 1).';return}out.innerHTML='<span class="answer">'+v+'₂ = '+parseInt(v,2)+'₁₀</span>'}
+function denaryToBinary(bits=8){let n=Number(document.getElementById('denInput').value),out=document.getElementById('denResult');if(!Number.isInteger(n)||n<0||n>65535){out.textContent='Enter a whole number from 0 to 65535.';return}if(n>=2**bits){out.textContent='This value is too large for '+bits+' bits.';return}out.innerHTML='<span class="answer">'+n+'₁₀ = '+n.toString(2).padStart(bits,'0')+'₂</span>'}
+function addBinary(){let a=document.getElementById('addA').value.trim(),b=document.getElementById('addB').value.trim(),out=document.getElementById('addResult');if(!/^[01]{8}$/.test(a)||!/^[01]{8}$/.test(b)){out.textContent='Both values must contain exactly 8 bits.';return}let sum=parseInt(a,2)+parseInt(b,2),raw=sum.toString(2).padStart(9,'0'),overflow=sum>255;out.innerHTML='<div>'+a+'<br>+ '+b+'<br><strong class="answer">= '+raw.slice(-8)+'</strong></div><p>Denary check: '+parseInt(a,2)+' + '+parseInt(b,2)+' = '+sum+'</p><p class="'+(overflow?'feedback':'answer')+'">'+(overflow?'A ninth bit is generated: overflow in an 8-bit register.':'No ninth bit is generated.')+'</p>'}
+function toTwos(){let n=Number(document.getElementById('twosDen').value),out=document.getElementById('twosDenResult');if(!Number.isInteger(n)||n< -128||n>127){out.textContent='Enter a whole number from −128 to +127.';return}let b=(n<0?256+n:n).toString(2).padStart(8,'0');out.innerHTML='<span class="answer">'+n+' = '+b+'</span>'}
+function fromTwos(){let b=document.getElementById('twosBin').value.trim(),out=document.getElementById('twosBinResult');if(!/^[01]{8}$/.test(b)){out.textContent='Enter exactly 8 binary bits.';return}let u=parseInt(b,2),n=b[0]==='1'?u-256:u;out.innerHTML='<span class="answer">'+b+' = '+n+'</span><p>Calculation: '+(b[0]==='1'?'-128 plus the remaining set-bit values':'Add the place values where the bit is 1')+'.</p>'}
+function shiftBits(dir){let b=document.getElementById('shiftInput').value.trim(),count=Number(document.getElementById('shiftCount').value),out=document.getElementById('shiftResult');if(!/^[01]{8}$/.test(b)){out.textContent='Enter exactly 8 binary bits.';return}let result=b;let lost='';for(let i=0;i<count;i++){if(dir==='left'){lost+=result[0];result=result.slice(1)+'0'}else{lost=result[7]+lost;result='0'+result.slice(0,7)}}out.innerHTML='<p>Original: <strong>'+b+'</strong></p><p>After '+count+' logical '+dir+' shift(s):</p><div class="formula answer">'+result+'</div><p>Bits shifted out and lost: '+(lost||'none')+'</p><p>Denary value before: '+parseInt(b,2)+' · after: '+parseInt(result,2)+'</p>'}
+const questions=[
+{q:'Why do computers use binary to represent data?',a:['Because computers use switches that are ON or OFF','Because binary has ten digits','Because binary is shorter than hexadecimal'],c:0,e:'Computer switches can be represented by two states: ON (1) and OFF (0).'},
+{q:'What is the denary value of 11101110?',a:['238','230','222'],c:0,e:'128 + 64 + 32 + 8 + 4 + 2 = 238.'},
+{q:'Which hexadecimal digit represents binary 1110?',a:['C','D','E'],c:2,e:'1110 is denary 14, represented by E in hexadecimal.'},
+{q:'What is the result of 1 + 1 in binary?',a:['10','11','01'],c:0,e:'The sum bit is 0 and the carry bit is 1.'},
+{q:'What is the range of an 8-bit two’s complement number?',a:['0 to 255','−128 to +127','−127 to +128'],c:1,e:'The place values are −128, 64, 32, 16, 8, 4, 2 and 1.'},
+{q:'What is −67 in 8-bit two’s complement?',a:['10111101','01000011','10111100'],c:0,e:'67 is 01000011. Invert to 10111100, then add 1: 10111101.'},
+{q:'What is the maximum unsigned value in 8 bits?',a:['127','128','255'],c:2,e:'The maximum is 2⁸ − 1 = 255.'},
+{q:'What happens in a logical left shift?',a:['Empty positions on the left are filled with 1','Empty positions on the right are filled with 0','No bits are lost'],c:1,e:'Bits move left, zeros enter on the right and bits shifted out are lost.'}
+];
+function buildQuiz(){let root=document.getElementById('quiz');root.innerHTML=questions.map((q,i)=>'<div class="question"><p>'+(i+1)+'. '+q.q+'</p><div class="options">'+q.a.map((a,j)=>'<label><input type="radio" name="q'+i+'" value="'+j+'"> '+a+'</label>').join('')+'</div><div class="feedback" id="f'+i+'"></div></div>').join('')}
+function gradeQuiz(){let score=0;questions.forEach((q,i)=>{let chosen=document.querySelector('input[name="q'+i+'"]:checked'),f=document.getElementById('f'+i);if(chosen&&Number(chosen.value)===q.c){score++;f.textContent='Correct. '+q.e;f.style.color='var(--cyan)'}else{f.textContent='Not quite. '+q.e;f.style.color='var(--gold)'}});document.getElementById('quizResult').innerHTML='<strong class="answer">Your score: '+score+' / '+questions.length+'</strong>'}
+function resetQuiz(){document.querySelectorAll('#quiz input').forEach(x=>x.checked=false);document.querySelectorAll('.feedback').forEach(x=>x.textContent='');document.getElementById('quizResult').textContent='Your score will appear here.'}
+buildQuiz();show(0);
+</script>
+</body></html>
