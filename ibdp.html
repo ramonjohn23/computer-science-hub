@@ -1,0 +1,448 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IBDP Computer Science | CS Hub</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: #252b32;
+  background: #f5f7fa;
+}
+
+/* TOP NAVIGATION */
+.topbar {
+  height: 62px;
+  background: #202529;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 22px;
+}
+
+.logo {
+  font-size: 21px;
+  font-weight: bold;
+}
+
+.logo span { color: #60a5fa; }
+
+.nav-links a {
+  color: #ddd;
+  text-decoration: none;
+  margin-left: 20px;
+}
+
+/* PAGE LAYOUT */
+.layout {
+  display: flex;
+  min-height: calc(100vh - 62px);
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 410px;
+  flex-shrink: 0;
+  background: #f8f9fb;
+  border-right: 1px solid #dce1e7;
+  padding: 22px 18px;
+}
+
+.sidebar-heading {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.sidebar h3 {
+  font-size: 19px;
+  margin: 22px 0 16px;
+}
+
+.topic {
+  background: white;
+  border: 1px solid #d9dee5;
+  margin-bottom: -1px;
+}
+
+.topic summary {
+  padding: 12px;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+}
+
+.topic summary::-webkit-details-marker {
+  display: none;
+}
+
+.topic summary::after {
+  content: "⌄";
+  font-size: 20px;
+}
+
+.topic[open] summary::after {
+  content: "⌃";
+}
+
+.topic-content {
+  padding: 10px 15px;
+  background: #f1f5f9;
+}
+
+.topic-content a {
+  display: block;
+  padding: 7px 5px;
+  color: #1769b0;
+  text-decoration: none;
+}
+
+.topic-content a:hover {
+  text-decoration: underline;
+}
+
+/* MAIN CONTENT */
+.main {
+  flex: 1;
+  min-width: 0;
+  padding: 36px;
+}
+
+.banner {
+  background: linear-gradient(110deg,#1d4269,#2868aa);
+  color: white;
+  padding: 32px;
+  border-radius: 9px;
+  margin-bottom: 28px;
+}
+
+.banner h1 {
+  margin: 0 0 10px;
+  font-size: 30px;
+}
+
+.banner p {
+  margin: 0;
+  color: #e0eafa;
+}
+
+.breadcrumb {
+  padding: 14px 20px;
+  background: #eef3ff;
+  border: 1px solid #cad8ff;
+  border-radius: 7px;
+  margin-bottom: 28px;
+  font-size: 14px;
+}
+
+.search {
+  width: 100%;
+  padding: 17px 23px;
+  border: 1px solid #d9dee5;
+  border-radius: 35px;
+  font-size: 17px;
+  margin-bottom: 28px;
+}
+
+/* RESOURCE CARDS */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 25px;
+}
+
+.card {
+  background: white;
+  border: 1px solid #dce1e7;
+  border-radius: 9px;
+  padding: 27px;
+  min-height: 250px;
+  box-shadow: 0 2px 5px #0000000d;
+}
+
+.card h2 {
+  font-size: 19px;
+  color: #1745ad;
+  margin-top: 0;
+}
+
+.card p {
+  color: #5b626a;
+}
+
+.card a {
+  display: block;
+  color: #0875ef;
+  margin: 9px 0;
+  line-height: 1.4;
+}
+
+footer {
+  padding: 25px;
+  text-align: center;
+  background: #202529;
+  color: white;
+  margin-top: 40px;
+}
+
+/* RESPONSIVE DESIGN */
+@media(max-width:900px) {
+  .layout { display: block; }
+  .sidebar {
+    width: 100%;
+    border-right: none;
+  }
+  .main { padding: 22px; }
+}
+
+@media(max-width:600px) {
+  .cards { grid-template-columns: 1fr; }
+  .nav-links a { margin-left: 8px; font-size: 13px; }
+  .banner h1 { font-size: 23px; }
+  .main { padding: 15px; }
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="logo">
+    ComputerScience <span>KB</span>
+  </div>
+
+  <nav class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<div class="layout">
+
+<!-- LEFT SIDEBAR -->
+<aside class="sidebar">
+
+  <div class="sidebar-heading">
+    <strong>Explore Topics</strong>
+    <small>
+      <a href="#" onclick="toggleTopics(true);return false">Show All</a>
+      |
+      <a href="#" onclick="toggleTopics(false);return false">Close All</a>
+    </small>
+  </div>
+
+  <h3>Theme A: Concepts of computer science</h3>
+
+  <details class="topic">
+    <summary>A1: Computer Fundamentals</summary>
+    <div class="topic-content">
+      <a href="#">Computer Systems</a>
+      <a href="#">Hardware</a>
+      <a href="#">Software</a>
+      <a href="#">Operating Systems</a>
+      <a href="#">Memory and Storage</a>
+    </div>
+  </details>
+
+  <details class="topic">
+    <summary>A2: Networking</summary>
+    <div class="topic-content">
+      <a href="#">Network Fundamentals</a>
+      <a href="#">Network Protocols</a>
+      <a href="#">Data Transmission</a>
+      <a href="#">Network Security</a>
+    </div>
+  </details>
+
+  <details class="topic">
+    <summary>A3: Databases</summary>
+    <div class="topic-content">
+      <a href="#">Database Concepts</a>
+      <a href="#">Relational Databases</a>
+      <a href="#">SQL</a>
+    </div>
+  </details>
+
+  <details class="topic">
+    <summary>A4: Machine Learning</summary>
+    <div class="topic-content">
+      <a href="#">Machine Learning Concepts</a>
+      <a href="#">Training Data</a>
+      <a href="#">Neural Networks</a>
+    </div>
+  </details>
+
+  <h3>Theme B: Computational thinking and problem solving</h3>
+
+  <details class="topic">
+    <summary>B1: Computational Thinking</summary>
+    <div class="topic-content">
+      <a href="#">Decomposition</a>
+      <a href="#">Abstraction</a>
+      <a href="#">Algorithms</a>
+    </div>
+  </details>
+
+  <details class="topic">
+    <summary>B2: Programming</summary>
+    <div class="topic-content">
+      <a href="#">Programming Fundamentals</a>
+      <a href="#">Selection</a>
+      <a href="#">Iteration</a>
+      <a href="#">Recursion</a>
+    </div>
+  </details>
+
+  <details class="topic">
+    <summary>B3: Object-Oriented Programming</summary>
+    <div class="topic-content">
+      <a href="#">Classes and Objects</a>
+      <a href="#">Inheritance</a>
+      <a href="#">Polymorphism</a>
+    </div>
+  </details>
+
+  <details class="topic">
+    <summary>B4: Abstract Data Types</summary>
+    <div class="topic-content">
+      <a href="#">Stacks</a>
+      <a href="#">Queues</a>
+      <a href="#">Linked Lists</a>
+    </div>
+  </details>
+
+  <h3>Case Study, IA and Resources</h3>
+
+  <details class="topic">
+    <summary>Case Study</summary>
+    <div class="topic-content">
+      <a href="#">Case Study Materials</a>
+      <a href="#">Practice Questions</a>
+    </div>
+  </details>
+
+  <details class="topic">
+    <summary>Internal Assessment (IA)</summary>
+    <div class="topic-content">
+      <a href="#">IA Requirements</a>
+      <a href="#">IA Criteria</a>
+      <a href="#">Project Guidance</a>
+    </div>
+  </details>
+
+  <details class="topic">
+    <summary>Other Resources</summary>
+    <div class="topic-content">
+      <a href="#">Revision Materials</a>
+      <a href="#">Past Paper Practice</a>
+    </div>
+  </details>
+
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+  <section class="banner">
+    <h1>IB DP Computer Science</h1>
+    <p>SL & HL | 2027 First Examination</p>
+    <p>Lessons, examination preparation and IA support</p>
+  </section>
+
+  <div class="breadcrumb">
+    🏠 Home &nbsp; | &nbsp; IB Diploma Computer Science
+  </div>
+
+  <input
+    type="search"
+    class="search"
+    id="search"
+    placeholder="Search DP lessons, topics or resources..."
+    oninput="searchCards()"
+  >
+
+  <section class="cards" id="cards">
+
+    <div class="card">
+      <h2>IB Core Curriculum</h2>
+      <p>Lessons and resources for IB Computer Science.</p>
+      <a href="#">Theme A: Concepts of Computer Science</a>
+      <a href="#">Computer Fundamentals</a>
+      <a href="#">Networking</a>
+      <a href="#">Databases</a>
+      <a href="#">Machine Learning</a>
+      <br>
+      <a href="#">Theme B: Computational Thinking</a>
+      <a href="#">Programming</a>
+      <a href="#">Object-Oriented Programming</a>
+      <a href="#">Abstract Data Types</a>
+    </div>
+
+    <div class="card">
+      <h2>Internal Assessment</h2>
+      <p>Support for your IB Computer Science IA project.</p>
+      <a href="#">IA Requirements</a>
+      <a href="#">Assessment Criteria</a>
+      <a href="#">Project Development</a>
+      <a href="#">Common IA Mistakes</a>
+    </div>
+
+    <div class="card">
+      <h2>Examination Preparation</h2>
+      <p>Prepare for your IB Computer Science examinations.</p>
+      <a href="#">Paper 1 Practice</a>
+      <a href="#">Paper 2 Practice</a>
+      <a href="#">Higher Level Extension</a>
+      <a href="#">Revision Questions</a>
+    </div>
+
+    <div class="card">
+      <h2>Learning Resources</h2>
+      <p>Additional materials to support your learning.</p>
+      <a href="#">Lesson Presentations</a>
+      <a href="#">Video Lessons</a>
+      <a href="#">Worksheets</a>
+      <a href="#">Programming Activities</a>
+    </div>
+
+  </section>
+
+</main>
+</div>
+
+<footer id="contact">
+  <p>Computer Science Learning Hub</p>
+  <p>Learn | Practise | Create</p>
+</footer>
+
+<script>
+function toggleTopics(open) {
+  document.querySelectorAll('.topic').forEach(topic => {
+    topic.open = open;
+  });
+}
+
+function searchCards() {
+  const query = document.getElementById('search')
+    .value.toLowerCase();
+
+  document.querySelectorAll('.card').forEach(card => {
+    card.style.display =
+      card.innerText.toLowerCase().includes(query)
+        ? ''
+        : 'none';
+  });
+}
+</script>
+
+</body>
+</html>
