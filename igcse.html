@@ -245,6 +245,53 @@ body {
   margin: 5px 0;
 }
 
+/* LESSON MATERIALS DROPDOWN */
+
+.lesson-dropdown {
+  margin: 5px 0 8px;
+}
+
+.lesson-dropdown summary {
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: normal;
+  list-style: none;
+}
+
+.lesson-dropdown summary::-webkit-details-marker {
+  display: none;
+}
+
+.lesson-dropdown summary:before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 7px;
+  color: var(--blue);
+  transition: transform 0.15s;
+}
+
+.lesson-dropdown[open] summary:before {
+  transform: rotate(90deg);
+}
+
+.lesson-links {
+  display: grid;
+  gap: 6px;
+  padding: 7px 0 5px 19px;
+}
+
+.lesson-links a {
+  color: var(--blue);
+  text-decoration: none;
+}
+
+.lesson-links a:hover {
+  text-decoration: underline;
+}
+
+/* EMPTY SEARCH */
+
 .empty {
   display: none;
   text-align: center;
@@ -376,29 +423,55 @@ footer p {
 
     <div class="topic-grid">
 
+      <!-- TOPIC 01 -->
+
       <article class="topic-card">
         <div class="topic-top">
           <span class="topic-id">TOPIC 01</span>
           <span>01</span>
         </div>
+
         <h3>Data Representation</h3>
+
         <details>
           <summary>Explore topic</summary>
+
           <div class="topic-content">
-            <p>Lesson materials</p>
+
+            <!-- NESTED LESSON DROPDOWN -->
+
+            <details class="lesson-dropdown">
+              <summary>Lesson materials</summary>
+
+              <div class="lesson-links">
+                <a href="lessons/igcse/data-representation.html">
+                  1.1 Number Systems
+                </a>
+
+                <a href="lessons/igcse/text-sound-and-images.html">
+                  1.2 Text, Sound and Images
+                </a>
+              </div>
+            </details>
+
             <p>Revision notes</p>
             <p>Practice questions</p>
             <p>Worksheets</p>
+
           </div>
         </details>
       </article>
+
+      <!-- TOPIC 02 -->
 
       <article class="topic-card">
         <div class="topic-top">
           <span class="topic-id">TOPIC 02</span>
           <span>02</span>
         </div>
+
         <h3>Data Transmission</h3>
+
         <details>
           <summary>Explore topic</summary>
           <div class="topic-content">
@@ -409,13 +482,17 @@ footer p {
           </div>
         </details>
       </article>
+
+      <!-- TOPIC 03 -->
 
       <article class="topic-card">
         <div class="topic-top">
           <span class="topic-id">TOPIC 03</span>
           <span>03</span>
         </div>
+
         <h3>Hardware</h3>
+
         <details>
           <summary>Explore topic</summary>
           <div class="topic-content">
@@ -426,13 +503,17 @@ footer p {
           </div>
         </details>
       </article>
+
+      <!-- TOPIC 04 -->
 
       <article class="topic-card">
         <div class="topic-top">
           <span class="topic-id">TOPIC 04</span>
           <span>04</span>
         </div>
+
         <h3>Software</h3>
+
         <details>
           <summary>Explore topic</summary>
           <div class="topic-content">
@@ -443,13 +524,17 @@ footer p {
           </div>
         </details>
       </article>
+
+      <!-- TOPIC 05 -->
 
       <article class="topic-card">
         <div class="topic-top">
           <span class="topic-id">TOPIC 05</span>
           <span>05</span>
         </div>
+
         <h3>The Internet and Its Uses</h3>
+
         <details>
           <summary>Explore topic</summary>
           <div class="topic-content">
@@ -461,12 +546,16 @@ footer p {
         </details>
       </article>
 
+      <!-- TOPIC 06 -->
+
       <article class="topic-card">
         <div class="topic-top">
           <span class="topic-id">TOPIC 06</span>
           <span>06</span>
         </div>
+
         <h3>Automated and Emerging Technologies</h3>
+
         <details>
           <summary>Explore topic</summary>
           <div class="topic-content">
@@ -499,12 +588,16 @@ footer p {
 
     <div class="topic-grid">
 
+      <!-- TOPIC 07 -->
+
       <article class="topic-card green">
         <div class="topic-top">
           <span class="topic-id">TOPIC 07</span>
           <span>07</span>
         </div>
+
         <h3>Algorithm Design and Problem-Solving</h3>
+
         <details>
           <summary>Explore topic</summary>
           <div class="topic-content">
@@ -516,12 +609,16 @@ footer p {
         </details>
       </article>
 
+      <!-- TOPIC 08 -->
+
       <article class="topic-card green">
         <div class="topic-top">
           <span class="topic-id">TOPIC 08</span>
           <span>08</span>
         </div>
+
         <h3>Programming</h3>
+
         <details>
           <summary>Explore topic</summary>
           <div class="topic-content">
@@ -533,12 +630,16 @@ footer p {
         </details>
       </article>
 
+      <!-- TOPIC 09 -->
+
       <article class="topic-card green">
         <div class="topic-top">
           <span class="topic-id">TOPIC 09</span>
           <span>09</span>
         </div>
+
         <h3>Databases</h3>
+
         <details>
           <summary>Explore topic</summary>
           <div class="topic-content">
@@ -550,12 +651,16 @@ footer p {
         </details>
       </article>
 
+      <!-- TOPIC 10 -->
+
       <article class="topic-card green">
         <div class="topic-top">
           <span class="topic-id">TOPIC 10</span>
           <span>10</span>
         </div>
+
         <h3>Boolean Logic</h3>
+
         <details>
           <summary>Explore topic</summary>
           <div class="topic-content">
@@ -573,8 +678,10 @@ footer p {
   <!-- RESOURCES -->
 
   <section id="resources">
+
     <div class="section-heading">
       <span class="section-number">03</span>
+
       <div>
         <h2>Learning Resources</h2>
         <p>Additional study and examination materials</p>
@@ -614,6 +721,7 @@ footer p {
 
 <script>
 function filterTopics() {
+
   const search = document
     .getElementById("searchInput")
     .value.toLowerCase();
@@ -622,12 +730,14 @@ function filterTopics() {
   let visible = 0;
 
   cards.forEach(card => {
+
     const match = card.innerText.toLowerCase()
       .includes(search);
 
     card.style.display = match ? "" : "none";
 
     if (match) visible++;
+
   });
 
   document.getElementById("noResults").style.display =
