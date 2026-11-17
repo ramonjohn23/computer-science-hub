@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Database Fundamentals | IBDP Computer Science</title>
+<style>
+:root{--ink:#17213d;--muted:#52617c;--blue:#37658c;--blue2:#e9f0f7;--line:#d8dfeb;--paper:#f4f6fa;--white:#fff;--gold:#d8c99c;--warn:#a94d17;--good:#18734d}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:linear-gradient(125deg,#f6f7fb,#e7eaf0);color:var(--ink);font:18px/1.65 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+header{padding:28px clamp(20px,5vw,72px) 22px;border-bottom:1px solid var(--line);background:#ffffffb8;position:sticky;top:0;z-index:10;backdrop-filter:blur(12px)}
+.brand{font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);font-weight:800}.headrow{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}h1{font-size:clamp(2rem,5vw,4rem);line-height:1.05;margin:8px 0 4px;letter-spacing:-.04em}.subtitle{color:var(--muted);margin:0}
+.controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.control{border:1px solid var(--line);background:white;color:var(--ink);border-radius:999px;padding:9px 15px;font:inherit;font-size:.9rem;font-weight:700;cursor:pointer}.control.primary{background:var(--blue);color:white;border-color:var(--blue)}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding-top:20px}.tab{white-space:nowrap;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:10px 17px;font:inherit;font-weight:700;cursor:pointer}.tab.active{background:var(--blue);color:white;border-color:var(--blue)}
+main{max-width:1250px;margin:auto;padding:34px clamp(16px,4vw,54px) 100px}.slide{display:none;animation:fade .25s ease}.slide.active{display:block}@keyframes fade{from{opacity:.3;transform:translateY(8px)}to{opacity:1;transform:none}}
+.kicker{font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);font-weight:850}.section-title{font-size:clamp(2rem,4vw,3.2rem);line-height:1.1;margin:8px 0 18px;padding-left:20px;border-left:7px solid var(--blue);letter-spacing:-.035em}.lead{font-size:1.18rem;max-width:1000px;color:#293650}.card{background:#ffffffc9;border:1px solid var(--line);border-radius:22px;padding:clamp(18px,3vw,30px);margin:20px 0;box-shadow:0 8px 28px #1b2b4410}.callout{border-left:7px solid var(--blue);background:#e4eaf2c9;border-radius:18px;padding:20px 24px;margin:22px 0}.callout.warn{border-color:var(--warn);background:#f5e8df}.callout.good{border-color:var(--good);background:#e2f0e9}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}.mini{background:#f6f8fb;border:1px solid var(--line);border-radius:15px;padding:17px}.mini h3{margin:0 0 6px;font-size:1.05rem}.mini p{margin:0;color:#40506a}
+table{width:100%;border-collapse:collapse;margin:14px 0;background:#ffffffa8;font-size:.94rem}th,td{border:1px solid var(--line);padding:12px 14px;text-align:left;vertical-align:top}th{background:#e5eaf2;font-weight:800}caption{font-weight:800;padding:10px}
+.table-wrap{overflow-x:auto;border-radius:12px}
+.pill{display:inline-block;background:var(--blue2);color:#284e70;border-radius:999px;padding:3px 10px;font-size:.78rem;font-weight:800}
+.diagram{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin:20px 0}.entity{border:2px solid var(--blue);border-radius:13px;background:#f7faff;padding:14px 20px;min-width:170px;text-align:center}.entity strong{display:block}.arrow{font-weight:900;color:var(--blue);font-size:1.5rem}.relationship{background:#fff5d8;border:2px solid #d8c77f;border-radius:50%;padding:17px}
+button,.btn{transition:.15s}button:hover{transform:translateY(-1px)}.quiz-q{border:1px solid var(--line);border-radius:18px;padding:18px;margin:16px 0;background:#ffffffbd}.quiz-q legend{font-weight:800;padding:0 8px}.answers{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:9px;margin-top:12px}.answer{border:1px solid var(--line);background:#f1f3f7;border-radius:12px;padding:12px;text-align:left;font:inherit;cursor:pointer}.answer.selected{border:2px solid var(--blue);background:#e8f0f8}.answer.correct{border:2px solid var(--good);background:#e4f3eb}.answer.incorrect{border:2px solid #b34b37;background:#f8e8e5}.feedback{font-size:.92rem;margin-top:10px;color:var(--muted);min-height:1.5em}.score{font-size:1.25rem;font-weight:850}
+details{border:1px solid var(--line);border-radius:14px;padding:13px 17px;background:#ffffffbd;margin:12px 0}summary{cursor:pointer;font-weight:800}.markpoints{padding:8px 6px 0;color:#3c4b64}
+input[type=text]{width:100%;padding:13px;border:1px solid var(--line);border-radius:12px;font:inherit;background:#f6f7fa;color:var(--ink)}
+.progressbar{height:5px;background:#e2e6ed}.progressbar span{display:block;height:100%;background:var(--blue);width:0;transition:width .2s}
+footer{position:fixed;bottom:0;left:0;right:0;background:#ffffffed;border-top:1px solid var(--line);padding:12px clamp(16px,4vw,54px);display:flex;justify-content:space-between;align-items:center;gap:12px;z-index:9;backdrop-filter:blur(12px)}.navbtn{background:var(--blue);color:white;border:0;border-radius:999px;padding:11px 20px;font:inherit;font-weight:800;cursor:pointer}.navbtn:disabled{opacity:.35;cursor:not-allowed}.counter{color:var(--muted);font-weight:800;font-size:.9rem}
+.level{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:5px;background:white;gap:4px}.level button{border:0;border-radius:999px;padding:7px 15px;background:transparent;font-weight:800;color:var(--muted);cursor:pointer}.level button.active{background:var(--ink);color:white}
+@media(max-width:650px){body{font-size:16px}header{position:relative}.section-title{font-size:2rem}footer{position:sticky}.tabs{padding-top:14px}table{font-size:.83rem}th,td{padding:8px}}
+@media print{header,footer,.controls,.tabs{display:none!important}body{background:white}.slide{display:block!important;page-break-after:always}main{padding:0}.card{box-shadow:none}}
+</style>
+</head>
+<body>
+<header>
+ <div class="headrow">
+  <div><div class="brand">IBDP Computer Science · A3.1.1</div><h1>Database fundamentals</h1><p class="subtitle">Relational databases: features, benefits and limitations · SL and HL</p></div>
+  <div class="controls"><button class="control" onclick="window.print()">⎙ Print / PDF</button><button class="control" onclick="toggleFull()">⛶ Full screen</button></div>
+ </div>
+ <nav class="tabs" aria-label="Lesson sections">
+  <button class="tab active" data-go="0">🧭 Start here</button>
+  <button class="tab" data-go="1">▦ Tables & keys</button>
+  <button class="tab" data-go="2">🔗 Relationships</button>
+  <button class="tab" data-go="3">📚 Library example</button>
+  <button class="tab" data-go="4">🧪 Referential integrity</button>
+  <button class="tab" data-go="5">⚖ Benefits & limits</button>
+  <button class="tab" data-go="6">🗂 Flat file & normalisation</button>
+  <button class="tab" data-go="7">✏ Review</button>
+ </nav>
+</header>
+<div class="progressbar"><span id="progress"></span></div>
+<main>
+<section class="slide active">
+ <div class="kicker">What you need to know</div><h2 class="section-title">A3.1.1 · Relational databases</h2>
+ <p class="lead">Explain the <strong>features, benefits and limitations of a relational database</strong>. This syllabus point applies to both SL and HL.</p>
+ <div class="callout"><h3>🔬 Try this first</h3><p>Write down three pieces of data your school stores about you, then three about each class. What links you to your classes?</p>
+  <button class="control primary" onclick="reveal('starter-answer')">Show a sample answer</button>
+  <div id="starter-answer" class="mini" hidden style="margin-top:14px"><strong>Possible answer</strong><p><b>Student:</b> StudentID, name, date of birth.<br><b>Class:</b> ClassID, subject, room.<br><b>Link:</b> A student may attend many classes, and each class contains many students. A linking table such as ENROLMENT can store StudentID and ClassID as foreign keys.</p><p>Answers may differ. The important idea is that a unique ID can link records across tables.</p></div>
+ </div>
+ <div class="card"><h2>Learning goals</h2><div class="grid">
+  <div class="mini"><h3>1. Describe</h3><p>Tables, records, fields, entities and keys.</p></div><div class="mini"><h3>2. Explain</h3><p>How primary and foreign keys connect tables.</p></div><div class="mini"><h3>3. Evaluate</h3><p>Benefits and limitations in a real scenario.</p></div><div class="mini"><h3>4. Apply</h3><p>Identify flat-file anomalies and explain normalisation.</p></div>
+ </div></div>
+ <div class="callout good"><strong>Big idea</strong><p>A relational database stores data in separate but linked tables. Keys create the links, allowing data to be organised without repeating every detail.</p></div>
+</section>
+
+<section class="slide">
+ <div class="kicker">Part 1 · Structure</div><h2 class="section-title">Tables, records and fields</h2>
+ <p class="lead">A <strong>database</strong> is an organised collection of structured data. A relational database stores data in <strong>tables</strong>, usually one for each entity — a person, thing or event that data is stored about.</p>
+ <div class="table-wrap"><table><caption>AEROPLANE</caption><thead><tr><th>PlaneID</th><th>Model</th><th>Manufacturer</th><th>Engine</th><th>Engines</th></tr></thead><tbody>
+ <tr><td>A01</td><td>Rockwell Commander 112</td><td>Rockwell</td><td>Piston</td><td>1</td></tr><tr><td>A02</td><td>Airbus A319 Neo</td><td>Airbus</td><td>Jet</td><td>2</td></tr><tr><td>A03</td><td>Boeing 747-100</td><td>Boeing</td><td>Jet</td><td>4</td></tr><tr><td>A04</td><td>Boeing 777-8</td><td>Boeing</td><td>Jet</td><td>2</td></tr><tr><td>A05</td><td>Boeing 747-100</td><td>Boeing</td><td>Jet</td><td>4</td></tr>
+ </tbody></table></div>
+ <div class="grid">
+  <div class="mini"><h3>Row (tuple / record)</h3><p>One instance — here, one aeroplane.</p></div><div class="mini"><h3>Column (attribute / field)</h3><p>One characteristic — here, its manufacturer.</p></div><div class="mini"><h3>Entity</h3><p>The type of thing described by a table, such as AEROPLANE.</p></div><div class="mini"><h3>Schema</h3><p>The planned structure of the database: tables, fields and their data types.</p></div>
+ </div>
+ <h2 class="section-title">Keys at work</h2>
+ <p>A <strong>primary key</strong> uniquely identifies each record in its table. A <strong>foreign key</strong> is a field that refers to a primary key in another table. A <strong>composite key</strong> uses two or more fields together to uniquely identify a record.</p>
+ <div class="table-wrap"><table><caption>FLIGHTS</caption><tr><th>FlightID (primary key)</th><th>From</th><th>To</th><th>PlaneID (foreign key)</th></tr><tr><td>LG8903</td><td>LUX</td><td>OTP</td><td>A03</td></tr><tr><td>OS864</td><td>CAI</td><td>VIE</td><td>A04</td></tr><tr><td>GB961</td><td>LHR</td><td>ZRH</td><td>A03</td></tr></table></div>
+ <div class="callout"><strong>Why can PlaneID repeat in FLIGHTS?</strong><p>One aeroplane can be used for many flights. The foreign key may therefore repeat. In the AEROPLANE table, PlaneID must be unique.</p></div>
+ <div class="table-wrap"><table><tr><th>Key type</th><th>Meaning</th></tr><tr><td><strong>Primary key</strong></td><td>A field unique to each record in its table.</td></tr><tr><td><strong>Foreign key</strong></td><td>A field referring to a primary key in another table.</td></tr><tr><td><strong>Composite key</strong></td><td>Two or more attributes that are unique together.</td></tr></table></div>
+</section>
+
+<section class="slide">
+ <div class="kicker">Part 2 · Connecting tables</div><h2 class="section-title">Relationships</h2>
+ <p class="lead">A relationship links tables through keys, so data can be divided up and still connected.</p>
+ <div class="table-wrap"><table><tr><th>Relationship</th><th>Meaning</th><th>Example</th></tr><tr><td><strong>One-to-one (1:1)</strong></td><td>A record matches at most one record in the other table. Rare.</td><td>A country and its capital city.</td></tr><tr><td><strong>One-to-many (1:m)</strong></td><td>One record matches many records in the other table. Very common.</td><td>One person has several bank accounts.</td></tr><tr><td><strong>Many-to-one (m:1)</strong></td><td>The same relationship viewed from the other side.</td><td>Many staff work for one company.</td></tr><tr><td><strong>Many-to-many (m:m)</strong></td><td>Many records match many others. Needs a linking table.</td><td>Actors appear in many movies; movies have many actors.</td></tr></table></div>
+ <div class="callout"><h3>💡 Many-to-many relationships</h3><p>A foreign key holds one value, so it cannot directly list many references. A <strong>linking table</strong> turns one many-to-many relationship into two one-to-many relationships.</p></div>
+ <div class="diagram"><div class="entity"><strong>STUDENT</strong>StudentID · Name</div><div class="arrow">1 → many</div><div class="entity"><strong>ENROLMENT</strong>StudentID · SubjectID</div><div class="arrow">many ← 1</div><div class="entity"><strong>SUBJECT</strong>SubjectID · Title</div></div>
+ <p class="lead">In this example, ENROLMENT is the linking table. It stores StudentID and SubjectID. Together, these fields can form a composite primary key if each student can enrol in a subject only once.</p>
+ <div class="card"><h3>Check your understanding</h3><p>A school stores which students take which subjects. What relationship exists between STUDENT and SUBJECT?</p><button class="control" onclick="reveal('rel-answer')">Reveal answer</button><p id="rel-answer" hidden><strong>Many-to-many.</strong> A student can take several subjects, and each subject can be taken by several students. Use a linking table such as ENROLMENT.</p></div>
+</section>
+
+<section class="slide">
+ <div class="kicker">Example database · Library system</div><h2 class="section-title">How tables connect in a real system</h2>
+ <p class="lead">Imagine a school library database. It stores information about library members, the books in the library, and which members borrow which books.</p>
+ <div class="callout good"><strong>Big idea</strong><p>Instead of storing a member's name and a book's title repeatedly in one large table, the database stores each type of information in its own table. The tables are connected using keys.</p></div>
+ <div class="grid">
+  <div class="mini"><h3>MEMBERS</h3><p>Stores information about people who can borrow books.</p></div>
+  <div class="mini"><h3>BOOKS</h3><p>Stores information about each book in the library.</p></div>
+  <div class="mini"><h3>BORROWING</h3><p>Stores each borrowing transaction: who borrowed which book and when.</p></div>
+ </div>
+ <h2>1. The three tables</h2>
+ <div class="table-wrap"><table><caption>MEMBERS</caption><tr><th>MemberID (PK)</th><th>MemberName</th><th>YearGroup</th></tr><tr><td>M001</td><td>Amelia Tan</td><td>Grade 11</td></tr><tr><td>M002</td><td>Daniel Lee</td><td>Grade 10</td></tr><tr><td>M003</td><td>Sofia Lim</td><td>Grade 11</td></tr></table></div>
+ <div class="table-wrap"><table><caption>BOOKS</caption><tr><th>BookID (PK)</th><th>Title</th><th>Author</th></tr><tr><td>B101</td><td>Introduction to Python</td><td>Jane Smith</td></tr><tr><td>B102</td><td>Computer Networks</td><td>David Brown</td></tr><tr><td>B103</td><td>Database Design</td><td>Mary Jones</td></tr></table></div>
+ <div class="table-wrap"><table><caption>BORROWING</caption><tr><th>LoanID (PK)</th><th>MemberID (FK)</th><th>BookID (FK)</th><th>BorrowDate</th><th>ReturnDate</th></tr><tr><td>L001</td><td>M001</td><td>B101</td><td>03/11/2026</td><td>10/11/2026</td></tr><tr><td>L002</td><td>M001</td><td>B103</td><td>05/11/2026</td><td>—</td></tr><tr><td>L003</td><td>M002</td><td>B102</td><td>06/11/2026</td><td>—</td></tr><tr><td>L004</td><td>M003</td><td>B101</td><td>07/11/2026</td><td>—</td></tr></table></div>
+ <p><span class="pill">PK</span> Primary key · <span class="pill">FK</span> Foreign key</p>
+ <h2>2. Explore the relationships</h2>
+ <div class="diagram">
+  <div class="entity"><strong>MEMBERS</strong>MemberID (PK)</div><div class="arrow">1 → many</div><div class="entity"><strong>BORROWING</strong>MemberID (FK)<br>BookID (FK)</div><div class="arrow">many ← 1</div><div class="entity"><strong>BOOKS</strong>BookID (PK)</div>
+ </div>
+ <div class="card">
+  <h3>Click a relationship to see how it works</h3>
+  <div style="display:flex;gap:9px;flex-wrap:wrap">
+   <button class="control primary" onclick="showLibraryRelation('member')">MEMBERS → BORROWING</button>
+   <button class="control" onclick="showLibraryRelation('book')">BOOKS → BORROWING</button>
+  </div>
+  <div id="library-explanation" class="callout" style="margin-bottom:0"><strong>Choose a relationship above.</strong><p>The explanation will appear here.</p></div>
+ </div>
+ <h2>3. Follow one borrowing record</h2>
+ <p>Look at borrowing record <strong>L002</strong>. It contains MemberID <strong>M001</strong> and BookID <strong>B103</strong>. Use those values to find the full details in the other tables:</p>
+ <div class="grid">
+  <div class="mini"><h3>Find M001 in MEMBERS</h3><p>MemberID M001 belongs to <strong>Amelia Tan</strong>, a Grade 11 student.</p></div>
+  <div class="mini"><h3>Find B103 in BOOKS</h3><p>BookID B103 identifies <strong>Database Design</strong> by Mary Jones.</p></div>
+ </div>
+ <div class="callout"><strong>What does this demonstrate?</strong><p>The BORROWING table does not need to repeat Amelia's name or the book title. It stores the two IDs. The database follows the foreign keys to retrieve the related details.</p></div>
+ <h2>4. Why use three tables?</h2>
+ <div class="grid">
+  <div class="mini"><h3>Less duplication</h3><p>Amelia's name is stored once in MEMBERS, even if she borrows many books.</p></div>
+  <div class="mini"><h3>More accurate updates</h3><p>If a member's details change, update the MEMBERS record once.</p></div>
+  <div class="mini"><h3>Clear relationships</h3><p>Foreign keys connect each borrowing transaction to a valid member and book.</p></div>
+ </div>
+ <div class="callout warn"><strong>Think about it</strong><p>What would happen if BORROWING contained MemberID M099, but no member with ID M099 existed in MEMBERS? Referential integrity would prevent this invalid reference.</p></div>
+</section>
+
+<section class="slide">
+ <div class="kicker">Part 3 · Keeping links valid</div><h2 class="section-title">Referential integrity</h2>
+ <p class="lead">A foreign key value must refer to a record that exists. This prevents inconsistent data from being entered.</p>
+ <div class="card"><h3>🧪 Lab: add a flight</h3><p>Try entering a PlaneID for a new flight. The plane must already exist in the AEROPLANE table.</p><label for="plane">PlaneID for the new flight</label><input id="plane" type="text" value="A09" maxlength="5"><div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px"><button class="control primary" onclick="checkPlane()">Insert into FLIGHTS</button><button class="control" onclick="deletePlane()">Delete plane A03</button><button class="control" onclick="document.getElementById('plane').value='A03';document.getElementById('lab-result').textContent='';">Use valid PlaneID A03</button></div><p id="lab-result" aria-live="polite"></p></div>
+ <div class="callout warn"><strong>What happens if you delete A03?</strong><p>Flights LG8903 and GB961 still refer to A03. Deleting the plane without handling those references would leave invalid foreign-key values. A database can reject the deletion or apply a defined rule, such as cascading changes.</p></div>
+ <div class="grid"><div class="mini"><h3>Insert</h3><p>You cannot add a flight referring to a plane that does not exist.</p></div><div class="mini"><h3>Delete</h3><p>You must consider records that still refer to the record being deleted.</p></div><div class="mini"><h3>Update</h3><p>Changes to key values must not leave broken references.</p></div></div>
+</section>
+
+<section class="slide">
+ <div class="kicker">Part 4 · Evaluation</div><h2 class="section-title">Benefits of relational databases</h2>
+ <div class="table-wrap"><table><tr><th>Benefit</th><th>Explanation</th></tr><tr><td><strong>Community support</strong></td><td>Decades of use, so help and expertise are easy to find.</td></tr><tr><td><strong>Concurrency control</strong></td><td>Many users can work at once without conflicting changes.</td></tr><tr><td><strong>Data consistency</strong></td><td>Users work with the same up-to-date data.</td></tr><tr><td><strong>Data integrity</strong></td><td>Rules and validation help keep data accurate and complete.</td></tr><tr><td><strong>Data retrieval</strong></td><td>SQL supports flexible queries, including JOIN and WHERE.</td></tr><tr><td><strong>Reduced duplication and redundancy</strong></td><td>Keys link tables, so details can be stored once rather than repeated.</td></tr><tr><td><strong>Reliable transactions</strong></td><td>A transaction happens in full or not at all.</td></tr><tr><td><strong>Scalability</strong></td><td>Capacity can be increased by adding CPU, RAM or storage to a server.</td></tr><tr><td><strong>Security</strong></td><td>User accounts, permissions and restricted views can protect data.</td></tr></table></div>
+ <h2 class="section-title">Limitations of relational databases</h2>
+ <div class="table-wrap"><table><tr><th>Limitation</th><th>Explanation</th></tr><tr><td><strong>Big-data scaling</strong></td><td>Hard to spread across many machines; joins can slow down at scale.</td></tr><tr><td><strong>Design complexity</strong></td><td>Tables and relationships need careful planning.</td></tr><tr><td><strong>Hierarchical data</strong></td><td>Tree structures can fit tables poorly and may be slow to traverse.</td></tr><tr><td><strong>Rigid schema</strong></td><td>Structure is set in advance and can be difficult to change.</td></tr><tr><td><strong>Object-relational mismatch</strong></td><td>Objects, references and inheritance do not always map cleanly to tables.</td></tr><tr><td><strong>Unstructured data</strong></td><td>Data with no common fields may not fit a fixed table schema well.</td></tr></table></div>
+ <div class="callout warn"><strong>⚠ Common exam mistake</strong><p>General lists of benefits often do not earn full marks. Link each point to the scenario in the question, and match the number of developed points to the marks available.</p></div>
+ <div class="callout"><strong>Scaling note</strong><p>Vertical scaling means upgrading one server, for example by adding CPU or RAM. Horizontal scaling means spreading work across multiple machines. A single server has limits, and distributing relational data can make joins and consistency harder.</p></div>
+</section>
+
+<section class="slide">
+ <div class="kicker">Part 5 · Flat files and normalisation</div><h2 class="section-title">Why normalise data?</h2>
+ <p class="lead">A flat-file database stores related information together in one table. This can repeat data and create <strong>anomalies</strong> — problems caused by incorrect handling of data.</p>
+ <div class="table-wrap"><table><caption>Example: veterinary practice flat-file data</caption><tr><th>Owner ID</th><th>Owner name</th><th>Address</th><th>Patient ID</th><th>Pet name</th><th>Type</th><th>Vet ID</th><th>Vet name</th><th>Date</th><th>Treatment</th><th>Type</th><th>Cost</th></tr>
+ <tr><td>1029</td><td>Alison Bachman</td><td>12 Green Lane</td><td>1011</td><td>Oskar</td><td>Dog</td><td>4400</td><td>Rachel</td><td>23/05/25</td><td>Worming</td><td>Tablet</td><td>50</td></tr>
+ <tr><td>1922</td><td>Aria Mathers</td><td>458 Rigistr.</td><td>1012</td><td>Seb</td><td>Cat</td><td>4100</td><td>Lucy</td><td>23/05/25</td><td>Broken tail</td><td>Surgery</td><td>400</td></tr>
+ <tr><td>1029</td><td>Alison Bachman</td><td>12 Green Lane</td><td>3999</td><td>Jacques</td><td>Hamster</td><td>4400</td><td>Rachel</td><td>23/05/25</td><td>Cut of paw</td><td>Medication</td><td>50</td></tr>
+ <tr><td>2032</td><td>Theo Naidoo</td><td>45 Rue Martignac</td><td>2393</td><td>Kai</td><td>Dog</td><td>4400</td><td>Rachel</td><td>23/05/25</td><td>Broken leg</td><td>Surgery</td><td>450</td></tr>
+ <tr><td>2032</td><td>Theo Naidoo</td><td>45 Rue Martignac</td><td>2393</td><td>Kai</td><td>Dog</td><td>4400</td><td>Rachel</td><td>17/08/25</td><td>Cast removal</td><td>Surgery</td><td>200</td></tr></table></div>
+ <div class="callout"><strong>Anomaly</strong><p>An issue that can occur because of incorrect handling of data in a database.</p></div>
+ <div class="grid"><div class="mini"><h3>Insert anomaly</h3><p>You cannot add details for a vet without also adding information about a patient and owner.</p></div><div class="mini"><h3>Deletion anomaly</h3><p>Deleting a treatment record may also remove the only stored details about a vet, owner or patient.</p></div><div class="mini"><h3>Update anomaly</h3><p>If an owner's address is repeated in several rows, every copy must be changed. Missing one creates inconsistent data.</p></div></div>
+ <div class="callout good"><strong>Normalisation</strong><p>A process of organising data in a database to minimise the risk of anomalies.</p></div>
+ <h2 class="section-title">A normalised relational design</h2>
+ <p>Separate information about owners, patients, vets and treatments into appropriate tables. Use primary and foreign keys to connect them.</p>
+ <div class="grid">
+  <div class="mini"><h3>OWNER</h3><p><strong>Owner_ID</strong> (PK)<br>Owner_Name<br>Address</p></div>
+  <div class="mini"><h3>PATIENT</h3><p><strong>Patient_ID</strong> (PK)<br>Patient_Name<br>Type<br>Owner_ID (FK)</p></div>
+  <div class="mini"><h3>VET</h3><p><strong>Vet_ID</strong> (PK)<br>Name<br>Address</p></div>
+  <div class="mini"><h3>TREATMENT</h3><p>Patient_ID (FK)<br>Date<br>Treatment<br>Type<br>Cost<br>Vet_ID (FK)</p></div>
+ </div>
+ <div class="diagram"><div class="entity"><strong>OWNER</strong>Owner_ID (PK)</div><div class="arrow">1 → many</div><div class="entity"><strong>PATIENT</strong>Patient_ID (PK)<br>Owner_ID (FK)</div><div class="arrow">1 → many</div><div class="entity"><strong>TREATMENT</strong>Patient_ID (FK)<br>Vet_ID (FK)</div><div class="arrow">many ← 1</div><div class="entity"><strong>VET</strong>Vet_ID (PK)</div></div>
+ <div class="callout"><strong>Notice</strong><p>The treatment table may use a composite key such as Patient_ID plus Date if that combination uniquely identifies each treatment. If a patient can have multiple treatments on the same date, an additional Treatment_ID may be needed. The source example does not specify the final key design.</p></div>
+</section>
+
+<section class="slide">
+ <div class="kicker">Part 6 · Check your learning</div><h2 class="section-title">Review: quick quiz</h2><p class="lead">Choose one answer for each question. Click <strong>Check answers</strong> to reveal the correct answer, read the explanation and calculate your total score. Each question is worth 1 mark.</p>
+ <div id="quiz"></div><button class="control primary" onclick="gradeQuiz()">Check answers</button> <button class="control" onclick="resetQuiz()">Try again</button><div id="quiz-result" class="callout good" hidden aria-live="polite"><div class="score" id="quiz-score"></div><p id="quiz-summary"></p></div>
+ <h2 class="section-title">Exam-style questions</h2><p>Answer on paper first, then open the mark points to self-assess.</p>
+ <div class="card"><p><strong>1.</strong> Define the term “database”. <span class="pill">[1]</span></p><details><summary>Mark points</summary><div class="markpoints">An organised collection of structured data that can be accessed in different ways. [1]</div></details>
+ <p><strong>2.</strong> Define “primary key” and “foreign key”. <span class="pill">[2]</span></p><details><summary>Mark points</summary><div class="markpoints"><ul><li>A primary key uniquely identifies a record in a table. [1]</li><li>A foreign key is an attribute that refers to the primary key of another table. [1]</li></ul></div></details>
+ <p><strong>3.</strong> Explain what is meant by referential integrity. <span class="pill">[2]</span></p><details><summary>Mark points</summary><div class="markpoints"><ul><li>Every foreign key value must match an existing primary key value. [1]</li><li>This keeps data consistent during insertions, deletions and updates. [1]</li></ul></div></details>
+ <p><strong>4.</strong> A school stores which students take which subjects. Explain how to represent this. <span class="pill">[3]</span></p><details><summary>Mark points</summary><div class="markpoints"><ul><li>It is a many-to-many relationship. [1]</li><li>A linking table is added because a foreign key holds only one value. [1]</li><li>The linking table holds StudentID and SubjectID, forming two one-to-many relationships. [1]</li></ul></div></details>
+ <p><strong>5.</strong> A music streaming firm is deciding whether to use a relational database for user accounts and billing. Discuss. <span class="pill">[4]</span></p><details><summary>Mark points</summary><div class="markpoints"><ul><li>Reliable transactions mean a payment completes fully or not at all. [1]</li><li>Integrity rules keep links between users and payments correct. [1]</li><li>Permissions protect personal billing data. [1]</li><li>Very large numbers of users may make scaling harder; however, account and billing data are structured, so a relational database may be suitable. [1]</li></ul></div></details></div>
+ <div class="callout warn"><strong>Exam reminder</strong><p>For “discuss” questions, include relevant advantages and limitations, then make a judgement based on the scenario. Avoid writing an unconnected list.</p></div>
+</section>
+</main>
+<footer><button class="navbtn" id="prev" onclick="move(-1)" disabled>← Previous</button><span class="counter" id="counter">1 / 7</span><button class="navbtn" id="next" onclick="move(1)">Next →</button></footer>
+<script>
+const slides=[...document.querySelectorAll('.slide')],tabs=[...document.querySelectorAll('.tab')];let current=0;
+function show(n){current=Math.max(0,Math.min(slides.length-1,n));slides.forEach((s,i)=>s.classList.toggle('active',i===current));tabs.forEach((t,i)=>t.classList.toggle('active',i===current));document.getElementById('counter').textContent=`${current+1} / ${slides.length}`;document.getElementById('prev').disabled=current===0;document.getElementById('next').disabled=current===slides.length-1;document.getElementById('progress').style.width=((current+1)/slides.length*100)+'%';window.scrollTo({top:0,behavior:'smooth'});}
+function move(d){show(current+d)}tabs.forEach(t=>t.addEventListener('click',()=>show(+t.dataset.go)));
+document.addEventListener('keydown',e=>{if(e.target.matches('input,textarea,button,summary'))return;if(e.key==='ArrowRight')move(1);if(e.key==='ArrowLeft')move(-1);});
+function toggleFull(){if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.();}
+function reveal(id){const e=document.getElementById(id);e.hidden=!e.hidden;}
+const planes=['A01','A02','A03','A04','A05'];
+function checkPlane(){let v=document.getElementById('plane').value.trim().toUpperCase();let out=document.getElementById('lab-result');out.textContent=planes.includes(v)?`Accepted: ${v} exists in AEROPLANE, so the foreign-key reference is valid.`:`Rejected: ${v||'(blank)'} does not match a PlaneID in AEROPLANE. Referential integrity prevents this invalid reference.`;out.style.color=planes.includes(v)?'var(--good)':'var(--warn)';}
+function deletePlane(){document.getElementById('lab-result').textContent='Rejected: flights LG8903 and GB961 still refer to A03. Deleting it would leave them pointing to nothing.';document.getElementById('lab-result').style.color='var(--warn)';}
+function showLibraryRelation(which){
+ const box=document.getElementById('library-explanation');
+ if(which==='member'){
+  box.innerHTML='<strong>One member can have many borrowing records.</strong><p>MemberID is the primary key in MEMBERS and a foreign key in BORROWING. M001 appears more than once in BORROWING because Amelia can borrow several books over time. This is a <b>one-to-many</b> relationship.</p>';
+ }else{
+  box.innerHTML='<strong>One book can appear in many borrowing records over time.</strong><p>BookID is the primary key in BOOKS and a foreign key in BORROWING. B101 appears in more than one borrowing record because the same library book can be borrowed by different members at different times. This is also a <b>one-to-many</b> relationship.</p>';
+ }
+}
+const questions=[
+ {q:'What is a row in a table also called?',a:['A tuple or record','An attribute','A schema','A key'],c:0,e:'A row represents one record (also called a tuple).'},
+ {q:'What is a column also called?',a:['An attribute or field','A tuple','A record','An entity'],c:0,e:'A column stores one attribute or field for each record.'},
+ {q:'What must a primary key be?',a:['Unique for each record','A number','Repeated','Always the first column'],c:0,e:'A primary key uniquely identifies every record in its table.'},
+ {q:'A foreign key…',a:['Refers to a primary key in another table','Must be unique in its table','Encrypts a table','Is always a name'],c:0,e:'A foreign key creates a link to a primary key in another table.'},
+ {q:'When do you need a composite key?',a:['When no single attribute is unique','When a table is large','When there is only one column','Never'],c:0,e:'Two or more attributes can be combined when no single attribute uniquely identifies a record.'},
+ {q:'What does referential integrity prevent?',a:['A foreign key with no matching primary key','Long names','Using SQL','Multiple users'],c:0,e:'It prevents foreign keys from referring to records that do not exist.'},
+ {q:'How is many-to-many built in a database?',a:['With a linking table','With one foreign key','It is automatic','It cannot be represented'],c:0,e:'A linking table creates two one-to-many relationships.'},
+ {q:'Why can relational databases be poor at unstructured data?',a:['Records may share no common fields for a schema','They cannot store text','They run out of keys','SQL is banned'],c:0,e:'Relational tables rely on a defined structure; data with no common fields may not fit it well.'}
+];
+function renderQuiz(){document.getElementById('quiz').innerHTML=questions.map((q,i)=>`<fieldset class="quiz-q" data-q="${i}"><legend>${i+1}. ${q.q}</legend><div class="answers">${q.a.map((a,j)=>`<button type="button" class="answer" data-a="${j}" onclick="selectAnswer(${i},${j})">${a}</button>`).join('')}</div><div class="feedback" id="fb${i}"></div></fieldset>`).join('');}
+let selected={};function selectAnswer(i,j){selected[i]=j;document.querySelectorAll(`[data-q="${i}"] .answer`).forEach((b,k)=>b.classList.toggle('selected',k===j));}
+function gradeQuiz(){
+ let score=0;
+ questions.forEach((q,i)=>{
+  const field=document.querySelector(`[data-q="${i}"]`);
+  field.querySelectorAll('.answer').forEach((b,j)=>{
+   b.classList.remove('correct','incorrect');
+   if(j===q.c)b.classList.add('correct');
+   else if(selected[i]===j)b.classList.add('incorrect');
+  });
+  const ok=selected[i]===q.c;
+  if(ok)score++;
+  const feedback=document.getElementById('fb'+i);
+  const correctText=q.a[q.c];
+  if(ok){
+   feedback.innerHTML=`<strong style="color:var(--good)">✓ Correct.</strong> ${q.e}<br><strong>Correct answer:</strong> ${correctText}`;
+  }else if(selected[i]===undefined){
+   feedback.innerHTML=`<strong style="color:var(--warn)">Not answered.</strong> <strong>Correct answer:</strong> ${correctText}<br>${q.e}`;
+  }else{
+   feedback.innerHTML=`<strong style="color:var(--warn)">✕ Incorrect.</strong> <strong>Correct answer:</strong> ${correctText}<br>${q.e}`;
+  }
+ });
+ const total=questions.length;
+ const percent=Math.round(score/total*100);
+ document.getElementById('quiz-score').textContent=`Your score: ${score} / ${total}`;
+ document.getElementById('quiz-summary').textContent=`You answered ${score} out of ${total} questions correctly (${percent}%). Green shows the correct answer; red shows an incorrect selection.`;
+ const result=document.getElementById('quiz-result');
+ result.hidden=false;
+ result.className='callout '+(score===total?'good':score>=total/2?'':'warn');
+ result.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function resetQuiz(){
+ selected={};
+ renderQuiz();
+ document.getElementById('quiz-result').hidden=true;
+}
+renderQuiz();show(0);
+</script>
+</body></html>
