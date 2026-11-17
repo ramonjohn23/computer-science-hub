@@ -72,14 +72,289 @@ footer{position:fixed;bottom:0;left:0;right:0;background:#ffffffed;border-top:1p
  <tr><td><b>Logical</b></td><td>Detailed structure: tables, fields, data types, primary keys, foreign keys and constraints. It is not tied to one specific DBMS.</td><td>OrderDate has data type DATE; CustomerID is a foreign key.</td></tr>
  <tr><td><b>Physical</b></td><td>How the logical design is implemented in a specific DBMS, including storage, indexes and partitions.</td><td>Create an index on CustomerID to support faster searches or joins.</td></tr></table></div>
  <div class="card"><h3>Conceptual schema: sales system</h3><p><b>Entities</b></p><ul><li>PRODUCTS</li><li>ORDERS</li><li>CUSTOMERS</li></ul><p><b>Attributes</b></p><ul><li>PRODUCTS: ProductID, ProductName, Price</li><li>ORDERS: OrderID, OrderDate</li><li>CUSTOMERS: CustomerID, CustomerName, EmailAddress</li></ul><p><b>Relationships</b></p><ul><li>A customer places orders.</li><li>An order includes one or more products.</li></ul></div>
+
+ <h2>Worked example: Sales database at all three levels</h2>
+ <p class="lead">The same sales system is shown below as a conceptual ERD, a logical schema and a physical implementation. The examples use reasonable design assumptions to make the relationships and keys clear.</p>
+
+ <div class="card">
+  <span class="pill">1 · Conceptual model</span>
+  <h3>Conceptual ERD – entities and relationships</h3>
+  <p>This model focuses on the real-world entities and how they relate. It does not show data types or implementation details.</p>
+  <div class="diagram">
+   <svg viewBox="0 0 960 390" role="img" aria-label="Conceptual ERD: one customer places many orders; orders and products have a many-to-many relationship.">
+    <defs><style>
+     .cbox{fill:#fff4d6;stroke:#667085;stroke-width:2.5}.ctxt{font:23px Arial;fill:#263247}.cline{stroke:#53677f;stroke-width:3;fill:none}.clab{font:bold 19px Arial;fill:#37658c}.cdiamond{fill:#fff0c5;stroke:#b99d55;stroke-width:2}
+    </style></defs>
+    <rect class="cbox" x="35" y="55" width="235" height="90" rx="4"/><text class="ctxt" x="152" y="108" text-anchor="middle">CUSTOMER</text>
+    <rect class="cbox" x="365" y="55" width="235" height="90" rx="4"/><text class="ctxt" x="482" y="108" text-anchor="middle">ORDERS</text>
+    <rect class="cbox" x="695" y="55" width="235" height="90" rx="4"/><text class="ctxt" x="812" y="108" text-anchor="middle">PRODUCT</text>
+    <path class="cline" d="M270 100 H365"/><text class="clab" x="283" y="84">1</text><text class="clab" x="340" y="84">M</text>
+    <path class="cline" d="M600 100 H695"/><text class="clab" x="612" y="84">M</text><text class="clab" x="670" y="84">M</text>
+    <rect class="cdiamond" x="366" y="220" width="234" height="82" rx="5"/><text class="ctxt" x="483" y="270" text-anchor="middle">includes</text>
+    <path class="cline" d="M482 145 V220"/><path class="cline" d="M812 145 V260 H600"/>
+    <text class="clab" x="495" y="178">M</text><text class="clab" x="830" y="178">M</text>
+    <text class="ctxt" x="480" y="350" text-anchor="middle" style="font-size:18px">Orders and products are many-to-many.</text>
+    <text class="ctxt" x="480" y="375" text-anchor="middle" style="font-size:16px">A linking table will resolve this in the logical schema.</text>
+   </svg>
+   <div class="diagram-caption">Conceptual ERD – CUSTOMER places ORDERS; an ORDER includes PRODUCTS.</div>
+  </div>
+  <div class="callout"><b>Interpretation</b><ul><li>One customer can place many orders; each order is placed by one customer.</li><li>One order can include many products, and one product can appear in many orders.</li></ul></div>
+ </div>
+
+ <div class="card">
+  <span class="pill">2 · Logical model</span>
+  <h3>Logical schema – tables, attributes, PKs and FKs</h3>
+  <p>The many-to-many relationship is resolved using <b>ORDER_PRODUCT</b>. Primary keys uniquely identify records. Foreign keys connect related tables.</p>
+  <div class="grid">
+   <div class="mini"><h3>CUSTOMER</h3><p><b>PK CustomerID</b><br>CustomerName<br>EmailAddress</p></div>
+   <div class="mini"><h3>ORDERS</h3><p><b>PK OrderID</b><br>OrderDate<br><b>FK CustomerID</b></p></div>
+   <div class="mini"><h3>PRODUCT</h3><p><b>PK ProductID</b><br>ProductName<br>Price</p></div>
+   <div class="mini"><h3>ORDER_PRODUCT</h3><p><b>PK, FK OrderID</b><br><b>PK, FK ProductID</b><br>Quantity</p></div>
+  </div>
+  <div class="diagram">
+   <svg viewBox="0 0 1000 520" role="img" aria-label="Logical schema with CUSTOMER, ORDERS, PRODUCT and ORDER_PRODUCT tables showing primary and foreign keys and one-to-many relationships.">
+    <defs><style>
+     .lbox{fill:#fff;stroke:#54708c;stroke-width:2.3}.lhead{fill:#e8eef6}.lt{font:18px Arial;fill:#24324a}.lk{font:bold 17px Arial;fill:#1e527c}.ll{stroke:#53718e;stroke-width:3;fill:none}.lm{font:bold 17px Arial;fill:#37658c}
+    </style></defs>
+    <rect class="lbox" x="20" y="35" width="260" height="145"/><rect class="lhead" x="20" y="35" width="260" height="40"/><text class="lk" x="35" y="62">CUSTOMER</text><text class="lk" x="35" y="105">PK CustomerID</text><text class="lt" x="35" y="135">CustomerName</text><text class="lt" x="35" y="163">EmailAddress</text>
+    <rect class="lbox" x="370" y="35" width="260" height="145"/><rect class="lhead" x="370" y="35" width="260" height="40"/><text class="lk" x="385" y="62">ORDERS</text><text class="lk" x="385" y="105">PK OrderID</text><text class="lt" x="385" y="135">OrderDate</text><text class="lk" x="385" y="163">FK CustomerID</text>
+    <rect class="lbox" x="370" y="315" width="260" height="165"/><rect class="lhead" x="370" y="315" width="260" height="40"/><text class="lk" x="385" y="342">ORDER_PRODUCT</text><text class="lk" x="385" y="385">PK, FK OrderID</text><text class="lk" x="385" y="415">PK, FK ProductID</text><text class="lt" x="385" y="450">Quantity</text>
+    <rect class="lbox" x="720" y="315" width="260" height="145"/><rect class="lhead" x="720" y="315" width="260" height="40"/><text class="lk" x="735" y="342">PRODUCT</text><text class="lk" x="735" y="385">PK ProductID</text><text class="lt" x="735" y="415">ProductName</text><text class="lt" x="735" y="445">Price</text>
+    <path class="ll" d="M280 105 H370"/><text class="lm" x="295" y="91">1</text><text class="lm" x="345" y="91">M</text>
+    <path class="ll" d="M500 180 V315"/><text class="lm" x="512" y="205">1</text><text class="lm" x="512" y="300">M</text>
+    <path class="ll" d="M720 390 H630"/><text class="lm" x="690" y="375">1</text><text class="lm" x="640" y="375">M</text>
+   </svg>
+   <div class="diagram-caption">Logical schema – the foreign keys implement the relationships.</div>
+  </div>
+  <h4>Suggested logical data types</h4>
+  <div class="table-wrap"><table>
+   <tr><th>Table</th><th>Attribute</th><th>Data type</th><th>Key / constraint</th></tr>
+   <tr><td>CUSTOMER</td><td>CustomerID</td><td>INTEGER</td><td>PK</td></tr>
+   <tr><td>CUSTOMER</td><td>CustomerName</td><td>VARCHAR(100)</td><td>NOT NULL</td></tr>
+   <tr><td>CUSTOMER</td><td>EmailAddress</td><td>VARCHAR(255)</td><td>UNIQUE, NOT NULL</td></tr>
+   <tr><td>ORDERS</td><td>OrderID</td><td>INTEGER</td><td>PK</td></tr>
+   <tr><td>ORDERS</td><td>OrderDate</td><td>DATE</td><td>NOT NULL</td></tr>
+   <tr><td>ORDERS</td><td>CustomerID</td><td>INTEGER</td><td>FK → CUSTOMER.CustomerID</td></tr>
+   <tr><td>PRODUCT</td><td>ProductID</td><td>INTEGER</td><td>PK</td></tr>
+   <tr><td>PRODUCT</td><td>ProductName</td><td>VARCHAR(100)</td><td>NOT NULL</td></tr>
+   <tr><td>PRODUCT</td><td>Price</td><td>DECIMAL(10,2)</td><td>NOT NULL</td></tr>
+   <tr><td>ORDER_PRODUCT</td><td>OrderID</td><td>INTEGER</td><td>PK part, FK → ORDERS.OrderID</td></tr>
+   <tr><td>ORDER_PRODUCT</td><td>ProductID</td><td>INTEGER</td><td>PK part, FK → PRODUCT.ProductID</td></tr>
+   <tr><td>ORDER_PRODUCT</td><td>Quantity</td><td>INTEGER</td><td>NOT NULL, CHECK Quantity &gt; 0</td></tr>
+  </table></div>
+  <div class="callout good"><b>Relationship summary</b><ul><li>CUSTOMER 1 : M ORDERS</li><li>ORDERS 1 : M ORDER_PRODUCT</li><li>PRODUCT 1 : M ORDER_PRODUCT</li></ul>ORDER_PRODUCT has a composite primary key made from OrderID and ProductID (assuming a product is listed only once per order).</div>
+ </div>
+
+ <div class="card">
+  <span class="pill">3 · Physical model</span>
+  <h3>Physical schema – an example SQL implementation</h3>
+  <p>This example uses SQL syntax commonly supported by relational DBMSs. Exact data types, auto-numbering syntax and index behaviour can vary between systems.</p>
+  <div class="table-wrap"><table>
+   <tr><th>Physical detail</th><th>Implementation choice</th><th>Purpose</th></tr>
+   <tr><td>Primary keys</td><td>INTEGER generated identifiers</td><td>Unique row identification.</td></tr>
+   <tr><td>Foreign keys</td><td>FOREIGN KEY constraints</td><td>Referential integrity between tables.</td></tr>
+   <tr><td>Data validation</td><td>NOT NULL, UNIQUE and CHECK</td><td>Prevent invalid or incomplete values.</td></tr>
+   <tr><td>Indexes</td><td>Indexes on foreign-key columns</td><td>Can speed up joins and lookups.</td></tr>
+  </table></div>
+  <pre style="white-space:pre-wrap;overflow-x:auto;background:#17213d;color:#f3f6fb;padding:20px;border-radius:14px;font-size:.86rem;line-height:1.55"><code>CREATE TABLE CUSTOMER (
+  CustomerID INTEGER PRIMARY KEY,
+  CustomerName VARCHAR(100) NOT NULL,
+  EmailAddress VARCHAR(255) NOT NULL UNIQUE
+);
+
+CREATE TABLE PRODUCT (
+  ProductID INTEGER PRIMARY KEY,
+  ProductName VARCHAR(100) NOT NULL,
+  Price DECIMAL(10,2) NOT NULL CHECK (Price >= 0)
+);
+
+CREATE TABLE ORDERS (
+  OrderID INTEGER PRIMARY KEY,
+  OrderDate DATE NOT NULL,
+  CustomerID INTEGER NOT NULL,
+  FOREIGN KEY (CustomerID) REFERENCES CUSTOMER(CustomerID)
+);
+
+CREATE TABLE ORDER_PRODUCT (
+  OrderID INTEGER NOT NULL,
+  ProductID INTEGER NOT NULL,
+  Quantity INTEGER NOT NULL CHECK (Quantity > 0),
+  PRIMARY KEY (OrderID, ProductID),
+  FOREIGN KEY (OrderID) REFERENCES ORDERS(OrderID),
+  FOREIGN KEY (ProductID) REFERENCES PRODUCT(ProductID)
+);
+
+CREATE INDEX idx_orders_customer
+  ON ORDERS(CustomerID);
+
+CREATE INDEX idx_order_product_product
+  ON ORDER_PRODUCT(ProductID);</code></pre>
+  <div class="callout"><b>Why add indexes?</b><p>An index on ORDERS.CustomerID can help the DBMS find orders for a customer and support joins. An index on ORDER_PRODUCT.ProductID can help find orders containing a particular product. Indexes use additional storage and can make inserts or updates slightly slower because the index must also be maintained.</p></div>
+ </div>
+ <div class="callout warn"><b>Design assumptions</b><p>The supplied conceptual information does not specify exact data types, field lengths, optionality or the DBMS. The logical and physical details above are therefore suitable teaching examples, not values explicitly stated in the original conceptual schema. The model assumes each order belongs to one customer, each order contains at least one product, and each product may appear in many orders.</p></div>
+
  <div class="callout"><b>Remember:</b><p>A conceptual schema is not detailed enough to build the actual database. It provides the high-level model from which a logical schema can be developed.</p></div>
  <div class="callout good"><b>Logical schema tasks</b><ul><li>Convert entities into detailed tables.</li><li>Specify data types and constraints for each field.</li><li>Establish primary and foreign keys.</li><li>Define relationships using the keys.</li><li>Normalise the database to reduce unnecessary redundancy.</li></ul></div>
  <div class="callout"><b>Physical schema tasks</b><p>Choose DBMS-specific data types and storage settings, define indexes and decide whether large tables need partitioning. These choices can affect performance.</p></div>
+
+ <h2>How the Three Levels Relate</h2>
+ <p class="lead"><strong>Conceptual → Logical → Physical</strong></p>
+ <p>Real-world meaning → Relational structure → Disk-level implementation</p>
+ <div class="diagram">
+  <svg viewBox="0 0 820 310" role="img" aria-label="Conceptual model is least detailed, logical model is more detailed, and physical model is most detailed.">
+   <defs>
+    <linearGradient id="schemaPink" x1="0" x2="1"><stop offset="0" stop-color="#f4c4e2"/><stop offset="1" stop-color="#d98ac4"/></linearGradient>
+    <style>
+     .schema-box{stroke:#8d6385;stroke-width:2;fill:url(#schemaPink)}
+     .schema-text{font:24px Arial,sans-serif;fill:#354052}
+     .detail-text{font:22px Arial,sans-serif;fill:#354052}
+    </style>
+   </defs>
+   <rect class="schema-box" x="35" y="25" width="400" height="58" rx="2"/>
+   <text class="schema-text" x="235" y="62" text-anchor="middle">Conceptual model</text>
+   <rect class="schema-box" x="35" y="125" width="400" height="58" rx="2"/>
+   <text class="schema-text" x="235" y="162" text-anchor="middle">Logical model</text>
+   <rect class="schema-box" x="35" y="225" width="400" height="58" rx="2"/>
+   <text class="schema-text" x="235" y="262" text-anchor="middle">Physical model</text>
+   <path d="M485 25 L530 25 L530 248 L558 248 L507 295 L456 248 L485 248 Z" fill="#e45aa8" stroke="#b7438d" stroke-width="2"/>
+   <text class="detail-text" x="585" y="53">Least</text>
+   <text class="detail-text" x="585" y="82">detailed</text>
+   <text class="detail-text" x="585" y="226">Most</text>
+   <text class="detail-text" x="585" y="255">detailed</text>
+  </svg>
+  <div class="diagram-caption">The level of detail increases from conceptual to physical.</div>
+ </div>
+ <div class="callout">
+  <b>How to understand the sequence</b>
+  <ul>
+   <li><b>Conceptual:</b> describes the real-world meaning and the information the organisation needs.</li>
+   <li><b>Logical:</b> translates that meaning into a relational structure of tables, attributes and keys.</li>
+   <li><b>Physical:</b> implements the logical structure using a specific DBMS and its storage features.</li>
+  </ul>
+ </div>
+ <h2>Data independence</h2>
+ <p>This layered abstraction supports <strong>data independence</strong>: changes at one level should not unnecessarily affect the level above it.</p>
+ <div class="callout good">
+  <ul>
+   <li>Changes to physical storage should not affect logical structure.</li>
+   <li>Changes to logical structure should not affect real-world conceptual meaning.</li>
+  </ul>
+ </div>
+
  <div id="hl-note" class="callout warn" hidden><b>HL extension note</b><p>Be prepared to interpret a detailed schema and explain how physical choices such as indexes can improve retrieval performance, while recognising that indexes also require storage and maintenance.</p></div>
 </section>
 
 <section class="slide">
- <div class="kicker">A3.2.2 · Entity-relationship diagrams</div><h2 class="section-title">ERDs: model before building</h2>
+ <div class="kicker">A3.2.2 · Entity-relationship diagrams</div>
+ <div class="card">
+  <h2>1. The different items within an ERD</h2>
+  <p>An entity-relationship diagram (ERD) shows the entities (tables), attributes (fields) and relationships within a relational database. An ERD can be drawn at conceptual, logical or physical level.</p>
+  <div class="grid">
+   <div class="mini"><h3>Entity</h3><p>An object that can have data stored about it. Entities are usually named using nouns and represented by rectangles. Examples: Student, Car, Player, Course, Product and MenuItem.</p></div>
+   <div class="mini"><h3>Key</h3><p>An entity needs at least one key to identify its records. In a logical ERD, show the primary key and any foreign keys used to connect tables.</p></div>
+   <div class="mini"><h3>Relationship</h3><p>The way entities interact. Relationships can be described using verbs, such as Student studies Course, Teacher teaches Course, or Menu contains MenuItems.</p></div>
+   <div class="mini"><h3>Attribute</h3><p>Attributes describe the data stored about an entity. For a CAR entity, attributes might include Make, Model, EngineSize, FuelType and RegistrationNumber.</p></div>
+  </div>
+  <div class="callout">
+   <b>Relationships are read in one direction at a time</b>
+   <p>For example, a Menu contains MenuItems. A MenuItem does not necessarily belong to a Menu unless the system's rules specify that relationship. Always read and explain both directions separately.</p>
+  </div>
+ </div>
+
+ <div class="card">
+  <h2>2. Cardinality and modality</h2>
+  <p><b>Cardinality</b> describes how many instances of one entity can be associated with an instance of another entity.</p>
+  <div class="grid">
+   <div class="mini"><h3>One-to-one (1:1)</h3><p>One record in entity A is associated with one record in entity B.</p></div>
+   <div class="mini"><h3>One-to-many (1:M)</h3><p>One record in entity A can be associated with many records in entity B.</p></div>
+   <div class="mini"><h3>Many-to-many (M:N)</h3><p>Many records in entity A can be associated with many records in entity B.</p></div>
+  </div>
+  <p><b>Modality</b> describes whether participation in a relationship is optional or mandatory.</p>
+  <div class="table-wrap"><table>
+   <tr><th>Notation (Crow's Foot)</th><th>Meaning</th><th>Minimum and maximum</th></tr>
+   <tr><td>○ —</td><td>Optional one</td><td>0..1</td></tr>
+   <tr><td>|| —</td><td>Mandatory one</td><td>1..1</td></tr>
+   <tr><td>○ with crow's foot</td><td>Optional many</td><td>0..many</td></tr>
+   <tr><td>| with crow's foot</td><td>Mandatory many</td><td>1..many</td></tr>
+  </table></div>
+  <div class="callout warn"><b>Example: actor and theatre production</b><p>An actor may not have acted in a particular production, so participation for the actor can be optional. A menu must contain at least one menu item if that is a rule of the system, making the menu-to-menu-item participation mandatory.</p></div>
+ </div>
+
+ <div class="card">
+  <h2>3. Different ERD conventions</h2>
+  <p>Different conventions represent the same database information in different visual ways. Three recognised styles are Chen, Crow's Foot and Barker.</p>
+  <div class="grid">
+   <div class="mini"><h3>Chen notation</h3><ul><li>Entity: rectangle</li><li>Attribute: oval</li><li>Relationship: diamond</li></ul></div>
+   <div class="mini"><h3>Crow's Foot notation</h3><ul><li>Entities are boxes, often containing attributes</li><li>Lines connect related entities</li><li>Circles, bars and crow's feet show optionality and cardinality</li></ul></div>
+   <div class="mini"><h3>Barker notation</h3><ul><li>Entities are commonly shown as rounded boxes</li><li>Attributes appear inside the entity box</li><li>Relationship line endings show one, many and optional participation</li></ul></div>
+  </div>
+  <h3>Visual guide: Chen notation</h3>
+  <div class="diagram">
+   <svg viewBox="0 0 900 230" role="img" aria-label="Chen notation: entity is a rectangle, attribute is an oval, relationship is a diamond.">
+    <defs><style>.chen{fill:#ffe9d5;stroke:#9b8069;stroke-width:2}.ct{font:20px Arial;fill:#344054}</style></defs>
+    <rect class="chen" x="30" y="65" width="210" height="100"/><text class="ct" x="135" y="122" text-anchor="middle">Entity</text>
+    <ellipse class="chen" cx="450" cy="115" rx="115" ry="52"/><text class="ct" x="450" y="122" text-anchor="middle">Attribute</text>
+    <path class="chen" d="M735 55 L865 115 L735 175 L605 115 Z"/><text class="ct" x="735" y="122" text-anchor="middle">Relationship</text>
+   </svg>
+   <div class="diagram-caption">Chen notation: rectangle = entity, oval = attribute, diamond = relationship.</div>
+  </div>
+  <h3>Visual guide: Crow's Foot relationship endings</h3>
+  <div class="diagram">
+   <svg viewBox="0 0 900 270" role="img" aria-label="Crow's foot symbols showing mandatory one, optional one, mandatory many and optional many.">
+    <defs><style>.sym{stroke:#40536b;stroke-width:3;fill:none}.st{font:20px Arial;fill:#344054}</style></defs>
+    <g transform="translate(30,35)"><path class="sym" d="M0 35 H150 M0 17 V53 M12 17 V53"/><text class="st" x="175" y="42">Mandatory one (1..1)</text></g>
+    <g transform="translate(470,35)"><path class="sym" d="M0 35 H150 M0 17 V53"/><circle class="sym" cx="12" cy="35" r="15" fill="white"/><text class="st" x="175" y="42">Optional one (0..1)</text></g>
+    <g transform="translate(30,145)"><path class="sym" d="M0 35 H150 M0 35 L-18 17 M0 35 L-18 53 M0 35 L-18 35 M0 17 V53 M12 17 V53"/><text class="st" x="175" y="42">Mandatory many (1..many)</text></g>
+    <g transform="translate(470,145)"><path class="sym" d="M0 35 H150 M0 35 L-18 17 M0 35 L-18 53 M0 35 L-18 35"/><circle class="sym" cx="12" cy="35" r="15" fill="white"/><text class="st" x="175" y="42">Optional many (0..many)</text></g>
+   </svg>
+   <div class="diagram-caption">Crow's Foot symbols: a circle means optional (zero); a bar means one; a crow's foot means many.</div>
+  </div>
+  <p class="caption">The exact visual appearance can vary slightly between diagramming tools. Focus on interpreting the minimum and maximum participation correctly.</p>
+ </div>
+
+ <div class="card">
+  <h2>4. Steps to construct an ERD</h2>
+  <ol>
+   <li><b>Identify the level of ERD required.</b> Decide whether the task asks for a conceptual, logical or physical model. This determines the amount of detail.</li>
+   <li><b>Identify the entities.</b> Add attributes and data types if the requested level requires them.</li>
+   <li><b>Identify the relationships.</b> Use verbs to describe how the entities interact.</li>
+   <li><b>Identify cardinality.</b> Decide whether each relationship is one-to-one, one-to-many or many-to-many.</li>
+   <li><b>Identify modality.</b> Decide whether participation is optional or mandatory at each end of the relationship.</li>
+  </ol>
+  <div class="callout good"><b>Why construct an ERD?</b><p>ERDs provide a foundation for building a database. A clear model can be understood by other developers, supports maintenance and helps identify mistakes before development begins.</p></div>
+ </div>
+
+ <div class="card">
+  <h2>5. Activity · Construct a logical-level ERD</h2>
+  <p>A doctor treats several patients per day. Construct a logical-level ERD for this system. Identify the entities, attributes and relationships required.</p>
+  <p><b>Try it yourself first.</b> Consider what information the system needs to record about doctors, patients and each treatment visit.</p>
+  <button class="control primary" onclick="reveal('doctor-erd-answer')">Show a suggested answer</button>
+  <div id="doctor-erd-answer" hidden>
+   <div class="callout good"><b>Suggested design (one reasonable interpretation)</b>
+    <p>Use three entities: DOCTOR, PATIENT and TREATMENT. TREATMENT is an associative/transaction entity that records each visit. This design assumes a patient may visit different doctors over time and a doctor may treat many patients.</p>
+   </div>
+   <div class="diagram">
+    <svg viewBox="0 0 950 430" role="img" aria-label="Logical ERD for doctors and patients using a TREATMENT entity. Doctor one to many Treatment; Patient one to many Treatment.">
+     <defs><style>.db{fill:#e5f0fa;stroke:#54708c;stroke-width:2}.dh{fill:#d5e5f4}.dt{font:18px Arial;fill:#24324a}.dk{font:bold 17px Arial;fill:#24324a}.dl{stroke:#53718e;stroke-width:3;fill:none}.dc{font:bold 17px Arial;fill:#37658c}</style></defs>
+     <rect class="db" x="20" y="40" width="250" height="155"/><rect class="dh" x="20" y="40" width="250" height="38"/><text class="dk" x="35" y="66">DOCTOR</text><text class="dk" x="35" y="110">PK DoctorID</text><text class="dt" x="35" y="140">DoctorName</text><text class="dt" x="35" y="170">Specialty</text>
+     <rect class="db" x="680" y="40" width="250" height="155"/><rect class="dh" x="680" y="40" width="250" height="38"/><text class="dk" x="695" y="66">PATIENT</text><text class="dk" x="695" y="110">PK PatientID</text><text class="dt" x="695" y="140">PatientName</text><text class="dt" x="695" y="170">DateOfBirth</text>
+     <rect class="db" x="345" y="270" width="260" height="145"/><rect class="dh" x="345" y="270" width="260" height="38"/><text class="dk" x="360" y="296">TREATMENT</text><text class="dk" x="360" y="340">PK TreatmentID</text><text class="dk" x="360" y="368">FK DoctorID</text><text class="dk" x="360" y="396">FK PatientID</text>
+     <path class="dl" d="M145 195 V225 H475 V270"/><text class="dc" x="160" y="215">1</text><text class="dc" x="490" y="255">M</text>
+     <path class="dl" d="M805 195 V225 H475"/><text class="dc" x="820" y="215">1</text><text class="dc" x="490" y="245">M</text>
+    </svg>
+    <div class="diagram-caption">Logical ERD: each treatment record refers to one doctor and one patient.</div>
+   </div>
+   <div class="table-wrap"><table>
+    <tr><th>Entity</th><th>Attributes (suggested)</th></tr>
+    <tr><td>DOCTOR</td><td>DoctorID (PK), DoctorName, Specialty</td></tr>
+    <tr><td>PATIENT</td><td>PatientID (PK), PatientName, DateOfBirth</td></tr>
+    <tr><td>TREATMENT</td><td>TreatmentID (PK), DoctorID (FK), PatientID (FK), TreatmentDate, Notes</td></tr>
+   </table></div>
+   <p><b>Relationships:</b> DOCTOR 1:M TREATMENT; PATIENT 1:M TREATMENT. This resolves the many-to-many relationship between doctors and patients over time.</p>
+   <p><b>Note:</b> The question does not specify all attributes or whether a patient can be treated by multiple doctors. The answer is therefore a suggested design based on the stated assumptions. Other justified designs may be acceptable.</p>
+  </div>
+ </div>
+<h2 class="section-title">ERDs: model before building</h2>
  <p class="lead">An <strong>entity-relationship diagram (ERD)</strong> is a visual representation of entities, their attributes and the relationships between them.</p>
  <div class="grid">
   <div class="mini"><h3>Entity</h3><p>A person, place, object or event about which data is stored. It is usually shown as a rectangle.</p></div>
@@ -102,21 +377,123 @@ footer{position:fixed;bottom:0;left:0;right:0;background:#ffffffed;border-top:1p
  </svg><div class="diagram-caption">Conceptual ERD: PLAYER — TEAM — MANAGER</div>
  </div>
  <div class="callout"><b>Read the cardinality</b><p>PLAYER to TEAM is many-to-one: many players can play for one team. TEAM to MANAGER is one-to-one in this example. The rules of a real organisation determine whether these relationships are mandatory or optional.</p></div>
- <h2>Sales system ERD</h2>
- <p>This second example connects customers, orders, products and the order lines that record which products are included in each order.</p>
- <div class="diagram">
- <svg viewBox="0 0 980 510" role="img" aria-label="Sales system ERD: Customer one-to-many Order, Order one-to-many OrderLine, Product one-to-many OrderLine.">
- <defs><style>.box{fill:#fff;stroke:#54708c;stroke-width:2}.head{fill:#e8eef6}.tx{font:19px Arial;fill:#24324a}.key{font:bold 17px Arial;fill:#24324a}.edge{stroke:#53718e;stroke-width:3;fill:none}.lab{font:bold 18px Arial;fill:#37658c}</style></defs>
- <rect class="box" x="20" y="45" width="220" height="150"/><rect class="head" x="20" y="45" width="220" height="42"/><text class="key" x="35" y="74">CUSTOMER</text><text class="key" x="35" y="116">PK CustomerID</text><text class="tx" x="35" y="147">CustomerName</text><text class="tx" x="35" y="176">EmailAddress</text>
- <rect class="box" x="375" y="45" width="230" height="180"/><rect class="head" x="375" y="45" width="230" height="42"/><text class="key" x="390" y="74">ORDERS</text><text class="key" x="390" y="116">PK OrderID</text><text class="tx" x="390" y="147">OrderDate</text><text class="key" x="390" y="178">FK CustomerID</text>
- <rect class="box" x="375" y="320" width="230" height="155"/><rect class="head" x="375" y="320" width="230" height="42"/><text class="key" x="390" y="349">ORDER_LINE</text><text class="key" x="390" y="391">PK, FK OrderID</text><text class="key" x="390" y="420">PK, FK ProductID</text><text class="tx" x="390" y="451">Quantity</text>
- <rect class="box" x="740" y="320" width="220" height="155"/><rect class="head" x="740" y="320" width="220" height="42"/><text class="key" x="755" y="349">PRODUCT</text><text class="key" x="755" y="391">PK ProductID</text><text class="tx" x="755" y="420">ProductName</text><text class="tx" x="755" y="451">Price</text>
- <path class="edge" d="M240 120 H375"/><text class="lab" x="265" y="107">1</text><text class="lab" x="350" y="107">M</text>
- <path class="edge" d="M490 225 V320"/><text class="lab" x="505" y="250">1</text><text class="lab" x="505" y="306">M</text>
- <path class="edge" d="M740 398 H605"/><text class="lab" x="710" y="383">1</text><text class="lab" x="620" y="383">M</text>
- </svg><div class="diagram-caption">Logical ERD: ORDER_LINE resolves the many-to-many relationship between ORDERS and PRODUCT.</div>
+
+
+ <div class="divider"></div>
+ <div class="kicker">Exam practice · Entity-relationship diagrams</div>
+ <h2 class="section-title">Complete the ERD</h2>
+ <p class="lead">Study each scenario and the table structures. Decide which entities are related and identify the correct cardinality before revealing the model answer.</p>
+
+ <div class="card">
+  <h2>Question 1 · Shop orders database</h2>
+  <p>A shop sells pens to customers. Customers place orders with the shop and collect the items the next day. The shop uses a database to store information about the orders.</p>
+  <p>The database contains these tables. The underlined attributes are primary keys.</p>
+  <div class="table-wrap"><table>
+   <tr><th>Table</th><th>Attributes</th></tr>
+   <tr><td><b>CUSTOMER</b></td><td><u>CustomerID</u>, CustomerName, Email</td></tr>
+   <tr><td><b>ORDER</b></td><td><u>OrderID</u>, CustomerID, Date, Collected</td></tr>
+   <tr><td><b>ORDER_PRODUCT</b></td><td><u>OrderID</u>, <u>ProductID</u>, Quantity</td></tr>
+   <tr><td><b>PRODUCT</b></td><td><u>ProductID</u>, ProductName, QuantityInBox, Cost, SupplierID</td></tr>
+   <tr><td><b>SUPPLIER</b></td><td><u>SupplierID</u>, SupplierName, SupplierEmail</td></tr>
+  </table></div>
+  <p><b>Task:</b> Complete the ERD by connecting all five entities and adding the correct one-to-many cardinalities. <span class="pill">[4 marks]</span></p>
+  <div class="diagram">
+   <svg viewBox="0 0 900 440" role="img" aria-label="Blank shop database ERD showing CUSTOMER, ORDER, SUPPLIER, ORDER_PRODUCT and PRODUCT entities.">
+    <defs><style>.blankbox{fill:#fff;stroke:#28364a;stroke-width:2.5}.blanktext{font:20px monospace;fill:#263247}</style></defs>
+    <rect class="blankbox" x="25" y="35" width="260" height="82"/><text class="blanktext" x="155" y="84" text-anchor="middle">CUSTOMER</text>
+    <rect class="blankbox" x="615" y="35" width="260" height="82"/><text class="blanktext" x="745" y="84" text-anchor="middle">ORDER</text>
+    <rect class="blankbox" x="25" y="180" width="260" height="82"/><text class="blanktext" x="155" y="229" text-anchor="middle">SUPPLIER</text>
+    <rect class="blankbox" x="615" y="180" width="260" height="82"/><text class="blanktext" x="745" y="229" text-anchor="middle">ORDER_PRODUCT</text>
+    <rect class="blankbox" x="320" y="330" width="260" height="82"/><text class="blanktext" x="450" y="379" text-anchor="middle">PRODUCT</text>
+   </svg>
+  </div>
+  <button class="control primary" onclick="reveal('shop-erd-answer')">Show the answer</button>
+  <div id="shop-erd-answer" hidden>
+   <div class="callout good"><b>Correct relationships · 4 marks</b>
+    <ol>
+     <li>CUSTOMER 1 → many ORDER</li>
+     <li>ORDER 1 → many ORDER_PRODUCT</li>
+     <li>PRODUCT 1 → many ORDER_PRODUCT</li>
+     <li>SUPPLIER 1 → many PRODUCT</li>
+    </ol>
+    <p>Each correct relationship is worth 1 mark in the supplied marking guidance.</p>
+   </div>
+   <div class="diagram">
+    <svg viewBox="0 0 1000 540" role="img" aria-label="Completed shop ERD: one customer has many orders; one order has many order product records; one product appears in many order product records; one supplier supplies many products.">
+     <defs><style>
+      .e{fill:#fff;stroke:#28364a;stroke-width:2.5}.et{font:20px monospace;fill:#263247}.ln{stroke:#53677f;stroke-width:3;fill:none}.crow{stroke:#53677f;stroke-width:3;fill:none}.lab{font:bold 17px Arial;fill:#37658c}
+     </style></defs>
+     <rect class="e" x="20" y="35" width="260" height="82"/><text class="et" x="150" y="84" text-anchor="middle">CUSTOMER</text>
+     <rect class="e" x="720" y="35" width="260" height="82"/><text class="et" x="850" y="84" text-anchor="middle">ORDER</text>
+     <rect class="e" x="20" y="215" width="260" height="82"/><text class="et" x="150" y="264" text-anchor="middle">SUPPLIER</text>
+     <rect class="e" x="720" y="215" width="260" height="82"/><text class="et" x="850" y="264" text-anchor="middle">ORDER_PRODUCT</text>
+     <rect class="e" x="370" y="415" width="260" height="82"/><text class="et" x="500" y="464" text-anchor="middle">PRODUCT</text>
+     <!-- Customer 1 to many Order -->
+     <path class="ln" d="M280 76 H720"/><path class="crow" d="M700 64 L720 76 L700 88"/>
+     <text class="lab" x="300" y="62">1</text><text class="lab" x="680" y="62">M</text>
+     <!-- Order 1 to many Order_Product -->
+     <path class="ln" d="M850 117 V215"/><path class="crow" d="M838 195 L850 215 L862 195"/>
+     <text class="lab" x="865" y="145">1</text><text class="lab" x="865" y="190">M</text>
+     <!-- Supplier 1 to many Product -->
+     <path class="ln" d="M280 256 H325 V456 H370"/><path class="crow" d="M350 444 L370 456 L350 468"/>
+     <text class="lab" x="295" y="242">1</text><text class="lab" x="345" y="442">M</text>
+     <!-- Product 1 to many Order_Product -->
+     <path class="ln" d="M630 456 H675 V256 H720"/><path class="crow" d="M700 244 L720 256 L700 268"/>
+     <text class="lab" x="640" y="442">1</text><text class="lab" x="690" y="242">M</text>
+    </svg>
+   </div>
+   <p><b>Why?</b> CustomerID is stored in ORDER, so each order is linked to one customer, while a customer can place multiple orders. ORDER_PRODUCT links orders and products, resolving the many-to-many relationship between ORDER and PRODUCT. SupplierID is stored in PRODUCT, so one supplier can be linked to many products.</p>
+  </div>
  </div>
- <div class="callout good"><b>Why do we need ORDER_LINE?</b><p>An order can contain many products, and a product can appear in many orders. The ORDER_LINE linking entity converts this many-to-many relationship into two one-to-many relationships. A composite primary key can be formed from OrderID and ProductID if a product appears only once per order.</p></div>
+
+ <div class="card">
+  <h2>Question 2 · Work experience database</h2>
+  <p>A relational database, <b>WORKEXPERIENCE</b>, stores data about students and the companies where they complete work experience.</p>
+  <ul>
+   <li>Students can complete multiple work experience placements but can only complete one placement at a time.</li>
+   <li>Students can complete more than one placement at the same company.</li>
+  </ul>
+  <div class="table-wrap"><table>
+   <tr><th>Table</th><th>Attributes</th></tr>
+   <tr><td><b>STUDENT</b></td><td><u>StudentID</u>, FirstName, TelephoneNumber, UniversityName</td></tr>
+   <tr><td><b>PLACEMENT</b></td><td><u>PlacementID</u>, StudentID, CompanyID, StartDate, EndDate, Complete</td></tr>
+   <tr><td><b>COMPANY</b></td><td><u>CompanyID</u>, CompanyName, MaxStudentsPerPlacement</td></tr>
+  </table></div>
+  <p><b>Task:</b> Complete the ERD by adding the relationships and cardinalities. <span class="pill">[2 marks]</span></p>
+  <div class="diagram">
+   <svg viewBox="0 0 900 350" role="img" aria-label="Blank work experience ERD with STUDENT, PLACEMENT and COMPANY entities.">
+    <defs><style>.blankbox{fill:#fff;stroke:#28364a;stroke-width:2.5}.blanktext{font:20px monospace;fill:#263247}</style></defs>
+    <rect class="blankbox" x="25" y="25" width="260" height="82"/><text class="blanktext" x="155" y="74" text-anchor="middle">STUDENT</text>
+    <rect class="blankbox" x="615" y="25" width="260" height="82"/><text class="blanktext" x="745" y="74" text-anchor="middle">PLACEMENT</text>
+    <rect class="blankbox" x="320" y="230" width="260" height="82"/><text class="blanktext" x="450" y="279" text-anchor="middle">COMPANY</text>
+   </svg>
+  </div>
+  <button class="control primary" onclick="reveal('work-erd-answer')">Show the answer</button>
+  <div id="work-erd-answer" hidden>
+   <div class="callout good"><b>Correct relationships · 2 marks</b>
+    <ol>
+     <li>STUDENT 1 → many PLACEMENT</li>
+     <li>COMPANY 1 → many PLACEMENT</li>
+    </ol>
+    <p>Each correct relationship is worth 1 mark in the supplied marking guidance.</p>
+   </div>
+   <div class="diagram">
+    <svg viewBox="0 0 900 390" role="img" aria-label="Completed work experience ERD: one student can have many placements and one company can have many placements.">
+     <defs><style>.e{fill:#fff;stroke:#28364a;stroke-width:2.5}.et{font:20px monospace;fill:#263247}.ln{stroke:#53677f;stroke-width:3;fill:none}.crow{stroke:#53677f;stroke-width:3;fill:none}.lab{font:bold 17px Arial;fill:#37658c}</style></defs>
+     <rect class="e" x="25" y="25" width="260" height="82"/><text class="et" x="155" y="74" text-anchor="middle">STUDENT</text>
+     <rect class="e" x="615" y="25" width="260" height="82"/><text class="et" x="745" y="74" text-anchor="middle">PLACEMENT</text>
+     <rect class="e" x="320" y="270" width="260" height="82"/><text class="et" x="450" y="319" text-anchor="middle">COMPANY</text>
+     <path class="ln" d="M285 66 H615"/><path class="crow" d="M595 54 L615 66 L595 78"/>
+     <text class="lab" x="305" y="52">1</text><text class="lab" x="575" y="52">M</text>
+     <path class="ln" d="M450 270 V205 H745 V107"/><path class="crow" d="M733 127 L745 107 L757 127"/>
+     <text class="lab" x="462" y="250">1</text><text class="lab" x="760" y="145">M</text>
+    </svg>
+   </div>
+   <p><b>Why?</b> StudentID is a foreign key in PLACEMENT, so each placement belongs to one student, but one student can have multiple placement records over time. CompanyID is also a foreign key in PLACEMENT, so each placement is with one company, while a company can host many placements. The same student can therefore have several placements with the same company.</p>
+   <div class="callout"><b>Important detail</b><p>“One placement at a time” is a business rule about overlapping dates. It does not change the one-to-many relationship between STUDENT and PLACEMENT; it is a constraint that would need to be enforced separately.</p></div>
+  </div>
+ </div>
+
 </section>
 
 <section class="slide">
@@ -172,8 +549,11 @@ footer{position:fixed;bottom:0;left:0;right:0;background:#ffffffed;border-top:1p
   <p><b>4.</b> State one advantage and one disadvantage of denormalisation. <span class="pill">[2]</span></p><details><summary>Show model answer</summary><div class="markpoints">Advantage: fewer joins may improve retrieval speed [1]. Disadvantage: duplicated data can increase storage and create update anomalies [1].</div></details>
  </div>
 </section>
+
+
+
 </main>
-<footer><button class="navbtn" id="prev" onclick="move(-1)" disabled>← Previous</button><span class="counter" id="counter">1 / 7</span><button class="navbtn" id="next" onclick="move(1)">Next →</button></footer>
+<footer><button class="navbtn" id="prev" onclick="move(-1)" disabled>← Previous</button><span class="counter" id="counter">1 / 8</span><button class="navbtn" id="next" onclick="move(1)">Next →</button></footer>
 <script>
 const slides=[...document.querySelectorAll('.slide')],tabs=[...document.querySelectorAll('.tab')];let current=0;
 function show(n){current=Math.max(0,Math.min(slides.length-1,n));slides.forEach((s,i)=>s.classList.toggle('active',i===current));tabs.forEach((t,i)=>t.classList.toggle('active',i===current));document.getElementById('counter').textContent=`${current+1} / ${slides.length}`;document.getElementById('prev').disabled=current===0;document.getElementById('next').disabled=current===slides.length-1;document.getElementById('progress').style.width=((current+1)/slides.length*100)+'%';window.scrollTo({top:0,behavior:'smooth'});}
